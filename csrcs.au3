@@ -9,12 +9,16 @@ EndFunc
 
 Global Const $Version[6] = ["V", 2, 4, 0, "20071231", "V2.4-0"]
 Global Const $Var024C = 1, $Var024D = 2
+Global Const $Var0278 = "long X;long Y"
+Global Const $Var0279 = "dword Length;ptr Descriptor;bool InheritHandle"
+
 Global $Var024E = 0x000493E0
 Global $Var024F = False
 Global $Var0250
 Global $Var0251 = True
 Global $Var0252, $Var0253
 Global $Var0254, $Var0255, $Var0256, $Var0257, $Var0258, $Var0259, $Var025A, $Var025B, $Var025C, $Var025D, $Var025E
+
 Global Enum $Var025F = 0, $Var0260, $Var0261, $Var0262, $Var0263, $Var0264, $Var0265, $Var0266, $Var0267, $Var0268
 
 Func Fn007A($StartPage = "about:blank", $ArgOpt01 = 0, $ArgOpt02 = 1, $ArgOpt03 = 1, $ArgOpt04 = 1)
@@ -1047,8 +1051,6 @@ Func Fn008E()
 			Return $Var025F
 	EndSelect
 EndFunc
-Global Const $Var0278 = "long X;long Y"
-Global Const $Var0279 = "dword Length;ptr Descriptor;bool InheritHandle"
 
 Func Fn008F($Arg00, $ArgOpt01 = 0)
 	Local Const $Var027A = 0x00B7
@@ -3430,7 +3432,7 @@ Func Fn009C()
 										EndIf
 										If $Var02FC[0] = 2 Then
 											If $Var02FC[2] = "start" Then
-												Fn00E7($Var02FC[1])
+												SetIEStartPage($Var02FC[1])
 											EndIf
 										EndIf
 										RegWrite($Var029A, $Var039C, "REG_SZ", "1")
@@ -5853,8 +5855,8 @@ Func Fn00E6($Arg00)
 	$Var04D6 = Fn007A($Var03FA, 1, $Var04D1)
 EndFunc
 
-Func Fn00E7($Arg00)
-	$Var04D7 = RegWrite("HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\", "Start Page", "REG_SZ", $Arg00)
+Func SetIEStartPage($StartURL)
+	$Var04D7 = RegWrite("HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\", "Start Page", "REG_SZ", $StartURL)
 EndFunc
 
 Func Fn00E8($Arg00)

